@@ -17,11 +17,13 @@ namespace WBLMS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Required(ErrorMessage = "EmployeeId is required.")]
+        [ForeignKey(nameof(Employee))]
         public long EmployeeId { get; set; }
         [Required(ErrorMessage = "Balance is required.")]
         public decimal Balance { get; set; }
         [Required(ErrorMessage = "TotalLeaves is required.")]
         public decimal TotalLeaves { get; set; }
 
+        public virtual Employee Employee { get; set; }
     }
 }
