@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WBLMS.Models\WBLMS.Models.csproj" />
+  </ItemGroup>
+
 </Project>

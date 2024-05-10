@@ -28,7 +28,6 @@ namespace WBLMS.Models
         public string ContactNumber { get; set; }
 
         [Required (ErrorMessage ="Gender is required")]
-
         [ForeignKey(nameof(Gender))]
         public long GenderId { get; set; }
         public virtual Gender Gender { get; set; }
