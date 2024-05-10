@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WBLMS.Data", "WBLMS.Data\WB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WBLMS.DTO", "WBLMS.DTO\WBLMS.DTO.csproj", "{300EE114-AE55-4941-85BA-FA240A232D80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WBLMS.Utilities", "WBLMS.Utilities\WBLMS.Utilities.csproj", "{8AFAC16C-FA04-4F6B-B9EC-6F7404AD2FEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{300EE114-AE55-4941-85BA-FA240A232D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{300EE114-AE55-4941-85BA-FA240A232D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{300EE114-AE55-4941-85BA-FA240A232D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AFAC16C-FA04-4F6B-B9EC-6F7404AD2FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AFAC16C-FA04-4F6B-B9EC-6F7404AD2FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AFAC16C-FA04-4F6B-B9EC-6F7404AD2FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AFAC16C-FA04-4F6B-B9EC-6F7404AD2FEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
