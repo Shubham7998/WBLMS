@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System.Reflection.Metadata;
 using WBLMS.Models;
 
 namespace WBLMS.Data
@@ -19,8 +20,26 @@ namespace WBLMS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Employee>()
+            .HasOne(e => e.Manager)              // Specifies that each employee has one manager.
+            .WithMany(e => e.Subordinates)       // Specifies that each manager can have many Subordinates
+            .HasForeignKey(e => e.ManagerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.Token)
+                .WithMany()
+                .HasForeignKey(e => e.TokenId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(modelBuilder);
             new DbInitializer(modelBuilder).seed();
+
+            //modelBuilder.Entity<Employee>()
+            //.HasMany(e => e.Subordinates)              // Specifies that each employee has one manager.
+            //.WithOne(e => e.Manager)       // Specifies that each manager can have many Subordinates
+            //.HasForeignKey(e => e.Manager.ManagerId); 
+            // Specifies the foreign key property for this relationship.
         }
 
     }
