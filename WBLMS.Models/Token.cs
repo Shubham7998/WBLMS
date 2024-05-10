@@ -18,7 +18,9 @@ namespace WBLMS.Models
         public long Id { get; set; }
 
         [Required (ErrorMessage ="Employee id is required")]
+        [ForeignKey(nameof(Employee))]
         public long EmployeeId { get; set; }
+        public virtual Employee Employee { get; set; }
         
         [Required (ErrorMessage = "AccessToken is required")]
         public string AccessToken { get; set; }
