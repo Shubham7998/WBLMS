@@ -28,13 +28,20 @@ namespace WBLMS.Models
         public string ContactNumber { get; set; }
 
         [Required (ErrorMessage ="Gender is required")]
-        public long GenderId { get; set; }
 
+        [ForeignKey(nameof(Gender))]
+        public long GenderId { get; set; }
+        public virtual Gender Gender { get; set; }
+
+        [ForeignKey(nameof(Roles))]
         [Required(ErrorMessage = "Role is required")]
         public long RoleId { get; set; }
+        public virtual Roles Roles { get; set; }
 
         [Required(ErrorMessage = "Manager is required")]
+        [ForeignKey(nameof(Manager))]
         public long ManagerId { get; set; }
+        public virtual Employee Manager { get; set; }
 
         [Required (ErrorMessage ="Created by whom is required")]
         public long CreatedById { get; set; }
@@ -49,8 +56,9 @@ namespace WBLMS.Models
         public DateOnly UpdatedDate { get; set; }
 
         [Required (ErrorMessage = "Token Id is required")]
+        [ForeignKey (nameof(Token))]
         public long TokenId { get; set; }
-
+        public virtual Token Token { get; set; }
     }
 
 }
