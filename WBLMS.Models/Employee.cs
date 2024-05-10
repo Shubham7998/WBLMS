@@ -27,13 +27,13 @@ namespace WBLMS.Models
         [Required(ErrorMessage = "EmailAddress is required")]
         public string ContactNumber { get; set; }
 
-        [Required (ErrorMessage ="Gender is required")]
+       // [Required (ErrorMessage ="Gender is required")]
         [ForeignKey(nameof(Gender))]
         public long GenderId { get; set; }
         public virtual Gender Gender { get; set; }
 
         [ForeignKey(nameof(Roles))]
-        [Required(ErrorMessage = "Role is required")]
+        //[Required(ErrorMessage = "Role is required")]
         public long RoleId { get; set; }
         public virtual Roles Roles { get; set; }
 
@@ -41,19 +41,19 @@ namespace WBLMS.Models
         public long? ManagerId { get; set; }
         public Employee? Manager { get; set; }
 
-        [Required (ErrorMessage ="Created by whom is required")]
+       // [Required (ErrorMessage ="Created by whom is required")]
         public long CreatedById { get; set; }
 
         [Required(ErrorMessage = "Joining Date is required")]
         public DateOnly JoiningDate { get; set; }
 
-        [Required (ErrorMessage = "Update by whom is required")]
+        //[Required (ErrorMessage = "Update by whom is required")]
         public long UpdateById { get; set; }
 
         [Required (ErrorMessage = "Update date is required")]
         public DateOnly UpdatedDate { get; set; }
 
-        [Required (ErrorMessage = "Token Id is required")]
+       // [Required (ErrorMessage = "Token Id is required")]
         [ForeignKey (nameof(Token))]
         public long TokenId { get; set; }
         public virtual Token Token { get; set; }

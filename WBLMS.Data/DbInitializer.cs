@@ -16,7 +16,7 @@ namespace WBLMS.Data
             _modelBuilder = modelBuilder;
         }
         public void seed()
-        {
+        {            
             _modelBuilder.Entity<Gender>().HasData(
                     new Gender() { Id = 1, GenderName = "Female"},
                     new Gender() { Id = 2, GenderName = "Male"},
@@ -41,6 +41,7 @@ namespace WBLMS.Data
                     new LeaveType() { Id = 5, LeaveTypeName = "Maternity"}
                 );
 
+            
         }
     }
 }
