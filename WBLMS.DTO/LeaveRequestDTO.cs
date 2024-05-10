@@ -17,7 +17,7 @@ namespace WBLMS.DTO
         );
     public record UpdateLeaveRequestDTO(
             [Required(ErrorMessage = "LeaveRequestId is required.")] long Id,
-            long statusId
+            long StatusId
         );
     public record GetLeaveRequestDTO(
             long Id, 
