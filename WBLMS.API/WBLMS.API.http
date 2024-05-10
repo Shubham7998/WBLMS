@@ -1,0 +1,6 @@
+@WBLMS.API_HostAddress = http://localhost:5298
+
+GET {{WBLMS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
