@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WBLMS.Data\WBLMS.Data.csproj" />
+  </ItemGroup>
+
 </Project>
