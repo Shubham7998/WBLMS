@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using WBLMS.Models;
 
 namespace WBLMS.Data
@@ -16,6 +17,11 @@ namespace WBLMS.Data
         public DbSet<LeaveBalance> LeaveBalances { get; set;}
         public DbSet<LeaveType> LeaveTypes { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            new DbInitializer(modelBuilder).seed();
+        }
 
     }
 }
