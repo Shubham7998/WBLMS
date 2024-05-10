@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WBLMS.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
+var connectionString = configuration.GetConnectionString("connectionStringShubham1");
+
+builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
