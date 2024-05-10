@@ -24,13 +24,13 @@ namespace WBLMS.Data
             .HasOne(e => e.Manager)              // Specifies that each employee has one manager.
             .WithMany(e => e.Subordinates)       // Specifies that each manager can have many Subordinates
             .HasForeignKey(e => e.ManagerId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Token)
                 .WithMany()
                 .HasForeignKey(e => e.TokenId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(modelBuilder);
             new DbInitializer(modelBuilder).seed();

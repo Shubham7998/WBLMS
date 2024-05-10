@@ -37,7 +37,6 @@ namespace WBLMS.Models
         public long RoleId { get; set; }
         public virtual Roles Roles { get; set; }
 
-        [Required(ErrorMessage = "Manager is required")]
         //[ForeignKey(nameof(Manager))]
         public long? ManagerId { get; set; }
         public Employee? Manager { get; set; }

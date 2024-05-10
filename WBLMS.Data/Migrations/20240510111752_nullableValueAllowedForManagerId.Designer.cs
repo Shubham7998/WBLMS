@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WBLMS.Data;
 
@@ -11,9 +12,11 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    partial class WBLMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240510111752_nullableValueAllowedForManagerId")]
+    partial class nullableValueAllowedForManagerId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -373,7 +376,7 @@ namespace WBLMS.Data.Migrations
                     b.HasOne("WBLMS.Models.Employee", "Manager")
                         .WithMany("Subordinates")
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("WBLMS.Models.Roles", "Roles")
                         .WithMany()
@@ -384,7 +387,7 @@ namespace WBLMS.Data.Migrations
                     b.HasOne("WBLMS.Models.Token", "Token")
                         .WithMany()
                         .HasForeignKey("TokenId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Gender");
