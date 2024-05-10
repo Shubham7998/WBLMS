@@ -12,7 +12,7 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240510105251_firstMigrate")]
+    [Migration("20240510105626_firstMigrate")]
     partial class firstMigrate
     {
         /// <inheritdoc />
