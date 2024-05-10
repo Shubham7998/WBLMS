@@ -18,27 +18,27 @@ namespace WBLMS.Data
         public void seed()
         {
             _modelBuilder.Entity<Gender>().HasData(
-                    new Gender() { GenderName = "Female"},
-                    new Gender() { GenderName = "Male"},
-                    new Gender() { GenderName = "Others"}
+                    new Gender() { Id = 1, GenderName = "Female"},
+                    new Gender() { Id = 2, GenderName = "Male"},
+                    new Gender() { Id = 3, GenderName = "Others"}
                 );
             _modelBuilder.Entity<Roles>().HasData(
-                    new Roles() { RoleName = "Employee" },
-                    new Roles() { RoleName = "Team Lead"},
-                    new Roles() { RoleName = "HR"},
-                    new Roles() { RoleName = "Admin"}
+                    new Roles() { Id = 1, RoleName = "Employee" },
+                    new Roles() { Id = 2, RoleName = "Team Lead"},
+                    new Roles() { Id = 3, RoleName = "HR"},
+                    new Roles() { Id = 4, RoleName = "Admin"}
                 );
             _modelBuilder.Entity<Status>().HasData(
-                    new Status() { StatusName = "Pending"},
-                    new Status() { StatusName = "Approved"},
-                    new Status() { StatusName = "Rejected"}
+                    new Status() { Id = 1, StatusName = "Pending"},
+                    new Status() { Id = 2, StatusName = "Approved"},
+                    new Status() { Id = 3, StatusName = "Rejected"}
                 );
             _modelBuilder.Entity<LeaveType>().HasData(
-                    new LeaveType() { LeaveTypeName = "Vacation"},
-                    new LeaveType() { LeaveTypeName = "Sick"},
-                    new LeaveType() { LeaveTypeName = "Casual"},
-                    new LeaveType() { LeaveTypeName = "Marriage"},
-                    new LeaveType() { LeaveTypeName = "Maternity"}
+                    new LeaveType() { Id = 1, LeaveTypeName = "Vacation"},
+                    new LeaveType() { Id = 2, LeaveTypeName = "Sick"},
+                    new LeaveType() { Id = 3, LeaveTypeName = "Casual"},
+                    new LeaveType() { Id = 4, LeaveTypeName = "Marriage"},
+                    new LeaveType() { Id = 5, LeaveTypeName = "Maternity"}
                 );
 
         }

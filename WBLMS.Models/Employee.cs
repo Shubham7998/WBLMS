@@ -40,7 +40,7 @@ namespace WBLMS.Models
         [Required(ErrorMessage = "Manager is required")]
         [ForeignKey(nameof(Manager))]
         public long ManagerId { get; set; }
-        public virtual Employee Manager { get; set; }
+        public virtual Employee? Manager { get; set; }
 
         [Required (ErrorMessage ="Created by whom is required")]
         public long CreatedById { get; set; }
@@ -58,6 +58,8 @@ namespace WBLMS.Models
         [ForeignKey (nameof(Token))]
         public long TokenId { get; set; }
         public virtual Token Token { get; set; }
+
+        public List<Employee>? Subordinates { get; set; }
     }
 
 }
