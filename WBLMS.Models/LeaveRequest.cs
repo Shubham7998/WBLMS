@@ -26,6 +26,7 @@ namespace WBLMS.Models
         [ForeignKey(nameof(Status))]
         public long StatusId { get; set; }
         [Required(ErrorMessage = "ManagerId is required.")]
+        [ForeignKey(nameof(Employee))]
         public long ManagerId { get; set; }
         [Required(ErrorMessage = "StartDate is required.")]
         public DateOnly StartDate { get; set; }
@@ -37,5 +38,10 @@ namespace WBLMS.Models
         public DateOnly ApprovedDate { get; set; }
         [Required(ErrorMessage = "RequestDate is required.")]
         public DateOnly RequestDate { get; set; }
+
+
+        public virtual LeaveType LeaveType { get; set; }
+        public virtual Status Status { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }
