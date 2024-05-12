@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
+    <ProjectReference Include="..\WBLMS.IRepositories\WBLMS.IRepositories.csproj" />
+  </ItemGroup>
+
 </Project>

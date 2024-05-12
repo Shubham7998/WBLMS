@@ -20,10 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WBLMS.Data\WBLMS.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
+    <ProjectReference Include="..\WBLMS.IServices\WBLMS.IServices.csproj" />
   </ItemGroup>
 
 </Project>
