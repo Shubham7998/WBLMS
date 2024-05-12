@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
     <ProjectReference Include="..\WBLMS.Models\WBLMS.Models.csproj" />
   </ItemGroup>
 
