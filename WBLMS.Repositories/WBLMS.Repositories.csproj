@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WBLMS.Data\WBLMS.Data.csproj" />
+    <ProjectReference Include="..\WBLMS.IRepositories\WBLMS.IRepositories.csproj" />
   </ItemGroup>
 
 </Project>
