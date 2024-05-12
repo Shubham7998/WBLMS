@@ -8,19 +8,19 @@ namespace WBLMS.DTO
             long Id,
             string FirstName,
             string LastName,
-            string Password,
+            string? Password,
             string EmailAddress,
             string ContactNumber,
             long GenderId,
-            string GenderName,
+            string? GenderName,
             long RoleId,
-            string RoleName,
+            string? RoleName,
             long ManagerId,
-            string ManagerName,
+            string? ManagerName,
             long CreatedById,
-            string CreatedByName,
-            DateOnly UpdatedDate,
-            List<Employee> Subordinates
+            string? CreatedByName,
+            DateOnly? UpdatedDate,
+            List<Employee>? Subordinates
         );
 
     public record CreateEmployeeDTO

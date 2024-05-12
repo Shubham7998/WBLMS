@@ -35,9 +35,5 @@ namespace WBLMS.API.Controllers
                 ErrorMessage = "Invalid request from controller!"
             });
         }
-
-        
-
-
     } 
 }

@@ -22,7 +22,11 @@ namespace WBLMS.Repositories
 
         public async Task<(IEnumerable<Employee>, int)> GetAllEmployee(int page, int pageSize, string? sortColumn, string? sortOrder, Employee employee)
         {
-            var query = _dbContext.Employees.AsQueryable();
+            var query = _dbContext.Employees
+                .Include(e => e.Manager)
+                .Include(e => e.Roles)
+                .Include(e => e.Gender)
+                .AsQueryable();
             query = SearchEmployee(query, employee);
 
             query = SortEmployee(query, sortOrder, sortColumn);

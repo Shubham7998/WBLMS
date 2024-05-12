@@ -17,7 +17,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
+    <ProjectReference Include="..\WBLMS.IServices\WBLMS.IServices.csproj" />
     <ProjectReference Include="..\WBLMS.Repositories\WBLMS.Repositories.csproj" />
+    <ProjectReference Include="..\WBLMS.Utilities\WBLMS.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
