@@ -125,5 +125,19 @@ namespace WBLMS.Services
             return null;
 
         }
+
+        public async Task<bool> DeleteLeaveRequest(long id)
+        {
+            try
+            {
+                var objToBeDeleted = await _leaveRequestRepository.GetLeaveRequestById(id);
+
+                return await _leaveRequestRepository.DeleteAsync(objToBeDeleted);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

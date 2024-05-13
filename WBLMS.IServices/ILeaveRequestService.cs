@@ -10,5 +10,6 @@ namespace WBLMS.IServices
         Task<GetLeaveRequestDTO> GetLeaveRequestById(long id);
         Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO);
         Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO);
+        Task<Boolean> DeleteLeaveRequest(long id);
     }
 }

@@ -111,10 +111,18 @@ namespace WBLMS.API.Controllers
         }
 
         [HttpPut("id")]
-        public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO)
+        public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO, long id)
         {
             try
             {
+                if(updateLeaveRequestDTO.Id != id)
+                {
+                    return BadRequest(new
+                    {
+                        StatusCode = 400,
+                        ErrorMessage = "UpdateLeaveRequestDTO Id and Provided Id doesn't match."
+                    });
+                }
                 var returnLeaveRequestObj = _leaveRequestService.UpdateLeaveRequest(updateLeaveRequestDTO);
                 if (returnLeaveRequestObj != null)
                 {
@@ -136,6 +144,29 @@ namespace WBLMS.API.Controllers
                 {
                     StatusCode = 404,
                     ErrorMessage = "Update Leave Request Error.!" + ex.Message
+                });
+                throw;
+            }
+        }
+
+        [HttpDelete("id")]
+        public async Task<ActionResult<bool>> DeleteLeaveRequest(long id)
+        {
+            try
+            {
+                var result = await _leaveRequestService.DeleteLeaveRequest(id);
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = result ? "Data of Id: " + id + " Delete Successfully" : "Data of Id" + id + " Delete Unsuccessfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "Leave Request doesn't exist. " + ex.Message
                 });
                 throw;
             }
