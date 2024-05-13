@@ -51,11 +51,11 @@ namespace WBLMS.API.Controllers
         //}
 
         [HttpPost("paginated")]
-        public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize)
+        public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, LeaveRequest leaveRequestObj)
         {
             try
             {
-                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests();
+                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj);
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {
                     var dataObj = new Paginated<GetLeaveRequestDTO>()
