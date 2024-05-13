@@ -20,20 +20,92 @@ namespace WBLMS.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetLeaveRequestDTO>>> GetAllLeaveRequests()
         {
-            var listOfLeaveRequests = await _leaveRequestService.GetAllLeaveRequests();
-            if (listOfLeaveRequests != null)
+            try
             {
-                return Ok(new
+                var listOfLeaveRequests = await _leaveRequestService.GetAllLeaveRequests();
+                if (listOfLeaveRequests != null)
                 {
-                    StatusCode = 200,
-                    data = listOfLeaveRequests
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = listOfLeaveRequests
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Request for all leave request!"
                 });
             }
-            return BadRequest(new
+            catch (Exception ex)
             {
-                StatusCode = 400,
-                ErrorMessage = "Invalid request from controller!"
-            });
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
+                });
+                throw;
+                
+            }
         }
+
+        [HttpGet("id")]
+        public async Task<ActionResult<GetLeaveRequestDTO>> GetLeaveRequestById(long id)
+        {
+            try
+            {
+                var leaveRequest = await _leaveRequestService.GetLeaveRequestById(id);
+                if (leaveRequest != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = leaveRequest
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Request for leave request by id!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "Request of this id doesn't exist! " + ex.Message
+                });
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<GetLeaveRequestDTO>> CreateLeaveRequest(CreateLeaveRequestDTO createLeaveRequestDTO)
+        {
+            try
+            {
+                var returnLeaveRequestObj = _leaveRequestService.CreateLeaveRequest(createLeaveRequestDTO);
+                if (returnLeaveRequestObj != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = returnLeaveRequestObj
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Create Leave Request!."
+                });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     } 
 }

@@ -10,5 +10,7 @@ namespace WBLMS.IRepositories
     public interface ILeaveRequestRepository : IRepository<LeaveRequest>
     {
         Task<IEnumerable<LeaveRequest>> GetAllLeaveRequests();
+        Task<LeaveRequest> GetLeaveRequestById(long id);
+        Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequest);
     }
 }
