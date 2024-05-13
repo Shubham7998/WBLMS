@@ -42,19 +42,19 @@ namespace WBLMS.Services
                 );
 
             return new GetEmployeeDTO
-                (
-                    employee.Id,
-                    employee.FirstName,
-                    employee.LastName,
-                    employee.Password,
-                    employee.EmailAddress,
-                    employee.ContactNumber,
-                    (long)employee.GenderId,
-                    (long)employee.RoleId,
-                    (long)employee.ManagerId,
-                    (long)employee.CreatedById,
-                    employee.UpdatedDate
-                );
+                            (
+                                employee.Id,
+                                employee.FirstName,
+                                employee.LastName,
+                                employee.Password,
+                                employee.EmailAddress,
+                                employee.ContactNumber,
+                                (long)employee.GenderId,
+                                (long)employee.RoleId,
+                                employee.ManagerId == null ? 1 : (long)employee.ManagerId,
+                                employee.CreatedById == null ? 1 : (long)employee.CreatedById,
+                                employee.UpdatedDate
+                            );
 
         }
 
@@ -130,16 +130,16 @@ namespace WBLMS.Services
                     return new GetEmployeeDTO
                     (
                         employee.Id,
-                        employee.FirstName,
-                        employee.LastName,
-                        employee.Password,
-                        employee.EmailAddress,
-                        employee.ContactNumber,
-                        (long)employee.GenderId,
-                        (long)employee.RoleId,
-                        (long)employee.ManagerId,
-                        (long)employee.CreatedById,
-                        employee.UpdatedDate
+                                employee.FirstName,
+                                employee.LastName,
+                                employee.Password,
+                                employee.EmailAddress,
+                                employee.ContactNumber,
+                                (long)employee.GenderId,
+                                (long)employee.RoleId,
+                                employee.ManagerId == null ? 1 : (long)employee.ManagerId,
+                                employee.CreatedById == null ? 1 : (long)employee.CreatedById,
+                                employee.UpdatedDate
                     );
                 }
 
@@ -177,16 +177,16 @@ namespace WBLMS.Services
                     return new GetEmployeeDTO
                     (
                         employee.Id,
-                        employee.FirstName,
-                        employee.LastName,
-                        employee.Password,
-                        employee.EmailAddress,
-                        employee.ContactNumber,
-                        (long)employee.GenderId,
-                        (long)employee.RoleId,
-                        (long)employee.ManagerId,
-                        (long)employee.CreatedById,
-                        employee.UpdatedDate
+                                employee.FirstName,
+                                employee.LastName,
+                                employee.Password,
+                                employee.EmailAddress,
+                                employee.ContactNumber,
+                                (long)employee.GenderId,
+                                (long)employee.RoleId,
+                                employee.ManagerId == null ? 1 : (long)employee.ManagerId,
+                                employee.CreatedById == null ? 1 : (long)employee.CreatedById,
+                                employee.UpdatedDate
                     );
                 }
             }catch(Exception e) { throw; }

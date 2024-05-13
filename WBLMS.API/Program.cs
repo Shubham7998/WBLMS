@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
+var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
 builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
 
