@@ -47,20 +47,21 @@ namespace WBLMS.Services
             return null;
         }
 
-        public async Task<IEnumerable<GetLeaveRequestDTO>> GetAllLeaveRequests()
+        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pagesize, LeaveRequest leaveRequestObj)
         {
-            var listOfLeaveRequests = await _leaveRequestRepository.GetAllLeaveRequests();
+            var listOfLeaveRequestsTuple = await _leaveRequestRepository.GetAllLeaveRequests(sortColumn, sortOrder, page, pagesize, leaveRequestObj);
 
-            if (listOfLeaveRequests != null)
+            if (listOfLeaveRequestsTuple.Item1 != null)
             {
-                var listOfLeaveRequestDTO = listOfLeaveRequests
+                var listOfLeaveRequestDTO = listOfLeaveRequestsTuple
+                    .Item1
                     .Select(request => new GetLeaveRequestDTO(
                         request.Id, request.EmployeeId, request.Employee.FirstName, request.Employee.LastName, request.LeaveType.LeaveTypeName, request.Reason, request.Status.StatusName, request.StartDate, request.EndDate, request.NumberOfLeaveDays, request.RequestDate, request.ApprovedDate
                     )
                 );
-                return listOfLeaveRequestDTO;
+                return (listOfLeaveRequestDTO, listOfLeaveRequestsTuple.Item2);
             }
-            return null;
+            return (null, 0);
         }
 
         public async Task<GetLeaveRequestDTO> GetLeaveRequestById(long id)
@@ -112,6 +113,10 @@ namespace WBLMS.Services
             {
                 // Updating status 
                 oldLeaveRequest.StatusId = leaveRequestDTO.StatusId;
+
+                // If Status is Approved then we Update Balance on the LeaveBalances Table
+                // Need to implement that
+
                 // Storing the Updated Obj
                 var returnObj = await _leaveRequestRepository.UpdateLeaveRequest(oldLeaveRequest);
 

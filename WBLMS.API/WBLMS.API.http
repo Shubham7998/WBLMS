@@ -87,21 +87,8 @@ Content-Type: application/json
 
 ###
 
-PUT {{WBLMS.API_HostAddress}}/api/employee/9
-Content-Type: application/json
-{
-  "id": 9,
-  "firstName": "stringstringstringstring9",
-  "lastName": "stringstring6",
-  "password": "stringstring3",
-  "emailAddress": "strinstringstrin234ggvs@@tring",
-  "contactNumber": "strings2tring",
-  "genderId": 3,
-  "roleId": 3,
-  "managerId": 8,
-  "updatedById": 3
-}
-###
+
+
 
 GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
 

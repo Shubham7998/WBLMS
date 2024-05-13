@@ -92,6 +92,7 @@ namespace WBLMS.API.Controllers
                         data = result
                     });
                 }
+                return NoContent();
             }
             catch (Exception ex)
             {

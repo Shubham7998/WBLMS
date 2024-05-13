@@ -6,10 +6,10 @@ namespace WBLMS.IServices
 {
     public interface ILeaveRequestService
     {
-        Task<IEnumerable<GetLeaveRequestDTO>> GetAllLeaveRequests();
+        Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, LeaveRequest leaveRequestObj);
         Task<GetLeaveRequestDTO> GetLeaveRequestById(long id);
         Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO);
         Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO);
-        Task<Boolean> DeleteLeaveRequest(long id);
+        Task<bool> DeleteLeaveRequest(long id);
     }
 }

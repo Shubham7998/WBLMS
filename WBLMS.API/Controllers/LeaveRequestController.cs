@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WBLMS.DTO;
 using WBLMS.IServices;
+using WBLMS.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,18 +18,55 @@ namespace WBLMS.API.Controllers
             _leaveRequestService = leaveRequestService;
         }
         // GET: api/<LeaveRequest>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetLeaveRequestDTO>>> GetAllLeaveRequests()
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<GetLeaveRequestDTO>>> GetAllLeaveRequests()
+        //{
+        //    try
+        //    {
+        //        var listOfLeaveRequests = await _leaveRequestService.GetAllLeaveRequests();
+        //        if (listOfLeaveRequests != null)
+        //        {
+        //            return Ok(new
+        //            {
+        //                StatusCode = 200,
+        //                data = listOfLeaveRequests
+        //            });
+        //        }
+        //        return BadRequest(new
+        //        {
+        //            StatusCode = 400,
+        //            ErrorMessage = "Invalid Request for all leave request!"
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            StatusCode = 500,
+        //            ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
+        //        });
+        //        throw;
+                
+        //    }
+        //}
+
+        [HttpPost("paginated")]
+        public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize)
         {
             try
             {
-                var listOfLeaveRequests = await _leaveRequestService.GetAllLeaveRequests();
-                if (listOfLeaveRequests != null)
+                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests();
+                if (listOfLeaveRequestsTuple.Item1 != null)
                 {
+                    var dataObj = new Paginated<GetLeaveRequestDTO>()
+                    {
+                        dataArray = listOfLeaveRequestsTuple.Item1,
+                        totalPages = listOfLeaveRequestsTuple.Item2
+                    };
                     return Ok(new
                     {
                         StatusCode = 200,
-                        data = listOfLeaveRequests
+                        data = dataObj
                     });
                 }
                 return BadRequest(new
@@ -45,7 +83,7 @@ namespace WBLMS.API.Controllers
                     ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
                 });
                 throw;
-                
+
             }
         }
 
