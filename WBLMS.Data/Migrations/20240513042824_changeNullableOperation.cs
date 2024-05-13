@@ -5,13 +5,13 @@
 namespace WBLMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class nullableValueAllowedForManagerId : Migration
+    public partial class changeNullableOperation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<long>(
-                name: "ManagerId",
+                name: "TokenId",
                 table: "Employees",
                 type: "bigint",
                 nullable: true,
@@ -23,7 +23,7 @@ namespace WBLMS.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<long>(
-                name: "ManagerId",
+                name: "TokenId",
                 table: "Employees",
                 type: "bigint",
                 nullable: false,

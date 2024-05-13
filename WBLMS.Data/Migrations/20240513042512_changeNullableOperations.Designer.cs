@@ -12,8 +12,8 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240510105626_firstMigrate")]
-    partial class firstMigrate
+    [Migration("20240513042512_changeNullableOperations")]
+    partial class changeNullableOperations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,6 @@ namespace WBLMS.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("ManagerId")
-                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<string>("Password")
@@ -377,8 +376,7 @@ namespace WBLMS.Data.Migrations
                     b.HasOne("WBLMS.Models.Employee", "Manager")
                         .WithMany("Subordinates")
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("WBLMS.Models.Roles", "Roles")
                         .WithMany()
@@ -389,7 +387,7 @@ namespace WBLMS.Data.Migrations
                     b.HasOne("WBLMS.Models.Token", "Token")
                         .WithMany()
                         .HasForeignKey("TokenId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Gender");

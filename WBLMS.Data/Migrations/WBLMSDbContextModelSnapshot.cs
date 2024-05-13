@@ -65,7 +65,7 @@ namespace WBLMS.Data.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TokenId")
+                    b.Property<long?>("TokenId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("UpdateById")
@@ -384,8 +384,7 @@ namespace WBLMS.Data.Migrations
                     b.HasOne("WBLMS.Models.Token", "Token")
                         .WithMany()
                         .HasForeignKey("TokenId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Gender");
 

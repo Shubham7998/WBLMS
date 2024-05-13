@@ -50,13 +50,13 @@ namespace WBLMS.Models
         //[Required (ErrorMessage = "Update by whom is required")]
         public long UpdateById { get; set; }
 
-        [Required (ErrorMessage = "Update date is required")]
+        //[Required (ErrorMessage = "Update date is required")]
         public DateOnly UpdatedDate { get; set; }
 
        // [Required (ErrorMessage = "Token Id is required")]
         [ForeignKey (nameof(Token))]
-        public long TokenId { get; set; }
-        public virtual Token Token { get; set; }
+        public long? TokenId { get; set; }
+        public virtual Token? Token { get; set; }
 
         public List<Employee>? Subordinates { get; set; }
     }

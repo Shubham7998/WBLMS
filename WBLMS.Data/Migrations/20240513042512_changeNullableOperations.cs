@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WBLMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigrate : Migration
+    public partial class changeNullableOperations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,7 +78,7 @@ namespace WBLMS.Data.Migrations
                     ContactNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     GenderId = table.Column<long>(type: "bigint", nullable: false),
                     RoleId = table.Column<long>(type: "bigint", nullable: false),
-                    ManagerId = table.Column<long>(type: "bigint", nullable: false),
+                    ManagerId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedById = table.Column<long>(type: "bigint", nullable: false),
                     JoiningDate = table.Column<DateOnly>(type: "date", nullable: false),
                     UpdateById = table.Column<long>(type: "bigint", nullable: false),
@@ -92,8 +92,7 @@ namespace WBLMS.Data.Migrations
                         name: "FK_Employees_Employees_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Employees_Genders_GenderId",
                         column: x => x.GenderId,
@@ -312,8 +311,7 @@ namespace WBLMS.Data.Migrations
                 table: "Employees",
                 column: "TokenId",
                 principalTable: "Tokens",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />

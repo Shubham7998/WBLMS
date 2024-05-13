@@ -8,3 +8,57 @@ Accept: application/json
 GET {{WBLMS.API_HostAddress}}/api/leaverequest
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/employee
+Content-Type: application/json
+
+{
+  "FirstName" : "FirstName",
+
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/employee
+Content-Type: application/json
+
+{
+  //CreateEmployeeDTO
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/employee
+Content-Type: application/json
+
+{
+  "FirstName" : "FirstName",
+  "LastName" : "LastName",
+  "Password" : "Password",
+  "EmailAddress" : "EmailAddress",
+  "ContactNumber" : "1234567890",
+  "GenderId" : 1,
+  "RoleId" : 1,
+  "ManagerId" : 1,
+  "CreatedById" : 1
+}
+
+###
+public record CreateEmployeeDTO
+        (
+            [Required(ErrorMessage = "FirstName is required")]
+            [MaxLength(50)] string FirstName,
+            [Required(ErrorMessage = "LastName is required")]
+            [MaxLength(50)] string LastName,
+            [Required(ErrorMessage = "Password is required")]
+            [MaxLength(25)] string Password,
+            [Required(ErrorMessage = "EmailAddress is required")]
+            string EmailAddress,
+            [Required(ErrorMessage = "ContactNumber is required")]
+            string ContactNumber,
+            [Required(ErrorMessage = "Gender is required")]
+            long GenderId,
+            long RoleId,
+            long ManagerId,
+            long CreatedById
+        );
