@@ -120,13 +120,13 @@ POST {{WBLMS.API_HostAddress}}/api/leaverequest
 Content-Type: application/json
 
 {
-  {
+
   "employeeId": 2,
   "managerId": 1,
-  "leaveTypeId": 0,
-  "reason": "string",
-  "numberOfLeaveDays": 5
-  }
+  "leaveTypeId": 2,
+  "reason": "reason",
+  "numberOfLeaveDays": 2
+  
 }
 
 ###
