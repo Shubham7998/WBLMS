@@ -258,3 +258,7 @@ Content-Type: application/json
 }
 
 ###
+
+DELETE {{WBLMS.API_HostAddress}}/api/employee/10
+
+###

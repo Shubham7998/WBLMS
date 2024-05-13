@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
 using WBLMS.Models;
+using WBLMS.Utilities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,10 +15,12 @@ namespace WBLMS.API.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly JwtSettings _jwtSettings;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings)
         {
             _employeeService = employeeService;
+            _jwtSettings = jwtSettings.Value;
         }
 
         [HttpPost("paginated")]
@@ -143,6 +147,7 @@ namespace WBLMS.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
+            var jwt = _jwtSettings.Key;
             try
             {
                 var result = await _employeeService.DeleteEmployeeAsync(id);
