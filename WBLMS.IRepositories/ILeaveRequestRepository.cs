@@ -9,7 +9,7 @@ namespace WBLMS.IRepositories
 {
     public interface ILeaveRequestRepository : IRepository<LeaveRequest>
     {
-        Task<IEnumerable<LeaveRequest>> GetAllLeaveRequests();
+        Task<(IEnumerable<LeaveRequest>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, LeaveRequest leaveRequest);
         Task<LeaveRequest> GetLeaveRequestById(long id);
         Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequest);
         Task<LeaveRequest> UpdateLeaveRequest(LeaveRequest leaveRequest);
