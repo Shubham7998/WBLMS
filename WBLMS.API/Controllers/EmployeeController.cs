@@ -63,7 +63,7 @@ namespace WBLMS.API.Controllers
                 }
                 return BadRequest(new
                 {
-                    StatusCode = 400,
+                    StatusCode = 204,
                     ErrorMessage = "Data with id is not present"
                 });
             }
@@ -92,6 +92,11 @@ namespace WBLMS.API.Controllers
                         data = result
                     });
                 }
+                return Ok(new
+                {
+                    StatusCode = 204,
+                    data = result
+                });
             }
             catch (Exception ex)
             {
@@ -118,12 +123,13 @@ namespace WBLMS.API.Controllers
                         data = result
                     });
                 }
-                return BadRequest(new
+                return Ok(new
                 {
-                    StatusCode = 400,
-                    ErrorMessage = "Data with id is not present"
+                    StatusCode = 204,
+                    data = result
                 });
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 return BadRequest(new
                 {
@@ -140,8 +146,21 @@ namespace WBLMS.API.Controllers
             try
             {
                 var result = await _employeeService.DeleteEmployeeAsync(id);
-                return Ok(result);
-            }catch(Exception ex)
+                if (result != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = result
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 204,
+                    ErrorMessage = "Data with id is not present"
+                });
+            }
+            catch(Exception ex)
             {
                 return BadRequest(new
                 {
@@ -150,7 +169,5 @@ namespace WBLMS.API.Controllers
                 });
             }
         }
-
-        //public Task<>
     }
 }

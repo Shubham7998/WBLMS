@@ -35,8 +35,8 @@ Content-Type: application/json
   "firstName": "string",
   "lastName": "string",
   "password": "string",
-  "emailAddress": "string11111123234411",
-  "contactNumber": "string111123sdf41111",
+  "emailAddress": "string113234411",
+  "contactNumber": "string11sdf41111",
   "genderId": 1,
   "roleId": 1,
   "managerId" : 1,
@@ -89,6 +89,7 @@ Content-Type: application/json
 
 PUT {{WBLMS.API_HostAddress}}/api/employee/9
 Content-Type: application/json
+
 {
   "id": 9,
   "firstName": "stringstringstringstring9",
@@ -176,3 +177,62 @@ Content-Type: application/json
 }
 
 ###
+
+DELETE {{WBLMS.API_HostAddress}}/api/employee/3
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/1
+
+###
+
+PUT {{WBLMS.API_HostAddress}}/api/employee/40
+Content-Type: application/json
+
+{
+  "id" : 4,
+  "FirstName" : "FirstName",
+  "LastName" : "LastName",
+  "Password" : "Password",
+  "EmailAddress" : "emailaddress",
+  "ContactNumber" : "1234567890",
+  "GenderId" : 3,
+  "RoleId" : 2,
+  "ManagerId" : 2,
+  "UpdatedById" : 1
+}
+
+###
+long Id,
+            [Required(ErrorMessage = "FirstName is required")]
+            [MaxLength(50)] string FirstName,
+            [Required(ErrorMessage = "LastName is required")]
+            [MaxLength(50)] string LastName,
+            [Required(ErrorMessage = "Password is required")]
+            [MaxLength(25)] string Password,
+            [Required(ErrorMessage = "EmailAddress is required")]
+            string EmailAddress,
+            [Required(ErrorMessage = "ContactNumber is required")]
+            string ContactNumber,
+            [Required(ErrorMessage = "Gender is required")]
+            long GenderId,
+            long RoleId,
+            long ManagerId,
+            long UpdatedById
+            
+{
+  "statusCode": 200,
+  "data": {
+    "id": 4,
+    "firstName": "string",
+    "lastName": "string",
+    "password": "36B36E53C8E59EB5832510841FCF22B3C6F72DE74FB0D8DC92DEE955FEA87AFD:41EF25E5E5DD3403F70DF54DD078BB5E:50000:SHA256",
+    "emailAddress": "string113234411",
+    "contactNumber": "string11sdf41111",
+    "genderId": 1,
+    "roleId": 1,
+    "managerId": 1,
+    "createdById": 1,
+    "createdDate": null
+  }
+}
