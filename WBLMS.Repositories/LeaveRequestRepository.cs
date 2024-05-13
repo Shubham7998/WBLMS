@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WBLMS.Data;
+using WBLMS.Data.Migrations;
 using WBLMS.IRepositories;
 using WBLMS.Models;
 
@@ -18,11 +19,18 @@ namespace WBLMS.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequestObj)
+        public async Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequest)
         {
-            await _dbContext.AddAsync(leaveRequestObj);
+            var res = await _dbContext.LeaveRequests.AddAsync(leaveRequest);
+            var res2 = await _dbContext.SaveChangesAsync();
+            var leaveDataFromDb = await _dbContext.LeaveRequests
+                .Include(a => a.Employee)
+                .Include(b => b.Status)
+                .Include(c => c.LeaveType)
+                .FirstAsync(leavereq => leavereq.Id == res.Entity.Id);
+                   
+            return leaveDataFromDb;
 
-            return leaveRequestObj;
         }
 
         public async Task<IEnumerable<LeaveRequest>> GetAllLeaveRequests()

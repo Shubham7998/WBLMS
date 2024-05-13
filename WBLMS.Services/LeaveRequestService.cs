@@ -14,12 +14,12 @@ namespace WBLMS.Services
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<CreateLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
+        public async Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
         {
             if(leaveRequestDTO != null) 
             {
                 // Get Manager From the table using Employee Id to get manager Id
-
+                // Calculate Number of leave days
 
                 var newLeaveRequestObj = new LeaveRequest()
                 {
@@ -28,16 +28,22 @@ namespace WBLMS.Services
                     Reason = leaveRequestDTO.Reason,
                     // Default is Pending so 1
                     StatusId = 1,
-                    ManagerId = 0,
-                    StartDate = leaveRequestDTO.StartDate,
-                    EndDate = leaveRequestDTO.EndDate,
+                    ManagerId = leaveRequestDTO.ManagerId,
+                    //StartDate = leaveRequestDTO.StartDate,
+                    //EndDate = leaveRequestDTO.EndDate,
                     NumberOfLeaveDays = leaveRequestDTO.NumberOfLeaveDays,
                     // ApprovedDate 
 
                     // RequestDate is set to current Date
                     RequestDate = DateOnly.FromDateTime(DateTime.UtcNow.Date)
                 };
-                return leaveRequestDTO;
+                var returnObj = await _leaveRequestRepository.CreateLeaveRequest(newLeaveRequestObj);
+                var returnObjDTO = new GetLeaveRequestDTO(
+                        returnObj.Id, returnObj.EmployeeId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
+                        returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
+                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
+                    );
+                return returnObjDTO;
             }
             return null;
         }

@@ -11,6 +11,6 @@ namespace WBLMS.IRepositories
     {
         Task<IEnumerable<LeaveRequest>> GetAllLeaveRequests();
         Task<LeaveRequest> GetLeaveRequestById(long id);
-        Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequestObj);
+        Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequest);
     }
 }

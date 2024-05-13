@@ -79,5 +79,33 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<GetLeaveRequestDTO>> CreateLeaveRequest(CreateLeaveRequestDTO createLeaveRequestDTO)
+        {
+            try
+            {
+                var returnLeaveRequestObj = _leaveRequestService.CreateLeaveRequest(createLeaveRequestDTO);
+                if (returnLeaveRequestObj != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = returnLeaveRequestObj
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Create Leave Request!."
+                });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     } 
 }

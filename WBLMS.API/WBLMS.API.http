@@ -71,3 +71,12 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/leaverequest
+Content-Type: application/json
+
+{
+  //CreateLeaveRequestDTO
+}
+
+###

@@ -29,9 +29,9 @@ namespace WBLMS.Models
         [ForeignKey(nameof(Employee))]
         public long ManagerId { get; set; }
         [Required(ErrorMessage = "StartDate is required.")]
-        public DateOnly StartDate { get; set; }
+        public DateOnly StartDate { get; set; } = DateOnly.MinValue;
         [Required(ErrorMessage = "EndDate is required.")]
-        public DateOnly EndDate { get; set;}
+        public DateOnly EndDate { get; set; } = DateOnly.MinValue;
         [Required(ErrorMessage = "NumberOfLeaveDays is required.")]
         public decimal NumberOfLeaveDays { get; set; }
         [Required(ErrorMessage = "ApprovedDate is required.")]
