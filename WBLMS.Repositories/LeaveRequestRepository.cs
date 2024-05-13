@@ -52,5 +52,18 @@ namespace WBLMS.Repositories
                 .FirstAsync(leavereq => leavereq.Id == id);
             return request;
         }
+
+        public async Task<LeaveRequest> UpdateLeaveRequest(LeaveRequest leaveRequest)
+        {
+            var request = _dbContext.LeaveRequests.Update(leaveRequest);
+            await _dbContext.SaveChangesAsync();
+            var leaveDataFromDb = await _dbContext.LeaveRequests
+                .Include(a => a.Employee)
+                .Include(b => b.Status)
+                .Include(c => c.LeaveType)
+                .FirstAsync(leavereq => leavereq.Id == request.Entity.Id);
+
+            return leaveDataFromDb;
+        }
     }
 }

@@ -7,11 +7,9 @@ namespace WBLMS.Services
     public class LeaveRequestService : ILeaveRequestService
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository)
+        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
         {
             _leaveRequestRepository = leaveRequestRepository;   
-            _employeeRepository = employeeRepository;
         }
 
         public async Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
@@ -105,8 +103,27 @@ namespace WBLMS.Services
 
             return counter;
         }
-      
 
+        public async Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO)
+        {
+            var oldLeaveRequest = await _leaveRequestRepository.GetLeaveRequestById(leaveRequestDTO.Id);
+            
+            if(oldLeaveRequest != null)
+            {
+                // Updating status 
+                oldLeaveRequest.StatusId = leaveRequestDTO.StatusId;
+                // Storing the Updated Obj
+                var returnObj = await _leaveRequestRepository.UpdateLeaveRequest(oldLeaveRequest);
 
+                var returnObjDTO = new GetLeaveRequestDTO(
+                        returnObj.Id, returnObj.EmployeeId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
+                        returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
+                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
+                    );
+                return returnObjDTO;
+            }
+            return null;
+
+        }
     }
 }

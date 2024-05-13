@@ -100,12 +100,45 @@ namespace WBLMS.API.Controllers
                     ErrorMessage = "Invalid Create Leave Request!."
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                return BadRequest(new {
+                    StatusCode = 404,
+                    ErrorMessage = "Create Leave Request Error.!" + ex.Message
+                });
                 throw;
             }
         }
 
+        [HttpPut("id")]
+        public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO)
+        {
+            try
+            {
+                var returnLeaveRequestObj = _leaveRequestService.UpdateLeaveRequest(updateLeaveRequestDTO);
+                if (returnLeaveRequestObj != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = returnLeaveRequestObj
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Update Leave Request!."
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "Update Leave Request Error.!" + ex.Message
+                });
+                throw;
+            }
+        }
     } 
 }

@@ -9,5 +9,6 @@ namespace WBLMS.IServices
         Task<IEnumerable<GetLeaveRequestDTO>> GetAllLeaveRequests();
         Task<GetLeaveRequestDTO> GetLeaveRequestById(long id);
         Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO);
+        Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO);
     }
 }
