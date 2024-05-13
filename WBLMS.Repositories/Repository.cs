@@ -15,8 +15,8 @@ namespace WBLMS.Repositories
 
         public async Task<T> CreateAsync(T entity)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            var result = await _dbContext.Set<T>().AddAsync(entity);
+            var result2 =  await _dbContext.SaveChangesAsync();
             return entity;
         }
 

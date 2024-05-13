@@ -35,8 +35,8 @@ Content-Type: application/json
   "firstName": "string",
   "lastName": "string",
   "password": "string",
-  "emailAddress": "string",
-  "contactNumber": "string",
+  "emailAddress": "string11111123234411",
+  "contactNumber": "string111123sdf41111",
   "genderId": 1,
   "roleId": 1,
   "managerId" : 1,
@@ -69,5 +69,44 @@ Content-Type: application/json
 {
   //CreateEmployeeDTO
 }
+
+###
+
+DELETE {{WBLMS.API_HostAddress}}/api/employee/114
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/0
+
+###
+
+PUT {{WBLMS.API_HostAddress}}/api/employee/0
+Content-Type: application/json
+
+"string"
+
+###
+
+PUT {{WBLMS.API_HostAddress}}/api/employee/9
+Content-Type: application/json
+{
+  "id": 9,
+  "firstName": "stringstringstringstring9",
+  "lastName": "stringstring6",
+  "password": "stringstring3",
+  "emailAddress": "strinstringstrin234ggvs@@tring",
+  "contactNumber": "strings2tring",
+  "genderId": 3,
+  "roleId": 3,
+  "managerId": 8,
+  "updatedById": 3
+}
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
 
 ###

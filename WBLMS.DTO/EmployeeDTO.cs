@@ -12,6 +12,21 @@ namespace WBLMS.DTO
             string EmailAddress,
             string ContactNumber,
             long GenderId,
+            long RoleId,
+            long ManagerId,
+            long CreatedById,
+            DateOnly? CreatedDate
+        );
+
+    public record GetEmployeeForeignDTO
+        (
+            long Id,
+            string FirstName,
+            string LastName,
+            string? Password,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
             string? GenderName,
             long RoleId,
             string? RoleName,
@@ -49,6 +64,8 @@ namespace WBLMS.DTO
             [MaxLength(50)] string FirstName,
             [Required(ErrorMessage = "LastName is required")]
             [MaxLength(50)] string LastName,
+            [Required(ErrorMessage = "Password is required")]
+            [MaxLength(25)] string Password,
             [Required(ErrorMessage = "EmailAddress is required")]
             string EmailAddress,
             [Required(ErrorMessage = "ContactNumber is required")]

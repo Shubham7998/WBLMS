@@ -27,6 +27,7 @@ namespace WBLMS.Repositories
                 .Include(e => e.Roles)
                 .Include(e => e.Gender)
                 .AsQueryable();
+
             query = SearchEmployee(query, employee);
 
             query = SortEmployee(query, sortOrder, sortColumn);
@@ -49,7 +50,7 @@ namespace WBLMS.Repositories
         {
             bool sortInAsc = sortOrder.ToLower() == "asc";
 
-            switch(sortOrder.ToLower()) 
+            switch(sortOrder.ToLower())
             {
                 case "firstname":
                     query = sortInAsc ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
@@ -62,6 +63,9 @@ namespace WBLMS.Repositories
                     break;
                 case "contactnumber":
                     query = sortInAsc ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
+                    break;
+                case "gender":
+                    query = sortInAsc ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
                     break;
             }
             return query;
