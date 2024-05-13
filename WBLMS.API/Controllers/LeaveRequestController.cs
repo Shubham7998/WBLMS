@@ -123,7 +123,7 @@ namespace WBLMS.API.Controllers
         {
             try
             {
-                var returnLeaveRequestObj = _leaveRequestService.CreateLeaveRequest(createLeaveRequestDTO);
+                var returnLeaveRequestObj = await  _leaveRequestService.CreateLeaveRequest(createLeaveRequestDTO);
                 if (returnLeaveRequestObj != null)
                 {
                     return Ok(new
@@ -161,7 +161,7 @@ namespace WBLMS.API.Controllers
                         ErrorMessage = "UpdateLeaveRequestDTO Id and Provided Id doesn't match."
                     });
                 }
-                var returnLeaveRequestObj = _leaveRequestService.UpdateLeaveRequest(updateLeaveRequestDTO);
+                var returnLeaveRequestObj = await _leaveRequestService.UpdateLeaveRequest(updateLeaveRequestDTO);
                 if (returnLeaveRequestObj != null)
                 {
                     return Ok(new

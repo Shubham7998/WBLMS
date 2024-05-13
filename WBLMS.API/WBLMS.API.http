@@ -146,6 +146,7 @@ Content-Type: application/json
 
 ###
 
+
 POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=5&sortColumn=genderId&sortOrder=desc
 Content-Type: application/json
 
@@ -205,43 +206,9 @@ Content-Type: application/json
 }
 
 ###
-long Id,
-            [Required(ErrorMessage = "FirstName is required")]
-            [MaxLength(50)] string FirstName,
-            [Required(ErrorMessage = "LastName is required")]
-            [MaxLength(50)] string LastName,
-            [Required(ErrorMessage = "Password is required")]
-            [MaxLength(25)] string Password,
-            [Required(ErrorMessage = "EmailAddress is required")]
-            string EmailAddress,
-            [Required(ErrorMessage = "ContactNumber is required")]
-            string ContactNumber,
-            [Required(ErrorMessage = "Gender is required")]
-            long GenderId,
-            long RoleId,
-            long ManagerId,
-            long UpdatedById
-            
-{
-  "statusCode": 200,
-  "data": {
-    "id": 4,
-    "firstName": "string",
-    "lastName": "string",
-    "password": "36B36E53C8E59EB5832510841FCF22B3C6F72DE74FB0D8DC92DEE955FEA87AFD:41EF25E5E5DD3403F70DF54DD078BB5E:50000:SHA256",
-    "emailAddress": "string113234411",
-    "contactNumber": "string11sdf41111",
-    "genderId": 1,
-    "roleId": 1,
-    "managerId": 1,
-    "createdById": 1,
-    "createdDate": null
-  }
-}
 
 POST {{WBLMS.API_HostAddress}}/api/leaverequest/paginated?sortColumn=&sortOrder=&page=1&pageSize=4
 Content-Type: application/json
-
 {
     "id" : 0,
     "employeeId" : 0,
