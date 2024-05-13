@@ -110,3 +110,22 @@ GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&s
 GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
 
 ###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/id?id=0
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/leaverequest
+Content-Type: application/json
+
+{
+  {
+  "employeeId": 2,
+  "managerId": 1,
+  "leaveTypeId": 0,
+  "reason": "string",
+  "numberOfLeaveDays": 5
+}
+}
+
+###

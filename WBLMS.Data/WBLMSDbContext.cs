@@ -32,6 +32,18 @@ namespace WBLMS.Data
                 .HasForeignKey(e => e.TokenId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<LeaveRequest>()
+                .HasOne(e => e.Employee)
+                .WithMany()
+                .HasForeignKey(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<LeaveRequest>()
+                .HasOne(e => e.Manager)
+                .WithMany()
+                .HasForeignKey(e => e.ManagerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             base.OnModelCreating(modelBuilder);
             new DbInitializer(modelBuilder).seed();
 

@@ -16,6 +16,7 @@ namespace WBLMS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
         public long Id { get; set; }
         [Required(ErrorMessage = "EmployeeId is required.")]
+        [ForeignKey(nameof(Employee))]
         public long EmployeeId { get; set; }
         [Required(ErrorMessage = "LeaveTypeId is required.")]
         [ForeignKey(nameof(LeaveType))]
@@ -26,7 +27,7 @@ namespace WBLMS.Models
         [ForeignKey(nameof(Status))]
         public long StatusId { get; set; }
         [Required(ErrorMessage = "ManagerId is required.")]
-        [ForeignKey(nameof(Employee))]
+        [ForeignKey(nameof(Manager))]
         public long ManagerId { get; set; }
         [Required(ErrorMessage = "StartDate is required.")]
         public DateOnly StartDate { get; set; } = DateOnly.MinValue;
@@ -43,5 +44,6 @@ namespace WBLMS.Models
         public virtual LeaveType LeaveType { get; set; }
         public virtual Status Status { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual Employee Manager { get; set; }
     }
 }
