@@ -144,7 +144,7 @@ Content-Type: application/json
 
 ###
 
-POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=2&sortColumn=lastName&sortOrder=asc
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=2&sortColumn=genderId&sortOrder=asc
 Content-Type: application/json
 
 {

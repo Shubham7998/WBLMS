@@ -64,10 +64,11 @@ namespace WBLMS.Repositories
                 case "contactnumber":
                     query = sortInAsc ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
                     break;
-                case "gender":
+                case "genderid":
                     query = sortInAsc ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
                     break;
-                default: return query;
+                default: 
+                    return query;
             }
             return query;
         }
