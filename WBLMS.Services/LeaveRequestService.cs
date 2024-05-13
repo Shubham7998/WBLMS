@@ -29,9 +29,10 @@ namespace WBLMS.Services
                     // Default is Pending so 1
                     StatusId = 1,
                     ManagerId = leaveRequestDTO.ManagerId,
-                    //StartDate = leaveRequestDTO.StartDate,
-                    //EndDate = leaveRequestDTO.EndDate,
-                    NumberOfLeaveDays = leaveRequestDTO.NumberOfLeaveDays,
+                    StartDate = leaveRequestDTO.StartDate,
+                    EndDate = leaveRequestDTO.EndDate,
+                    // Calculate Number of working days from start date and end date
+                    NumberOfLeaveDays = GetBuisnessDays(leaveRequestDTO.StartDate, leaveRequestDTO.EndDate, leaveRequestDTO.isHalfDay),
                     // ApprovedDate 
 
                     // RequestDate is set to current Date
@@ -78,5 +79,34 @@ namespace WBLMS.Services
             }
             return null;
         }
+        public decimal GetBuisnessDays(DateOnly StartDate, DateOnly EndDate, bool isHalfDay)
+        {
+            int counter = 0;
+
+            if (StartDate == EndDate)
+            {
+                if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Friday)
+                {   if(isHalfDay)
+                    {
+                        return 0.5M;
+                    }
+                    return 1;
+
+                }
+                return 0;
+            }
+
+            while (StartDate <= EndDate)
+            {
+                if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Friday)
+                    ++counter;
+                StartDate = StartDate.AddDays(1);
+            }
+
+            return counter;
+        }
+      
+
+
     }
 }
