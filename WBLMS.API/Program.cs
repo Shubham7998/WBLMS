@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using WBLMS.Data;
+using WBLMS.IRepositories;
+using WBLMS.IServices;
+using WBLMS.Repositories;
+using WBLMS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,9 @@ var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
 builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -45,7 +52,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
-
+app.MapControllers();
 app.Run();
 
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

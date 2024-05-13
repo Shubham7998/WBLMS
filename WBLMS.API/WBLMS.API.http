@@ -32,15 +32,15 @@ POST {{WBLMS.API_HostAddress}}/api/employee
 Content-Type: application/json
 
 {
-  "FirstName" : "FirstName",
-  "LastName" : "LastName",
-  "Password" : "Password",
-  "EmailAddress" : "EmailAddress",
-  "ContactNumber" : "1234567890",
-  "GenderId" : 1,
-  "RoleId" : 1,
-  "ManagerId" : 1,
-  "CreatedById" : 1
+  "firstName": "string",
+  "lastName": "string",
+  "password": "string",
+  "emailAddress": "string",
+  "contactNumber": "string",
+  "genderId": 1,
+  "roleId": 1,
+  "managerId" : 1,
+  "createdById" : 1
 }
 
 ###
@@ -62,3 +62,12 @@ public record CreateEmployeeDTO
             long ManagerId,
             long CreatedById
         );
+
+POST {{WBLMS.API_HostAddress}}/api/employee
+Content-Type: application/json
+
+{
+  //CreateEmployeeDTO
+}
+
+###

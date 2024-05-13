@@ -22,6 +22,7 @@
     <ProjectReference Include="..\WBLMS.Data\WBLMS.Data.csproj" />
     <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
     <ProjectReference Include="..\WBLMS.IServices\WBLMS.IServices.csproj" />
+    <ProjectReference Include="..\WBLMS.Services\WBLMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

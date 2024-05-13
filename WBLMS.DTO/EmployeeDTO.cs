@@ -38,8 +38,8 @@ namespace WBLMS.DTO
             [Required(ErrorMessage = "Gender is required")]
             long GenderId,
             long RoleId,
-            long ManagerId,
-            long CreatedById
+            long? ManagerId,
+            long? CreatedById
         );
 
     public record UpdateEmployeeDTO
