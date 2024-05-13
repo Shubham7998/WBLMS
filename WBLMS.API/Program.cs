@@ -4,16 +4,21 @@ using WBLMS.IRepositories;
 using WBLMS.IServices;
 using WBLMS.Repositories;
 using WBLMS.Services;
+using WBLMS.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
+//var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
 var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
+
+builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+
 builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
-
-
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
