@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WBLMS.Data;
 
@@ -11,9 +12,11 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    partial class WBLMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240513044212_allSetToNull")]
+    partial class allSetToNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,6 +52,7 @@ namespace WBLMS.Data.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateOnly?>("JoiningDate")
+                        .IsRequired()
                         .HasColumnType("date");
 
                     b.Property<string>("LastName")
