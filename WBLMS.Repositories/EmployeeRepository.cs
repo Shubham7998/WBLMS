@@ -19,7 +19,28 @@ namespace WBLMS.Repositories
         {
             _dbContext = dbContext;
         }
+        public async Task<Employee> GetEmployeeByEmail(string email)
+        {
+            try
+            {
+                var result = await _dbContext.Employees.FirstOrDefaultAsync(emp => emp.EmailAddress == email);
+                if (result == null)
+                {
+                    return null;
+                }
+                return result;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
+        public async Task<Token> GetTokenAsync(long id)
+        {
+            var result = _dbContext.Tokens.FirstOrDefault(token => token.EmployeeId == id);
+            return result;
+        }
         public async Task<(IEnumerable<Employee>, int)> GetAllEmployee(int page, int pageSize, string? sortColumn, string? sortOrder, Employee employee)
         {
             var query = _dbContext.Employees

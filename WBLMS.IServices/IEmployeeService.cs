@@ -20,6 +20,8 @@ namespace WBLMS.IServices
 
         Task<bool> DeleteEmployeeAsync(int id);
 
-       
+        Task<Employee> GetEmployeeByEmailAsync(string email);
+
+        Task<Token> GetTokenByEmployeeIdAsync(long id);
     }
 }

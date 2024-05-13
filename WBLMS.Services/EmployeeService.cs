@@ -36,7 +36,7 @@ namespace WBLMS.Services
                         GenderId = employeeDTO.GenderId,
                         RoleId = employeeDTO.RoleId,
                         ManagerId = employeeDTO.ManagerId,
-                        CreatedById = employeeDTO.CreatedById,
+                        CreatedById = 1,
                         JoiningDate = DateOnly.FromDateTime(DateTime.Now),
                     }
                 );
@@ -53,7 +53,7 @@ namespace WBLMS.Services
                                 (long)employee.RoleId,
                                 employee.ManagerId == null ? 1 : (long)employee.ManagerId,
                                 employee.CreatedById == null ? 1 : (long)employee.CreatedById,
-                                employee.UpdatedDate
+                                employee.JoiningDate
                             );
 
         }
@@ -73,6 +73,34 @@ namespace WBLMS.Services
                 throw;
             }
             return false;
+        }
+
+        public async Task<Employee> GetEmployeeByEmailAsync(string email)
+        {
+            try
+            {
+                var result = await _employeeRepository.GetEmployeeByEmail(email);
+                if(result != null)
+                {
+                    return result;
+                }
+                return null;
+            }catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Token> GetTokenByEmployeeIdAsync(long id)
+        {
+            try
+            {
+                var token = await _employeeRepository.GetTokenAsync(id);
+                return token;
+            }catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<(IEnumerable<GetEmployeeDTO>, int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employeeDTO)
