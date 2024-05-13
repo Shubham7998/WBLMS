@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WBLMS.Data;
 using WBLMS.Data.Migrations;
+using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.Models;
 
@@ -34,7 +35,7 @@ namespace WBLMS.Repositories
 
         }
 
-        public async Task<(IEnumerable<LeaveRequest>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, LeaveRequest leaveRequestObj)
+        public async Task<(IEnumerable<LeaveRequest>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
         {
             //var listOfLeaveRequests = await _dbContext.LeaveRequests
             //    .Include(employee => employee.Employee)
@@ -52,42 +53,46 @@ namespace WBLMS.Repositories
             {
                 query = query.Where(reason => reason.Reason.Contains(leaveRequestObj.Reason));
             }
+            if (!string.IsNullOrWhiteSpace(leaveRequestObj.FirstName))
+            {
+                query = query.Where(leaveRequest => leaveRequest.Employee.FirstName.Contains(leaveRequestObj.FirstName));
+            }
+            if (!string.IsNullOrWhiteSpace(leaveRequestObj.LastName))
+            {
+                query = query.Where(leaveRequest => leaveRequest.Employee.LastName.Contains(leaveRequestObj.LastName));
+            }
             if (leaveRequestObj.EmployeeId > 0)
             {
                 query = query.Where(leaveRequest => leaveRequest.EmployeeId == leaveRequestObj.EmployeeId);
             }
-            if (leaveRequestObj.StatusId > 0)
+            if (!string.IsNullOrWhiteSpace(leaveRequestObj.Status))
             {
-                query = query.Where(leaveRequest => leaveRequest.StatusId == leaveRequestObj.StatusId);
+                query = query.Where(leaveRequest => leaveRequest.Status.StatusName == leaveRequestObj.Status);
             }
-            if (leaveRequestObj.LeaveTypeId > 0)
+            if (!string.IsNullOrWhiteSpace(leaveRequestObj.LeaveType))
             {
-                query = query.Where(leaveRequest => leaveRequest.LeaveTypeId == leaveRequestObj.LeaveTypeId);
-            }
-            if (leaveRequestObj.ManagerId > 0)
-            {
-                query = query.Where(leaveRequest => leaveRequest.ManagerId == leaveRequestObj.ManagerId);
+                query = query.Where(leaveRequest => leaveRequest.LeaveType.LeaveTypeName == leaveRequestObj.LeaveType);
             }
             if (leaveRequestObj.NumberOfLeaveDays > 0)
             {
                 query = query.Where(leaveRequest => leaveRequest.NumberOfLeaveDays  == leaveRequestObj.NumberOfLeaveDays);
             }
-            if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
-            {
-                query = query.Where(leaveRequest => leaveRequest.StartDate == leaveRequestObj.StartDate);
-            }
-            if (!string.IsNullOrEmpty(leaveRequestObj.EndDate.ToString()) && leaveRequestObj.EndDate != DateOnly.MinValue)
-            {
-                query = query.Where(leaveRequest => leaveRequest.EndDate == leaveRequestObj.EndDate);
-            }
-            if (!string.IsNullOrEmpty(leaveRequestObj.ApprovedDate.ToString()) && leaveRequestObj.ApprovedDate != DateOnly.MinValue)
-            {
-                query = query.Where(leaveRequest => leaveRequest.ApprovedDate == leaveRequest.ApprovedDate);
-            }
-            if (!string.IsNullOrEmpty(leaveRequestObj.RequestDate.ToString()) && leaveRequestObj.RequestDate != DateOnly.MinValue)
-            {
-                query = query.Where(leaveRequest => leaveRequest.RequestDate == leaveRequestObj.RequestDate);
-            }
+            //if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
+            //{
+            //    query = query.Where(leaveRequest => leaveRequest.StartDate == leaveRequestObj.StartDate);
+            //}
+            //if (!string.IsNullOrEmpty(leaveRequestObj.EndDate.ToString()) && leaveRequestObj.EndDate != DateOnly.MinValue)
+            //{
+            //    query = query.Where(leaveRequest => leaveRequest.EndDate == leaveRequestObj.EndDate);
+            //}
+            //if (!string.IsNullOrEmpty(leaveRequestObj.ApprovedDate.ToString()) && leaveRequestObj.ApprovedDate != DateOnly.MinValue)
+            //{
+            //    query = query.Where(leaveRequest => leaveRequest.ApprovedDate == leaveRequest.ApprovedDate);
+            //}
+            //if (!string.IsNullOrEmpty(leaveRequestObj.RequestDate.ToString()) && leaveRequestObj.RequestDate != DateOnly.MinValue)
+            //{
+            //    query = query.Where(leaveRequest => leaveRequest.RequestDate == leaveRequestObj.RequestDate);
+            //}
 
             // Sorting 
 
