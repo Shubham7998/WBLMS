@@ -7,11 +7,9 @@ namespace WBLMS.Services
     public class LeaveRequestService : ILeaveRequestService
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository)
+        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
         {
             _leaveRequestRepository = leaveRequestRepository;   
-            _employeeRepository = employeeRepository;
         }
 
         public async Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
@@ -29,9 +27,10 @@ namespace WBLMS.Services
                     // Default is Pending so 1
                     StatusId = 1,
                     ManagerId = leaveRequestDTO.ManagerId,
-                    //StartDate = leaveRequestDTO.StartDate,
-                    //EndDate = leaveRequestDTO.EndDate,
-                    NumberOfLeaveDays = leaveRequestDTO.NumberOfLeaveDays,
+                    StartDate = leaveRequestDTO.StartDate,
+                    EndDate = leaveRequestDTO.EndDate,
+                    // Calculate Number of working days from start date and end date
+                    NumberOfLeaveDays = GetBuisnessDays(leaveRequestDTO.StartDate, leaveRequestDTO.EndDate, leaveRequestDTO.isHalfDay),
                     // ApprovedDate 
 
                     // RequestDate is set to current Date
@@ -77,6 +76,68 @@ namespace WBLMS.Services
                 return leaveRequestDTO;
             }
             return null;
+        }
+        public decimal GetBuisnessDays(DateOnly StartDate, DateOnly EndDate, bool isHalfDay)
+        {
+            int counter = 0;
+
+            if (StartDate == EndDate)
+            {
+                if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Friday)
+                {   if(isHalfDay)
+                    {
+                        return 0.5M;
+                    }
+                    return 1;
+
+                }
+                return 0;
+            }
+
+            while (StartDate <= EndDate)
+            {
+                if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Friday)
+                    ++counter;
+                StartDate = StartDate.AddDays(1);
+            }
+
+            return counter;
+        }
+
+        public async Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO)
+        {
+            var oldLeaveRequest = await _leaveRequestRepository.GetLeaveRequestById(leaveRequestDTO.Id);
+            
+            if(oldLeaveRequest != null)
+            {
+                // Updating status 
+                oldLeaveRequest.StatusId = leaveRequestDTO.StatusId;
+                // Storing the Updated Obj
+                var returnObj = await _leaveRequestRepository.UpdateLeaveRequest(oldLeaveRequest);
+
+                var returnObjDTO = new GetLeaveRequestDTO(
+                        returnObj.Id, returnObj.EmployeeId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
+                        returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
+                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
+                    );
+                return returnObjDTO;
+            }
+            return null;
+
+        }
+
+        public async Task<bool> DeleteLeaveRequest(long id)
+        {
+            try
+            {
+                var objToBeDeleted = await _leaveRequestRepository.GetLeaveRequestById(id);
+
+                return await _leaveRequestRepository.DeleteAsync(objToBeDeleted);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

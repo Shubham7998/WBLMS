@@ -12,10 +12,10 @@ namespace WBLMS.DTO
             [Required(ErrorMessage = "ManagerId is required.")] long ManagerId,
             [Required(ErrorMessage = "LeaveTypeId is required.")]long LeaveTypeId,
             [Required(ErrorMessage = "Reason is required.")] [MaxLength(150, ErrorMessage = "Length cannot exceed 150")] string Reason,
-            //[Required(ErrorMessage = "StartDate is required.")] DateOnly StartDate,
-   
-            //[Required(ErrorMessage = "EndDate is required.")] DateOnly EndDate,
-            [Required(ErrorMessage = "NumberOfLeaveDays is required.")] decimal NumberOfLeaveDays
+            [Required(ErrorMessage = "StartDate is required.")] DateOnly StartDate,
+            [Required(ErrorMessage = "EndDate is required.")] DateOnly EndDate,
+            [Required(ErrorMessage = "NumberOfLeaveDays is required.")] decimal NumberOfLeaveDays,
+            bool isHalfDay
         );
     public record UpdateLeaveRequestDTO(
             [Required(ErrorMessage = "LeaveRequestId is required.")] long Id,

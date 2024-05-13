@@ -100,12 +100,76 @@ namespace WBLMS.API.Controllers
                     ErrorMessage = "Invalid Create Leave Request!."
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                return BadRequest(new {
+                    StatusCode = 404,
+                    ErrorMessage = "Create Leave Request Error.!" + ex.Message
+                });
                 throw;
             }
         }
 
+        [HttpPut("id")]
+        public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO, long id)
+        {
+            try
+            {
+                if(updateLeaveRequestDTO.Id != id)
+                {
+                    return BadRequest(new
+                    {
+                        StatusCode = 400,
+                        ErrorMessage = "UpdateLeaveRequestDTO Id and Provided Id doesn't match."
+                    });
+                }
+                var returnLeaveRequestObj = _leaveRequestService.UpdateLeaveRequest(updateLeaveRequestDTO);
+                if (returnLeaveRequestObj != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = returnLeaveRequestObj
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Update Leave Request!."
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "Update Leave Request Error.!" + ex.Message
+                });
+                throw;
+            }
+        }
+
+        [HttpDelete("id")]
+        public async Task<ActionResult<bool>> DeleteLeaveRequest(long id)
+        {
+            try
+            {
+                var result = await _leaveRequestService.DeleteLeaveRequest(id);
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = result ? "Data of Id: " + id + " Delete Successfully" : "Data of Id" + id + " Delete Unsuccessfully"
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "Leave Request doesn't exist. " + ex.Message
+                });
+                throw;
+            }
+        }
     } 
 }
