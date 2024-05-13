@@ -125,7 +125,54 @@ Content-Type: application/json
   "leaveTypeId": 0,
   "reason": "string",
   "numberOfLeaveDays": 5
+  }
 }
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/employee
+Content-Type: application/json
+
+{
+  //CreateEmployeeDTO
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=2&sortColumn=lastName&sortOrder=asc
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "",
+  "password": "",
+  "emailAddress": "",
+  "contactNumber": "",
+  "genderId": 0,
+  "roleId": 1,
+  "managerId" : 0,
+  "createdById" : 0
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "",
+  "password": "",
+  "emailAddress": "",
+  "contactNumber": "",
+  "genderId": 0,
+  "roleId": 1,
+  "managerId" : 0,
+  "createdById" : 0
 }
 
 ###

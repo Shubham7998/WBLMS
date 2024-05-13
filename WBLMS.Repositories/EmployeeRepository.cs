@@ -50,7 +50,7 @@ namespace WBLMS.Repositories
         {
             bool sortInAsc = sortOrder.ToLower() == "asc";
 
-            switch(sortOrder.ToLower())
+            switch(sortColumn.ToLower())
             {
                 case "firstname":
                     query = sortInAsc ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
@@ -67,6 +67,7 @@ namespace WBLMS.Repositories
                 case "gender":
                     query = sortInAsc ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
                     break;
+                default: return query;
             }
             return query;
         }

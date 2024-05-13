@@ -18,20 +18,34 @@ namespace WBLMS.API.Controllers
         {
             _employeeService = employeeService;
         }
-        // GET: api/<EmployeeController>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetEmployeeDTO>>> Get(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)
+
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetEmployeeDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)
         {
             try
             {
-                var result = await _employeeService.GetAllEmployeeAsync(page,pageSize,sortColumn,sortOrder,employee);
-                return Ok(result);
-            }catch (Exception ex)
+                var result = await _employeeService.GetAllEmployeeAsync(page, pageSize, sortColumn, sortOrder, employee);
+
+                var sendResult = new Paginated<GetEmployeeDTO>
+                {
+                    dataArray = result.Item1,
+                    totalPages = result.Item2,
+                };
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = sendResult
+                });
+            }
+            catch (Exception ex)
             {
-                throw;
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error " + ex.Message
+                });
             }
         }
-
         // GET api/<EmployeeController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GetEmployeeDTO>> Get(int id)
@@ -39,10 +53,27 @@ namespace WBLMS.API.Controllers
             try
             {
                 var result = await _employeeService.GetEmployeeByIdAsync(id);
-                return Ok(result);
-            }catch(Exception ex)
+                if(result != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode=200,
+                        data = result
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Data with id is not present"
+                });
+            }
+            catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error " + ex.Message
+                });
             }
         }
 
@@ -53,10 +84,22 @@ namespace WBLMS.API.Controllers
             try
             {
                 var result = await _employeeService.CreateEmployeeAsync(createEmployeeDTO);
-                return Ok(result);  
-            }catch (Exception ex)
+                if (result != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = result
+                    });
+                }
+            }
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error " + ex.Message
+                });
             }
         }
 
@@ -67,10 +110,26 @@ namespace WBLMS.API.Controllers
             try
             {
                 var result = await _employeeService.UpdateEmployeeAsync(employeeDTO, id);
-                return Ok(result);
+                if (result != null)
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = result
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Data with id is not present"
+                });
             }catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error " + ex.Message
+                });
             }
         }
 
@@ -84,7 +143,11 @@ namespace WBLMS.API.Controllers
                 return Ok(result);
             }catch(Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error " + ex.Message
+                });
             }
         }
 

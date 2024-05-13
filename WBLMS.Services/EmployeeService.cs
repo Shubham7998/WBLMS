@@ -79,7 +79,7 @@ namespace WBLMS.Services
         {
             try
             {
-                var employee = new Employee()
+                var employeeObj = new Employee()
                 {
                     FirstName = employeeDTO.FirstName,
                     LastName = employeeDTO.LastName,
@@ -92,9 +92,10 @@ namespace WBLMS.Services
                     CreatedById = employeeDTO.CreatedById,
                     JoiningDate = DateOnly.FromDateTime(DateTime.Now),
                 };
-                var employeeList = await _employeeRepository.GetAllEmployee(page,pageSize,sortColumn,sortOrder,employee);
+                var employeeList = await _employeeRepository.GetAllEmployee(page,pageSize,sortColumn,sortOrder, employeeObj);
 
-                var result = employeeList.Item1.Select
+                var list = employeeList.Item1;
+                var result = list.Select
                     (
                     employee =>
                         new GetEmployeeDTO
@@ -107,8 +108,8 @@ namespace WBLMS.Services
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
                                 (long)employee.RoleId,
-                                (long)employee.ManagerId,
-                                (long)employee.CreatedById,
+                                employee.ManagerId == null ? 1 : (long)employee.ManagerId,
+                                employee.CreatedById == null ? 1 : (long)employee.CreatedById,
                                 employee.UpdatedDate
                             )
                     );
