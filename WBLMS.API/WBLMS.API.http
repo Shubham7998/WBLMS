@@ -146,7 +146,7 @@ Content-Type: application/json
 
 ###
 
-POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=2&sortColumn=genderId&sortOrder=asc
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=5&sortColumn=genderId&sortOrder=desc
 Content-Type: application/json
 
 {
@@ -156,7 +156,7 @@ Content-Type: application/json
   "emailAddress": "",
   "contactNumber": "",
   "genderId": 0,
-  "roleId": 1,
+  "roleId": 0,
   "managerId" : 0,
   "createdById" : 0
 }

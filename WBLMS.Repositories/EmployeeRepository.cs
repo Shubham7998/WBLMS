@@ -67,6 +67,15 @@ namespace WBLMS.Repositories
                 case "genderid":
                     query = sortInAsc ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
                     break;
+                case "roleid":
+                    query = sortInAsc ? query.OrderBy(s => s.Roles.RoleName) : query.OrderByDescending(s => s.Roles.RoleName);
+                    break;
+                case "managerid":
+                    query = sortInAsc ? query.OrderBy(s => s.Manager.FirstName) : query.OrderByDescending(s => s.Manager.FirstName);
+                    break;
+                case "joiningdate":
+                    query = sortInAsc ? query.OrderBy(s => s.JoiningDate) : query.OrderByDescending(s => s.JoiningDate);
+                    break;
                 default: 
                     return query;
             }

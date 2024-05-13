@@ -15,7 +15,7 @@ namespace WBLMS.DTO
             long RoleId,
             long ManagerId,
             long CreatedById,
-            DateOnly? CreatedDate
+            DateOnly? JoiningDate
         );
 
     public record GetEmployeeForeignDTO
