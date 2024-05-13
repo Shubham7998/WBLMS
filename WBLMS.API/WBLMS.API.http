@@ -121,12 +121,14 @@ Content-Type: application/json
 
 {
 
-  "employeeId": 2,
-  "managerId": 1,
-  "leaveTypeId": 2,
+  "employeeId": 3,
+  "managerId": 2,
+  "leaveTypeId": 4,
   "reason": "reason",
-  "numberOfLeaveDays": 2
-  
+  "startDate" : "2024-05-10",
+  "endDate" : "2024-05-15",
+  "numberOfLeaveDays": 2,
+  "isHalfDay" : false
 }
 
 ###
@@ -236,3 +238,23 @@ long Id,
     "createdDate": null
   }
 }
+
+POST {{WBLMS.API_HostAddress}}/api/leaverequest/paginated?sortColumn=&sortOrder=&page=1&pageSize=4
+Content-Type: application/json
+
+{
+    "id" : 0,
+    "employeeId" : 0,
+    "firstName" : "",
+    "lastName" : "",
+    "leaveType" : "",
+    "reason" : "",
+    "status" : "",
+    "startDate" : "2024-02-11",
+    "endDate" : "2024-02-11",
+    "numberOfLeaveDays" : 0,
+    "requestDate" : "2024-02-11",
+    "approvedDate" : "2024-02-11"
+}
+
+###

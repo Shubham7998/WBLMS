@@ -6,7 +6,7 @@ namespace WBLMS.IServices
 {
     public interface ILeaveRequestService
     {
-        Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, LeaveRequest leaveRequestObj);
+        Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj);
         Task<GetLeaveRequestDTO> GetLeaveRequestById(long id);
         Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO);
         Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO);
