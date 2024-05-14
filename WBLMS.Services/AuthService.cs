@@ -52,11 +52,6 @@ namespace WBLMS.Services
             var tokenBytes = RandomNumberGenerator.GetBytes(64);
             var refreshToken = Convert.ToBase64String(tokenBytes);
 
-            var tokenInUser = _employeeRepository.GetAllEmployee().Any(a => a.RefreshToken == refreshToken);
-            if (tokenInUser)
-            {
-                return CreateRefreshToken();
-            }
             return refreshToken;
         }
 

@@ -54,16 +54,15 @@ namespace WBLMS.API.Controllers
 
             if (!PasswordHashing.Verify(loginDTO.Password, employee.Password))
             {
-                return BadRequest(new {StatusCode = 400, Message = "Password is Incorrect" });
+                return BadRequest(new {StatusCode = 400, Message = "Password is Incorrect!" });
             }
             employee.Token.AccessToken = _authService.CreateJwt(employee);
             var newAccessToken = employee.Token.AccessToken;
-            var newRefreshToken = CreateRefreshToken();
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
-            await _context.SaveChangesAsync();
+            var newRefreshToken = _authService.CreateRefreshToken();
+            employee.Token.RefreshToken = newRefreshToken;
+            //employee.Token.RefreshTokenExpiry = DateTime.Now.AddDays(5);
 
-            return Ok(new TokenApiDTO()
+            return Ok(new TokenAPIDTO()
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken
