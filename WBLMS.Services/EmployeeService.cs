@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WBLMS.Data;
+using WBLMS.Data.Migrations;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
@@ -14,10 +17,13 @@ namespace WBLMS.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly WBLMSDbContext _dbContext;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+
+        public EmployeeService(IEmployeeRepository employeeRepository, WBLMSDbContext dbContext)
         {
             _employeeRepository = employeeRepository;
+            _dbContext = dbContext;
         }
 
         public async Task<GetEmployeeDTO> CreateEmployeeAsync(CreateEmployeeDTO employeeDTO)
@@ -40,6 +46,27 @@ namespace WBLMS.Services
                         JoiningDate = DateOnly.FromDateTime(DateTime.Now),
                     }
                 );
+            // var newAccessToken = _authService.CreateJwt(employee);
+            //var newRefreshToken = _authService.CreateRefreshToken();
+            var token = new Token()
+            {
+                EmployeeId = employee.Id,
+                AccessToken = "AccessToken",
+                RefreshToken = "RefreshToken",
+                RefreshTokenExpiry = DateTime.Now.AddDays(5),
+                PasswordResetExpiry = DateTime.Now.AddDays(5),
+                PasswordResetToken = "random"
+            };
+            var tokenData = await _dbContext.Tokens.AddAsync(token);
+            await _dbContext.SaveChangesAsync();
+
+
+            if (employee != null)
+            {
+                employee.TokenId = tokenData.Entity.Id;
+
+                await _dbContext.SaveChangesAsync();
+            }
 
             return new GetEmployeeDTO
                             (
@@ -58,6 +85,7 @@ namespace WBLMS.Services
 
         }
 
+        
         public async Task<bool> DeleteEmployeeAsync(int id)
         {
             try
