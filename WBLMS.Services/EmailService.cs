@@ -1,11 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using Microsoft.VisualBasic.FileIO;
 using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WBLMS.IServices;
 using WBLMS.Models;
 using MailKit.Net.Smtp;

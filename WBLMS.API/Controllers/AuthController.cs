@@ -25,7 +25,9 @@ namespace WBLMS.API.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly WBLMSDbContext _dbContext;
         private readonly AuthService _authService;
-        public AuthController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings, WBLMSDbContext dbContext, AuthService authService, IEmployeeRepository employeeRepository)
+        private readonly IEmailService _emailService;
+
+        public AuthController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings, WBLMSDbContext dbContext, AuthService authService, IEmployeeRepository employeeRepository, IEmailService emailService)
         {
             _employeeService = employeeService;
             _jwtSettings = jwtSettings.Value;
@@ -33,6 +35,7 @@ namespace WBLMS.API.Controllers
             _dbContext = dbContext;
             _authService = authService;
             _employeeRepository = employeeRepository;
+            _emailService = emailService;
         }
 
         [HttpPost("authenticate")]
@@ -103,6 +106,8 @@ namespace WBLMS.API.Controllers
             token.PasswordResetExpiry = DateTime.Now.AddMinutes(15);
             string from = _emailSettings.From;
             var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
+
+            _emailService.SendEmail(emailModel);
 
             _dbContext.Entry(getEmployee).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
