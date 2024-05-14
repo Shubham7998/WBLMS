@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using WBLMS.Data;
 using WBLMS.DTO;
@@ -86,29 +87,48 @@ namespace WBLMS.API.Controllers
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> Refresh(TokenAPIDTO tokenApiDTO)
+        public async Task<IActionResult> Refresh([FromBody] TokenAPIDTO tokenApiDTO)
         {
             if (tokenApiDTO == null)
             {
-                return BadRequest("Invalid Client Request");
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Invalid Client Request"
+                });
             }
             string accessToken = tokenApiDTO.AccessToken;
             string refreshToken = tokenApiDTO.RefreshToken;
             var principal = _authService.GetPrincipalFromExpiredToken(accessToken);
-            var username = principal.Identity.Name;
-            //var user = await _context.Users.FirstOrDefaultAsync(a => a.Username == username);
-            //if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-            //{
-            //    return BadRequest("Invalid Request");
-            //}
-            //var newAccessToken = _authService.CreateJwt(user);
-            //var newRefreshToken = CreateRefreshToken();
-            //user.RefreshToken = newRefreshToken;
-            //await _context.SaveChangesAsync();
+            
+            var email = "";
+            foreach (var identity in principal.Identities)
+            {
+                var emailClaim = identity.FindFirst(ClaimTypes.Email);
+                if(emailClaim != null)
+                {
+                    email = emailClaim.Value;
+                    break;
+                }
+            }
+            var employee = await _employeeService.GetEmployeeByEmailAsync(email);
+            if (employee is null || employee.Token.RefreshToken != refreshToken || employee.Token.RefreshTokenExpiry <= DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Request"
+                });
+            }
+            var newAccessToken = _authService.CreateJwt(employee);
+            var newRefreshToken = _authService.CreateRefreshToken();
+            employee.Token.RefreshToken = newRefreshToken;
+            employee.Token.AccessToken = newAccessToken;
+            await _dbContext.SaveChangesAsync();
             return Ok(new TokenAPIDTO()
             {
-                AccessToken = "",
-                RefreshToken = ""
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
             });
         }
 
@@ -127,7 +147,7 @@ namespace WBLMS.API.Controllers
                 });
             }
 
-            var token = await _employeeRepository.GetTokenAsync(getEmployee.Id == null ? 1 : getEmployee.Id);
+            var token = await _employeeRepository.GetTokenAsync(getEmployee.Id);
 
             //var token = getEmployee.Token;
 
