@@ -33,6 +33,8 @@ builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+builder.Services.AddScoped<AuthService>();
+
 
 var app = builder.Build();
 

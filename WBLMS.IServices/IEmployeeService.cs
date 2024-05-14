@@ -23,5 +23,7 @@ namespace WBLMS.IServices
         Task<Employee> GetEmployeeByEmailAsync(string email);
 
         Task<Token> GetTokenByEmployeeIdAsync(long id);
+
+
     }
 }

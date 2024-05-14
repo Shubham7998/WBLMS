@@ -74,7 +74,10 @@ namespace WBLMS.Services
             return principal;
         }
 
-
+        public void SaveTokensToDB(string accessToken, string refreshToken)
+        {
+            
+        }
          
     }
 }
