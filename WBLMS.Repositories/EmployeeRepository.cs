@@ -56,10 +56,8 @@ namespace WBLMS.Repositories
                 .AsQueryable();
 
             query = SearchEmployee(query, employee);
-            
-            if (!string.IsNullOrEmpty(sortOrder))
+             if (!string.IsNullOrEmpty(sortOrder) && !string.IsNullOrEmpty(sortColumn))
             {
-                //sortOrder = "asc";
                 query = SortEmployee(query, sortOrder, sortColumn);
             }
 
@@ -107,9 +105,8 @@ namespace WBLMS.Repositories
                 case "joiningdate":
                     query = sortInAsc ? query.OrderBy(s => s.JoiningDate) : query.OrderByDescending(s => s.JoiningDate);
                     break;
-                default:
-                    query = sortInAsc ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
-                    break;
+                default: 
+                    return query;
             }
             return query;
         }
