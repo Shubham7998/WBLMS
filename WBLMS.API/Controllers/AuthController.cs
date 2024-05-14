@@ -69,7 +69,7 @@ namespace WBLMS.API.Controllers
                 PasswordResetExpiry = DateTime.Now.AddDays(5),
                 PasswordResetToken = "random"
             };
-            await _dbContext.Tokens.AddAsync(token);
+            var tokenData = _dbContext.Tokens.Update(token);
             await _dbContext.SaveChangesAsync();
 
             return Ok(new TokenAPIDTO()
