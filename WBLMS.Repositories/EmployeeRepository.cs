@@ -23,7 +23,12 @@ namespace WBLMS.Repositories
         {
             try
             {
-                var result = await _dbContext.Employees.FirstOrDefaultAsync(emp => emp.EmailAddress == email);
+                var result = await _dbContext.Employees
+                    .Include(emp => emp.Token)
+                    .Include(emp => emp.Roles)
+                    .Include(emp => emp.Gender)
+                    .Include(emp => emp.Manager)
+                    .FirstOrDefaultAsync(emp => emp.EmailAddress == email);
                 if (result == null)
                 {
                     return null;

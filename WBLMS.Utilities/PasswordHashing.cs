@@ -46,7 +46,7 @@ namespace WBLMS.Utilities
             return result;
         }
 
-        public bool Verify(string input, string hashString)
+        public static bool Verify(string input, string hashString)
         {
             string[] segments = hashString.Split(segmentDelimiter);
             byte[] hash = Convert.FromHexString(segments[0]);

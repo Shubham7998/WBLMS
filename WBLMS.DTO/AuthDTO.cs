@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace WBLMS.DTO
 {
     public record LoginDTO(
-            string email,
-            string password
+            string Email,
+            string Password
         );
 
 }

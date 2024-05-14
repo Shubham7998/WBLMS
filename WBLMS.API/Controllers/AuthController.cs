@@ -8,6 +8,7 @@ using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
 using WBLMS.Models;
+using WBLMS.Services;
 using WBLMS.Utilities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,42 +24,51 @@ namespace WBLMS.API.Controllers
         private readonly EmailSettings _emailSettings;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly WBLMSDbContext _dbContext;
-        public AuthController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings, WBLMSDbContext dbContext)
+        private readonly AuthService _authService;
+        public AuthController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings, WBLMSDbContext dbContext, AuthService authService)
         {
             _employeeService = employeeService;
             _jwtSettings = jwtSettings.Value;
             _emailSettings = emailSettings.Value;
             _dbContext = dbContext;
+            _authService = authService;
         }
 
-        //[HttpGet("authenticate")]
-        //public async Task<IActionResult> Authenticate([FromBody] User userObj)
-        //{
-        //    if (userObj == null)
-        //        return BadRequest();
-        //    var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == userObj.Username);
-        //    if (user == null)
-        //    {
-        //        return NotFound(new { Message = "User Not Found!" });
-        //    }
+        [HttpGet("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] LoginDTO loginDTO)
+        {
+            if (loginDTO == null)
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Login Details!"
+                });
+            var employee = await _employeeService.GetEmployeeByEmailAsync(loginDTO.Email);
+            if (employee == null)
+            {
+                return NotFound(new 
+                {   StatusCode = 404,
+                    Message = "User Not Found!" 
+                });
+            }
 
-        //    if (!PasswordHasher.VerifyPassword(userObj.Password, user.Password))
-        //    {
-        //        return BadRequest(new { Message = "Password is Incorrect" });
-        //    }
-        //    user.Token = CreateJwt(user);
-        //    var newAccessToken = user.Token;
-        //    var newRefreshToken = CreateRefreshToken();
-        //    user.RefreshToken = newRefreshToken;
-        //    user.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
-        //    await _context.SaveChangesAsync();
+            if (!PasswordHashing.Verify(loginDTO.Password, employee.Password))
+            {
+                return BadRequest(new {StatusCode = 400, Message = "Password is Incorrect" });
+            }
+            employee.Token.AccessToken = _authService.CreateJwt(employee);
+            var newAccessToken = employee.Token.AccessToken;
+            var newRefreshToken = CreateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(5);
+            await _context.SaveChangesAsync();
 
-        //    return Ok(new TokenApiDTO()
-        //    {
-        //        AccessToken = newAccessToken,
-        //        RefreshToken = newRefreshToken
-        //    });
-        //}
+            return Ok(new TokenApiDTO()
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            });
+        }
 
         [HttpPost("send-reset-email/{email}")]
 
