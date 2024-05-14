@@ -35,7 +35,7 @@ namespace WBLMS.API.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        [HttpGet("authenticate")]
+        [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginDTO loginDTO)
         {
             if (loginDTO == null)
@@ -57,11 +57,20 @@ namespace WBLMS.API.Controllers
             {
                 return BadRequest(new {StatusCode = 400, Message = "Password is Incorrect!" });
             }
-            employee.Token.AccessToken = _authService.CreateJwt(employee);
-            var newAccessToken = employee.Token.AccessToken;
+            // Saving Tokens to DB then assigning to the employee
+            var newAccessToken = _authService.CreateJwt(employee);
             var newRefreshToken = _authService.CreateRefreshToken();
-            employee.Token.RefreshToken = newRefreshToken;
-            //employee.Token.RefreshTokenExpiry = DateTime.Now.AddDays(5);
+            var token = new Token()
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken,
+                EmployeeId = employee.Id,
+                RefreshTokenExpiry = DateTime.Now.AddDays(5),
+                PasswordResetExpiry = DateTime.Now.AddDays(5),
+                PasswordResetToken = "random"
+            };
+            await _dbContext.Tokens.AddAsync(token);
+            await _dbContext.SaveChangesAsync();
 
             return Ok(new TokenAPIDTO()
             {
