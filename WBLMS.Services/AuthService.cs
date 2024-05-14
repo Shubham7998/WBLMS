@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,15 @@ namespace WBLMS.Services
 {
     public class AuthService
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IEmployeeService _employeeService;
-        public AuthService(IEmployeeRepository employeeRepository, IEmployeeService employeeService)
+        private readonly IConfiguration _configuration;
+        public AuthService(IConfiguration configuration)
         {
-            _employeeRepository = employeeRepository;
-            _employeeService = employeeService;
+            _configuration = configuration;
         }
         public string CreateJwt(Employee employee)
         {
             var jwtHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("this is my custom Secret key for authentication");
+            var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]);
             
             var identity = new ClaimsIdentity(new Claim[]
             {
@@ -74,10 +73,6 @@ namespace WBLMS.Services
             return principal;
         }
 
-        public void SaveTokensToDB(string accessToken, string refreshToken)
-        {
-            
-        }
          
     }
 }
