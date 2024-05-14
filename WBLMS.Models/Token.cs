@@ -29,10 +29,10 @@ namespace WBLMS.Models
         public string RefreshToken { get; set; }
         
         [Required (ErrorMessage = "RefreshTokenExpiry is required")]
-        public DateOnly RefreshTokenExpiry { get; set; }
+        public DateTime RefreshTokenExpiry { get; set; }
 
         [Required (ErrorMessage = "PasswordResetExpiry Time is required")]
-        public DateOnly PasswordResetExpiry { get; set; }
+        public DateTime PasswordResetExpiry { get; set; }
         
         [Required (ErrorMessage = "PasswordResetToken is required")]
         public string PasswordResetToken { get; set; }

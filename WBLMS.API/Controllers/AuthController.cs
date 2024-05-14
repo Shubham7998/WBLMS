@@ -88,7 +88,7 @@ namespace WBLMS.API.Controllers
             var tokenBytes = RandomNumberGenerator.GetBytes(64);
             var emailToken = Convert.ToBase64String(tokenBytes);
             token.PasswordResetToken = emailToken;
-            token.PasswordResetExpiry = DateOnly.FromDateTime(DateTime.Now.AddMinutes(15));
+           // token.PasswordResetExpiry = DateOnly.FromDateTime(DateTime.Now.AddMinutes(15));
             string from = _emailSettings.From;
             var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
 
