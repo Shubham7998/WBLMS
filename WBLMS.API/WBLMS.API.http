@@ -250,3 +250,19 @@ public string Email { get; set; }
         public string EmailToken { get; set; }
         public string NewPassword { get; set; }
         public string OldPassword { get; set; }
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/id?id=0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/id?id=0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/2345
+
+###
