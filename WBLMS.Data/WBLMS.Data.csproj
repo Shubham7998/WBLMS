@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WBLMS.Models\WBLMS.Models.csproj" />
+    <ProjectReference Include="..\WBLMS.Utilities\WBLMS.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
