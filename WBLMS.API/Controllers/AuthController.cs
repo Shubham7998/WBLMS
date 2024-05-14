@@ -65,6 +65,7 @@ namespace WBLMS.API.Controllers
             var newRefreshToken = _authService.CreateRefreshToken();
             var token = new Token()
             {
+                Id = (long)employee.TokenId,
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken,
                 EmployeeId = employee.Id,
@@ -72,7 +73,9 @@ namespace WBLMS.API.Controllers
                 PasswordResetExpiry = DateTime.Now.AddDays(5),
                 PasswordResetToken = "random"
             };
-            var tokenData = _dbContext.Tokens.Update(token);
+            employee.Token.AccessToken = newAccessToken;
+            employee.Token.RefreshToken = newRefreshToken;
+            _dbContext.Employees.Update(employee);
             await _dbContext.SaveChangesAsync();
 
             return Ok(new TokenAPIDTO()
@@ -81,6 +84,34 @@ namespace WBLMS.API.Controllers
                 RefreshToken = newRefreshToken
             });
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(TokenAPIDTO tokenApiDTO)
+        {
+            if (tokenApiDTO == null)
+            {
+                return BadRequest("Invalid Client Request");
+            }
+            string accessToken = tokenApiDTO.AccessToken;
+            string refreshToken = tokenApiDTO.RefreshToken;
+            var principal = _authService.GetPrincipalFromExpiredToken(accessToken);
+            var username = principal.Identity.Name;
+            //var user = await _context.Users.FirstOrDefaultAsync(a => a.Username == username);
+            //if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            //{
+            //    return BadRequest("Invalid Request");
+            //}
+            //var newAccessToken = _authService.CreateJwt(user);
+            //var newRefreshToken = CreateRefreshToken();
+            //user.RefreshToken = newRefreshToken;
+            //await _context.SaveChangesAsync();
+            return Ok(new TokenAPIDTO()
+            {
+                AccessToken = "",
+                RefreshToken = ""
+            });
+        }
+
 
         [HttpPost("send-reset-email/{email}")]
 
