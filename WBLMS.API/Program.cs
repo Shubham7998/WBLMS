@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using WBLMS.Data;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
@@ -10,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-//var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
-var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
+var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
+//var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
 
 builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
@@ -39,6 +42,23 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddScoped<AuthService>();
 
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+x.RequireHttpsMetadata = false;
+x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"])),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 var app = builder.Build();
 
