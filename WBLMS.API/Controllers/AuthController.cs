@@ -60,7 +60,7 @@ namespace WBLMS.API.Controllers
             var newAccessToken = employee.Token.AccessToken;
             var newRefreshToken = _authService.CreateRefreshToken();
             employee.Token.RefreshToken = newRefreshToken;
-            //employee.Token.RefreshTokenExpiry = DateTime.Now.AddDays(5);
+            employee.Token.RefreshTokenExpiry = DateTime.Now.AddDays(5);
 
             return Ok(new TokenAPIDTO()
             {
