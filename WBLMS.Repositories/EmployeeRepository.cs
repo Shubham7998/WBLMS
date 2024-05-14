@@ -29,6 +29,7 @@ namespace WBLMS.Repositories
                     .Include(emp => emp.Gender)
                     .Include(emp => emp.Manager)
                     .FirstOrDefaultAsync(emp => emp.EmailAddress == email);
+
                 if (result == null)
                 {
                     return null;

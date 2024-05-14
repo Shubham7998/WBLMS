@@ -209,6 +209,7 @@ Content-Type: application/json
 
 POST {{WBLMS.API_HostAddress}}/api/leaverequest/paginated?sortColumn=&sortOrder=&page=1&pageSize=4
 Content-Type: application/json
+
 {
     "id" : 0,
     "employeeId" : 0,
@@ -233,3 +234,19 @@ DELETE {{WBLMS.API_HostAddress}}/api/employee/10
 POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/shubhampatil7998@gmail.com
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "Email" : "shubhampatil7998@gmail.com",
+  "EmailToken" : "EmailToken",
+  "NewPassword" : "NewPassword",
+  "OldPassword" : "string"
+}
+
+###
+public string Email { get; set; }
+        public string EmailToken { get; set; }
+        public string NewPassword { get; set; }
+        public string OldPassword { get; set; }

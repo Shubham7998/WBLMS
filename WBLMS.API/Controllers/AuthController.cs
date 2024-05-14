@@ -148,8 +148,61 @@ namespace WBLMS.API.Controllers
                 StatusCode = 200,
                 Message = "Email sent"
             });
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+        {
+            var newToken = resetPasswordDTO.EmailToken.Replace(" ", "+");
+            
+            var employee = await _employeeService.GetEmployeeByEmailAsync(resetPasswordDTO.Email);
+
+            if (employee == null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "email doesnt exist"
+                });
+            }
+            var token = await _employeeService.GetTokenByEmployeeIdAsync(employee.Id);
+
+            var isOldPasswordCorrect = PasswordHashing.Verify(resetPasswordDTO.OldPassword, employee.Password);
+            if (!isOldPasswordCorrect)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 204,
+                    Message = "Old password you have enter is wrong"
+                });
+            }
 
 
+            var tokenCode = token.PasswordResetToken;
+            DateTime emailTokenExpiry = token.PasswordResetExpiry;
+
+            var isTokenValid = tokenCode != resetPasswordDTO.EmailToken;
+
+            if (isTokenValid || emailTokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Invalid reset link"
+                });
+            }
+            token.PasswordResetToken = "random";
+
+            employee.Password = PasswordHashing.getHashPassword(resetPasswordDTO.NewPassword);
+             _dbContext.Entry(token).State = EntityState.Modified;
+             _dbContext.Entry(employee).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "Password reset successfully"
+            });
         }
     }
 }
+
