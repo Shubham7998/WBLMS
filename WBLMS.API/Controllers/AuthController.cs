@@ -83,12 +83,14 @@ namespace WBLMS.API.Controllers
                 });
             }
 
-            var token = await _employeeRepository.GetTokenAsync(getEmployee.Id == null ? 1 : getEmployee.Id);
+            //var token = await _employeeRepository.GetTokenAsync(getEmployee.Id == null ? 1 : getEmployee.Id);
+
+            var token = getEmployee.Token;
 
             var tokenBytes = RandomNumberGenerator.GetBytes(64);
             var emailToken = Convert.ToBase64String(tokenBytes);
             token.PasswordResetToken = emailToken;
-           // token.PasswordResetExpiry = DateOnly.FromDateTime(DateTime.Now.AddMinutes(15));
+            token.PasswordResetExpiry = DateTime.Now.AddMinutes(15);
             string from = _emailSettings.From;
             var emailModel = new EmailModel(email, "Reset Password", EmailBody.EmailStringBody(email, emailToken));
 

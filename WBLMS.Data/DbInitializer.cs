@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WBLMS.Models;
+using WBLMS.Utilities;
 
 namespace WBLMS.Data
 {
@@ -16,17 +17,18 @@ namespace WBLMS.Data
             _modelBuilder = modelBuilder;
         }
         public void seed()
-        {            
+        {
+            var hashedPassword = PasswordHashing.getHashPassword("admin@WB");
             _modelBuilder.Entity<Gender>().HasData(
                     new Gender() { Id = 1, GenderName = "Female"},
                     new Gender() { Id = 2, GenderName = "Male"},
                     new Gender() { Id = 3, GenderName = "Others"}
                 );
             _modelBuilder.Entity<Roles>().HasData(
-                    new Roles() { Id = 1, RoleName = "Employee" },
-                    new Roles() { Id = 2, RoleName = "Team Lead"},
-                    new Roles() { Id = 3, RoleName = "HR"},
-                    new Roles() { Id = 4, RoleName = "Admin"}
+                    new Roles() { Id = 1, RoleName = "Admin"},
+                    new Roles() { Id = 2, RoleName = "HR"},
+                    new Roles() { Id = 3, RoleName = "Team Lead"},
+                    new Roles() { Id = 4, RoleName = "Employee" }
                 );
             _modelBuilder.Entity<Status>().HasData(
                     new Status() { Id = 1, StatusName = "Pending"},
@@ -39,6 +41,9 @@ namespace WBLMS.Data
                     new LeaveType() { Id = 3, LeaveTypeName = "Casual"},
                     new LeaveType() { Id = 4, LeaveTypeName = "Marriage"},
                     new LeaveType() { Id = 5, LeaveTypeName = "Maternity"}
+                );
+            _modelBuilder.Entity<Employee>().HasData(
+                    new Employee() { Id = 1, FirstName = "Hemant", LastName = "Patel", Password = hashedPassword, EmailAddress = "hemant.patel@wonderbiz.in", ContactNumber = "9874563210", GenderId = 1, RoleId = 1}
                 );
 
             
