@@ -25,13 +25,14 @@ namespace WBLMS.API.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly WBLMSDbContext _dbContext;
         private readonly AuthService _authService;
-        public AuthController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings, WBLMSDbContext dbContext, AuthService authService)
+        public AuthController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings, WBLMSDbContext dbContext, AuthService authService, IEmployeeRepository employeeRepository)
         {
             _employeeService = employeeService;
             _jwtSettings = jwtSettings.Value;
             _emailSettings = emailSettings.Value;
             _dbContext = dbContext;
             _authService = authService;
+            _employeeRepository = employeeRepository;
         }
 
         [HttpGet("authenticate")]
@@ -83,9 +84,9 @@ namespace WBLMS.API.Controllers
                 });
             }
 
-            //var token = await _employeeRepository.GetTokenAsync(getEmployee.Id == null ? 1 : getEmployee.Id);
+            var token = await _employeeRepository.GetTokenAsync(getEmployee.Id == null ? 1 : getEmployee.Id);
 
-            var token = getEmployee.Token;
+            //var token = getEmployee.Token;
 
             var tokenBytes = RandomNumberGenerator.GetBytes(64);
             var emailToken = Convert.ToBase64String(tokenBytes);

@@ -35,7 +35,7 @@ Content-Type: application/json
   "firstName": "string",
   "lastName": "string",
   "password": "string",
-  "emailAddress": "string113234411",
+  "emailAddress": "2019c38@sigce.edu.in",
   "contactNumber": "string11sdf41111",
   "genderId": 1,
   "roleId": 1,
@@ -227,5 +227,9 @@ Content-Type: application/json
 ###
 
 DELETE {{WBLMS.API_HostAddress}}/api/employee/10
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/shubhampatilshubs@gmail.com
 
 ###
