@@ -87,7 +87,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> GetLeaveRequestById(long id)
         {
             try
@@ -148,7 +148,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO, long id)
         {
             try
@@ -187,7 +187,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")] 
         public async Task<ActionResult<bool>> DeleteLeaveRequest(long id)
         {
             try
