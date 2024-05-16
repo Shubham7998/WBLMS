@@ -248,5 +248,45 @@ namespace WBLMS.Services
             }catch(Exception e) { throw; }
             return null;
         }
+
+        public async Task<IEnumerable<Gender>> GetAllGenderAsync()
+        {
+            try
+            {
+                var genders = await _dbContext.Genders.ToListAsync();
+                return genders;
+            }catch(Exception e) { throw; }
+        }
+
+        public async Task<IEnumerable<Roles>> GetAllRolesAsync()
+        {
+            try
+            {
+                var roles = await _dbContext.Roles.ToListAsync();
+                return roles;
+            }catch (Exception e) { throw; }
+        }
+
+        public async Task<IEnumerable<GetManagerDTO>> GetAllManagersAsync(long id)
+        {
+            try
+            {
+                var employees = await _dbContext.Employees.ToListAsync();
+                var managers = employees.FindAll
+                    (
+                        employee => employee.ManagerId == id-1
+                    );
+                var managerList = managers.Select
+                    (
+                        manager =>
+                        new GetManagerDTO(
+                            manager.Id,
+                            (manager.FirstName + " " + manager.LastName)
+                        )
+                    );
+                return managerList;
+            }
+            catch (Exception e) { throw; }
+        }
     }
 }

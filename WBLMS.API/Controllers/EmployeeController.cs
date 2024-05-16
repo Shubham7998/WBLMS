@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.IO.Pipelines;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
@@ -23,6 +24,56 @@ namespace WBLMS.API.Controllers
         {
             _employeeService = employeeService;
             _jwtSettings = jwtSettings.Value;
+        }
+        [HttpGet("gender")]
+
+        public async Task<ActionResult> GetGenders()
+        {
+            try
+            {
+                var genders = await _employeeService.GetAllGenderAsync();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = genders
+                });
+            }
+            catch (Exception ex) { }
+            return BadRequest();
+        }
+
+        [HttpGet("manager/{id}")]
+
+        public async Task<ActionResult> GetManagers(long id)
+        {
+            try
+            {
+                var managers = await _employeeService.GetAllManagersAsync(id);
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = managers
+                });
+            }
+            catch (Exception ex) { }
+            return BadRequest();
+        }
+
+        [HttpGet("roles")]
+
+        public async Task<ActionResult> GetRoles()
+        {
+            try
+            {
+                var roles = await _employeeService.GetAllRolesAsync();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = roles
+                });
+            }
+            catch (Exception ex) { }
+            return BadRequest();
         }
 
         [HttpPost("paginated")]

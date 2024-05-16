@@ -77,4 +77,10 @@ namespace WBLMS.DTO
             long UpdatedById
         );
 
+    public record GetManagerDTO
+        (
+            long Id, 
+            string ManagerName
+        );
+
 }

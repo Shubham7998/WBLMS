@@ -14,6 +14,10 @@ namespace WBLMS.IServices
 
         Task<GetEmployeeDTO> GetEmployeeByIdAsync(int id);
 
+        Task<IEnumerable<Gender>> GetAllGenderAsync();
+        Task<IEnumerable<Roles>> GetAllRolesAsync();
+        Task<IEnumerable<GetManagerDTO>> GetAllManagersAsync(long id);
+
         Task<GetEmployeeDTO> CreateEmployeeAsync(CreateEmployeeDTO employeeDTO);
 
         Task<GetEmployeeDTO> UpdateEmployeeAsync(UpdateEmployeeDTO employeeDTO, int id);

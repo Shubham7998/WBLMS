@@ -266,3 +266,19 @@ GET {{WBLMS.API_HostAddress}}/api/employee/0
 GET {{WBLMS.API_HostAddress}}/api/leaverequest/2345
 
 ###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/gender
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/roles
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/manager0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/manager/3
+
+###
