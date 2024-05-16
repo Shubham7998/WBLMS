@@ -65,20 +65,55 @@ namespace WBLMS.API.Controllers
             // Saving Tokens to DB then assigning to the employee
             var newAccessToken = _authService.CreateJwt(employee);
             var newRefreshToken = _authService.CreateRefreshToken();
-            var token = new Token()
+            //var token = new Token()
+            //{
+            //    //Id = (long)employee.TokenId,
+            //    AccessToken = newAccessToken,
+            //    RefreshToken = newRefreshToken,
+            //    EmployeeId = employee.Id,
+            //    RefreshTokenExpiry = DateTime.Now.AddDays(5),
+            //    PasswordResetExpiry = DateTime.Now.AddDays(5),
+            //    PasswordResetToken = "random"
+            //};
+            //employee.Token.AccessToken = newAccessToken;
+            //employee.Token.RefreshToken = newRefreshToken;
+            if(employee.TokenId == null)
             {
-                Id = (long)employee.TokenId,
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken,
-                EmployeeId = employee.Id,
-                RefreshTokenExpiry = DateTime.Now.AddDays(5),
-                PasswordResetExpiry = DateTime.Now.AddDays(5),
-                PasswordResetToken = "random"
-            };
-            employee.Token.AccessToken = newAccessToken;
-            employee.Token.RefreshToken = newRefreshToken;
-            _dbContext.Employees.Update(employee);
-            await _dbContext.SaveChangesAsync();
+                var token = new Token()
+                {
+                    //Id = (long)employee.TokenId,
+                    AccessToken = newAccessToken,
+                    RefreshToken = newRefreshToken,
+                    EmployeeId = employee.Id,
+                    RefreshTokenExpiry = DateTime.Now.AddDays(5),
+                    PasswordResetExpiry = DateTime.Now.AddDays(5),
+                    PasswordResetToken = "random"
+                };
+                var tokenIdentity = await _dbContext.Tokens.AddAsync(token);
+                await _dbContext.SaveChangesAsync();
+
+                employee.TokenId = tokenIdentity.Entity.Id;
+
+                _dbContext.Employees.Update(employee);
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                var token = new Token()
+                {
+                    Id = (long)employee.TokenId,
+                    AccessToken = newAccessToken,
+                    RefreshToken = newRefreshToken,
+                    EmployeeId = employee.Id,
+                    RefreshTokenExpiry = DateTime.Now.AddDays(5),
+                    PasswordResetExpiry = DateTime.Now.AddDays(5),
+                    PasswordResetToken = "random"
+                };
+                employee.Token.AccessToken = newAccessToken;
+                employee.Token.RefreshToken = newRefreshToken;
+                _dbContext.Employees.Update(employee);
+                await _dbContext.SaveChangesAsync();
+            }
 
             return Ok(new TokenAPIDTO()
             {

@@ -32,7 +32,8 @@ namespace WBLMS.Services
             {
                 new Claim("name", employee.FirstName + " " + employee.LastName),
                 new Claim(ClaimTypes.Email, employee.EmailAddress),
-                new Claim(ClaimTypes.Role, employee.Roles.RoleName)
+                new Claim(ClaimTypes.Role, employee.Roles.RoleName),
+                new Claim("employeeId", employee.Id.ToString())
             });
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
             var tokenDescriptor = new SecurityTokenDescriptor

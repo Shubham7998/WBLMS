@@ -48,16 +48,16 @@ namespace WBLMS.Services
                 );
             // var newAccessToken = _authService.CreateJwt(employee);
             //var newRefreshToken = _authService.CreateRefreshToken();
-            var token = new Token()
-            {
-                EmployeeId = employee.Id,
-                AccessToken = "AccessToken",
-                RefreshToken = "RefreshToken",
-                RefreshTokenExpiry = DateTime.Now.AddDays(5),
-                PasswordResetExpiry = DateTime.Now.AddDays(5),
-                PasswordResetToken = "random"
-            };
-            var tokenData = await _dbContext.Tokens.AddAsync(token);
+            //var token = new Token()
+            //{
+            //    EmployeeId = employee.Id,
+            //    AccessToken = "AccessToken",
+            //    RefreshToken = "RefreshToken",
+            //    RefreshTokenExpiry = DateTime.Now.AddDays(5),
+            //    PasswordResetExpiry = DateTime.Now.AddDays(5),
+            //    PasswordResetToken = "random"
+            //};
+            //var tokenData = await _dbContext.Tokens.AddAsync(token);
 
             var leaveBalance = new LeaveBalance()
             {
@@ -72,8 +72,8 @@ namespace WBLMS.Services
 
             if (employee != null)
             {
-                employee.TokenId = tokenData.Entity.Id;
-                await _dbContext.SaveChangesAsync();
+                //employee.TokenId = tokenData.Entity.Id;
+                //await _dbContext.SaveChangesAsync();
             }
 
             return new GetEmployeeDTO
