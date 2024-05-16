@@ -58,13 +58,21 @@ namespace WBLMS.Services
                 PasswordResetToken = "random"
             };
             var tokenData = await _dbContext.Tokens.AddAsync(token);
+
+            var leaveBalance = new LeaveBalance()
+            {
+                Id = 0,
+                EmployeeId = employee.Id,
+                Balance = 25,
+                TotalLeaves = 25
+            };
+            await _dbContext.LeaveBalances.AddAsync(leaveBalance);
             await _dbContext.SaveChangesAsync();
 
 
             if (employee != null)
             {
                 employee.TokenId = tokenData.Entity.Id;
-
                 await _dbContext.SaveChangesAsync();
             }
 

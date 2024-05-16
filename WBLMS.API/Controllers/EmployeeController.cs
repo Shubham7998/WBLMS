@@ -138,8 +138,7 @@ namespace WBLMS.API.Controllers
         }
 
         // POST api/<EmployeeController>
-        [Authorize(Roles = "Admin")]
-
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<GetEmployeeDTO>> Post([FromBody] CreateEmployeeDTO createEmployeeDTO)
         {

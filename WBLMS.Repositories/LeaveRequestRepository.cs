@@ -159,6 +159,12 @@ namespace WBLMS.Repositories
             return request;
         }
 
+        public async Task<LeaveBalance> GetLeavesBalanceById(long id)
+        {
+            var query = await _dbContext.LeaveBalances.FirstAsync(b => b.EmployeeId == id);
+            return query;
+        }
+
         public async Task<LeaveRequest> UpdateLeaveRequest(LeaveRequest leaveRequest)
         {
             var request = _dbContext.LeaveRequests.Update(leaveRequest);

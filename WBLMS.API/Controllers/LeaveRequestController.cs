@@ -209,5 +209,36 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+
+        [HttpGet("leavesBalance/{id}")]
+        public async Task<ActionResult<GetLeavesBalanceDTO>> GetLeavesBalanceByEmployeeId(long id)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    var leaveBalance = await _leaveRequestService.GetLeavesBalanceById(id);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = leaveBalance
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid GetLeavesBalance request!"
+                });
+            }
+            catch (Exception)
+            {
+                return NotFound(new
+                {
+                   StatusCode = 404,
+                   ErrorMessage = "Data of EmployeeId: " + id + " doesn't exist."
+                });
+                throw;
+            }
+        }
     } 
 }

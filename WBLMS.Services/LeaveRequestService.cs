@@ -145,5 +145,14 @@ namespace WBLMS.Services
                 throw;
             }
         }
+
+        public async Task<GetLeavesBalanceDTO> GetLeavesBalanceById(long employeeId)
+        {
+            var leavesBalance = await _leaveRequestRepository.GetLeavesBalanceById(employeeId);
+            var leavesBalanceDTO = new GetLeavesBalanceDTO(
+                    leavesBalance.Id, leavesBalance.EmployeeId, leavesBalance.Balance, leavesBalance.TotalLeaves
+                );
+            return leavesBalanceDTO;
+        }
     }
 }

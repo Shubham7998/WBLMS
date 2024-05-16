@@ -35,4 +35,11 @@ namespace WBLMS.DTO
             DateOnly RequestDate,
             DateOnly ApprovedDate
         );
+
+    public record GetLeavesBalanceDTO(
+            long Id,
+            long EmployeeId,
+            decimal Balance,
+            decimal TotalLeaves
+        );
 }
