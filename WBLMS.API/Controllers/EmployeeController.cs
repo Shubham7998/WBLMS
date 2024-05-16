@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -76,6 +77,7 @@ namespace WBLMS.API.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles ="Admin,HR,Team Lead")]
         [HttpPost("paginated")]
         public async Task<ActionResult<Paginated<GetEmployeeDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)
         {
@@ -104,6 +106,7 @@ namespace WBLMS.API.Controllers
             }
         }
         // GET api/<EmployeeController>/5
+        [Authorize(Roles ="Admin,HR,Team Lead")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetEmployeeDTO>> Get(int id)
         {
@@ -135,6 +138,8 @@ namespace WBLMS.API.Controllers
         }
 
         // POST api/<EmployeeController>
+        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         public async Task<ActionResult<GetEmployeeDTO>> Post([FromBody] CreateEmployeeDTO createEmployeeDTO)
         {
@@ -166,6 +171,8 @@ namespace WBLMS.API.Controllers
         }
 
         // PUT api/<EmployeeController>/5
+        [Authorize(Roles = "Admin")]
+
         [HttpPut("{id}")]
         public async Task<ActionResult<GetEmployeeDTO>> Put(int id, [FromBody] UpdateEmployeeDTO employeeDTO)
         {
@@ -197,6 +204,8 @@ namespace WBLMS.API.Controllers
         }
 
         // DELETE api/<EmployeeController>/5
+        [Authorize(Roles = "Admin")]
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {

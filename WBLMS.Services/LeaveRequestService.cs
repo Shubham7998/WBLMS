@@ -42,6 +42,7 @@ namespace WBLMS.Services
                         returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
                         returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
                     );
+                // Send Email
                 return returnObjDTO;
             }
             return null;
