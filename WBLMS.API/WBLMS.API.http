@@ -44,24 +44,36 @@ Content-Type: application/json
 }
 
 ###
-public record CreateEmployeeDTO
-        (
-            [Required(ErrorMessage = "FirstName is required")]
-            [MaxLength(50)] string FirstName,
-            [Required(ErrorMessage = "LastName is required")]
-            [MaxLength(50)] string LastName,
-            [Required(ErrorMessage = "Password is required")]
-            [MaxLength(25)] string Password,
-            [Required(ErrorMessage = "EmailAddress is required")]
-            string EmailAddress,
-            [Required(ErrorMessage = "ContactNumber is required")]
-            string ContactNumber,
-            [Required(ErrorMessage = "Gender is required")]
-            long GenderId,
-            long RoleId,
-            long ManagerId,
-            long CreatedById
-        );
+contactNumber
+: 
+""
+createdById
+: 
+1
+emailAddress
+: 
+"ishika.mishra@wb.in"
+firstName
+: 
+"Iskika"
+genderId
+: 
+"1"
+id
+: 
+0
+lastName
+: 
+"Mishra"
+managerId
+: 
+"1"
+password
+: 
+"Ishika@123"
+roleId
+: 
+"2"    );
 
 POST {{WBLMS.API_HostAddress}}/api/employee
 Content-Type: application/json
@@ -280,5 +292,9 @@ GET {{WBLMS.API_HostAddress}}/api/employee/manager0
 ###
 
 GET {{WBLMS.API_HostAddress}}/api/employee/manager/3
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/6
 
 ###
