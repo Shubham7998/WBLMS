@@ -81,7 +81,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                employee.Password,
+                                //employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -147,7 +147,7 @@ namespace WBLMS.Services
                 {
                     FirstName = employeeDTO.FirstName,
                     LastName = employeeDTO.LastName,
-                    Password = employeeDTO.Password,
+                  //  Password = employeeDTO.Password,
                     EmailAddress = employeeDTO.EmailAddress,
                     ContactNumber = employeeDTO.ContactNumber,
                     GenderId = employeeDTO.GenderId,
@@ -167,7 +167,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                employee.Password,
+                               // employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -196,7 +196,7 @@ namespace WBLMS.Services
                         employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                employee.Password,
+                               // employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -240,10 +240,10 @@ namespace WBLMS.Services
 
                     return new GetEmployeeDTO
                     (
-                        employee.Id,
+                                employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                employee.Password,
+                               // employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -282,7 +282,7 @@ namespace WBLMS.Services
                 var employees = await _dbContext.Employees.ToListAsync();
                 var managers = employees.FindAll
                     (
-                        employee => employee.ManagerId == id-1
+                        employee => employee.RoleId == id-1
                     );
                 var managerList = managers.Select
                     (
@@ -295,6 +295,39 @@ namespace WBLMS.Services
                 return managerList;
             }
             catch (Exception e) { throw; }
+        }
+
+        public async Task<GetEmployeeForeignDTO> GetEmployeeForeignByIdAsync(int id)
+        {
+            try
+            {
+                var employee = _dbContext.Employees
+                        .Include(emp => emp.Manager)
+                        .Include(emp => emp.Roles)
+                        .Include(emp => emp.Gender)
+                        .FirstOrDefault(emp => emp.Id == id);
+
+                var employeeDTO = new GetEmployeeForeignDTO
+                    (
+                        id,
+                        employee.FirstName,
+                        employee.LastName,
+                        employee.EmailAddress,
+                        employee.ContactNumber,
+                        (long)employee.GenderId,
+                        employee.Gender.GenderName,
+                        (long)employee.RoleId,
+                        employee.Roles.RoleName,
+                        (long)employee.ManagerId,
+                        employee.Manager.FirstName + " " + employee.Manager.LastName
+                    );
+                return employeeDTO;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

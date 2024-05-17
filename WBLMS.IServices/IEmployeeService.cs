@@ -13,6 +13,8 @@ namespace WBLMS.IServices
         Task<(IEnumerable<GetEmployeeDTO>,int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee);
 
         Task<GetEmployeeDTO> GetEmployeeByIdAsync(int id);
+        
+        Task<GetEmployeeForeignDTO> GetEmployeeForeignByIdAsync(int id);
 
         Task<IEnumerable<Gender>> GetAllGenderAsync();
         Task<IEnumerable<Roles>> GetAllRolesAsync();
