@@ -56,30 +56,31 @@ namespace WBLMS.Repositories
                 .AsQueryable();
 
             query = SearchEmployee(query, employee);
-             if (!string.IsNullOrEmpty(sortOrder) && !string.IsNullOrEmpty(sortColumn))
+
+            if (!string.IsNullOrEmpty(sortOrder) && !string.IsNullOrEmpty(sortColumn))
             {
                 query = SortEmployee(query, sortOrder, sortColumn);
             }
 
-            (query,int totalCount) = Pagination(query, page, pageSize);
+            (query, int totalCount) = Pagination(query, page, pageSize);
 
             return (await query.ToListAsync(), totalCount);
         }
 
-        private static  (IQueryable<Employee> , int ) Pagination(IQueryable<Employee> query, int page, int pageSize)
+        private static (IQueryable<Employee>, int) Pagination(IQueryable<Employee> query, int page, int pageSize)
         {
             int totalCount = query.Count();
-            int totalPages = (int) Math.Ceiling((decimal) totalCount / pageSize);
+            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
-            return (query ,totalCount);
+            return (query, totalCount);
         }
 
         private IQueryable<Employee> SortEmployee(IQueryable<Employee> query, string? sortOrder, string? sortColumn)
         {
             bool sortInAsc = sortOrder.ToLower() == "asc";
 
-            switch(sortColumn.ToLower())
+            switch (sortColumn.ToLower())
             {
                 case "firstname":
                     query = sortInAsc ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
@@ -105,7 +106,7 @@ namespace WBLMS.Repositories
                 case "joiningdate":
                     query = sortInAsc ? query.OrderBy(s => s.JoiningDate) : query.OrderByDescending(s => s.JoiningDate);
                     break;
-                default: 
+                default:
                     return query;
             }
             return query;
@@ -113,7 +114,7 @@ namespace WBLMS.Repositories
 
         private IQueryable<Employee> SearchEmployee(IQueryable<Employee> query, Employee employeeObj)
         {
-            if(!string.IsNullOrWhiteSpace(employeeObj.FirstName))
+            if (!string.IsNullOrWhiteSpace(employeeObj.FirstName))
             {
                 query = query.Where(employee => employee.FirstName.Contains(employeeObj.FirstName));
             }

@@ -298,3 +298,12 @@ GET {{WBLMS.API_HostAddress}}/api/employee/manager/3
 GET {{WBLMS.API_HostAddress}}/api/employee/6
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  //GetEmployeeDTO
+}
+
+###

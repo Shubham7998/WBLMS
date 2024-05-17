@@ -79,13 +79,13 @@ namespace WBLMS.API.Controllers
 
        // [Authorize(Roles ="Admin,HR,Team Lead")]
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetEmployeeDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)
+        public async Task<ActionResult<Paginated<GetEmployeeForeignDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)
         {
             try
             {
-                var result = await _employeeService.GetAllEmployeeAsync(page, pageSize, sortColumn, sortOrder, employee);
+                var result = await _employeeService.GetAllEmployeeForeignAsync(page, pageSize, sortColumn, sortOrder, employee);
 
-                var sendResult = new Paginated<GetEmployeeDTO>
+                var sendResult = new Paginated<GetEmployeeForeignDTO>
                 {
                     dataArray = result.Item1,
                     totalPages = result.Item2,

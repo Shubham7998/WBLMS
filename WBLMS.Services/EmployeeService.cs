@@ -93,18 +93,19 @@ namespace WBLMS.Services
 
         }
 
-        
+
         public async Task<bool> DeleteEmployeeAsync(int id)
         {
             try
             {
                 var employee = await _employeeRepository.GetAsyncById(id);
-                if(employee != null)
+                if (employee != null)
                 {
                     await _employeeRepository.DeleteAsync(employee);
                     return true;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw;
             }
@@ -116,12 +117,13 @@ namespace WBLMS.Services
             try
             {
                 var result = await _employeeRepository.GetEmployeeByEmail(email);
-                if(result != null)
+                if (result != null)
                 {
                     return result;
                 }
                 return null;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw;
             }
@@ -133,7 +135,8 @@ namespace WBLMS.Services
             {
                 var token = await _employeeRepository.GetTokenAsync(id);
                 return token;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw;
             }
@@ -147,7 +150,7 @@ namespace WBLMS.Services
                 {
                     FirstName = employeeDTO.FirstName,
                     LastName = employeeDTO.LastName,
-                  //  Password = employeeDTO.Password,
+                    //  Password = employeeDTO.Password,
                     EmailAddress = employeeDTO.EmailAddress,
                     ContactNumber = employeeDTO.ContactNumber,
                     GenderId = employeeDTO.GenderId,
@@ -156,7 +159,7 @@ namespace WBLMS.Services
                     CreatedById = employeeDTO.CreatedById,
                     JoiningDate = DateOnly.FromDateTime(DateTime.Now),
                 };
-                var employeeList = await _employeeRepository.GetAllEmployee(page,pageSize,sortColumn,sortOrder, employeeObj);
+                var employeeList = await _employeeRepository.GetAllEmployee(page, pageSize, sortColumn, sortOrder, employeeObj);
 
                 var list = employeeList.Item1;
                 var result = list.Select
@@ -167,7 +170,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                               // employee.Password,
+                                // employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -178,7 +181,8 @@ namespace WBLMS.Services
                             )
                     );
                 return (result, employeeList.Item2);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw;
             }
@@ -189,14 +193,14 @@ namespace WBLMS.Services
             try
             {
                 var employee = await _employeeRepository.GetAsyncById(id);
-                if(employee != null)
+                if (employee != null)
                 {
                     return new GetEmployeeDTO
                     (
                         employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                               // employee.Password,
+                                // employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -208,7 +212,7 @@ namespace WBLMS.Services
                 }
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw;
             }
@@ -221,7 +225,7 @@ namespace WBLMS.Services
             {
                 var oldEmployee = await _employeeRepository.GetAsyncById(id);
 
-                if(oldEmployee != null)
+                if (oldEmployee != null)
                 {
                     var hashPassword = PasswordHashing.getHashPassword(employeeDTO.Password);
 
@@ -243,7 +247,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                               // employee.Password,
+                                // employee.Password,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -253,7 +257,8 @@ namespace WBLMS.Services
                                 employee.UpdatedDate
                     );
                 }
-            }catch(Exception e) { throw; }
+            }
+            catch (Exception e) { throw; }
             return null;
         }
 
@@ -263,7 +268,8 @@ namespace WBLMS.Services
             {
                 var genders = await _dbContext.Genders.ToListAsync();
                 return genders;
-            }catch(Exception e) { throw; }
+            }
+            catch (Exception e) { throw; }
         }
 
         public async Task<IEnumerable<Roles>> GetAllRolesAsync()
@@ -272,7 +278,8 @@ namespace WBLMS.Services
             {
                 var roles = await _dbContext.Roles.ToListAsync();
                 return roles;
-            }catch (Exception e) { throw; }
+            }
+            catch (Exception e) { throw; }
         }
 
         public async Task<IEnumerable<GetManagerDTO>> GetAllManagersAsync(long id)
@@ -282,7 +289,7 @@ namespace WBLMS.Services
                 var employees = await _dbContext.Employees.ToListAsync();
                 var managers = employees.FindAll
                     (
-                        employee => employee.RoleId == id-1
+                        employee => employee.RoleId == id - 1
                     );
                 var managerList = managers.Select
                     (
@@ -328,6 +335,55 @@ namespace WBLMS.Services
                 throw;
             }
 
+        }
+
+        public async Task<(IEnumerable<GetEmployeeForeignDTO>, int)> GetAllEmployeeForeignAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employeeDTO)
+        {
+            try
+            {
+                var employeeObj = new Employee()
+                {
+                    FirstName = employeeDTO.FirstName,
+                    LastName = employeeDTO.LastName,
+                    //  Password = employeeDTO.Password,
+                    EmailAddress = employeeDTO.EmailAddress,
+                    ContactNumber = employeeDTO.ContactNumber,
+                    GenderId = employeeDTO.GenderId,
+                    RoleId = employeeDTO.RoleId,
+                    ManagerId = employeeDTO.ManagerId,
+                    CreatedById = employeeDTO.CreatedById,
+                    JoiningDate = DateOnly.FromDateTime(DateTime.Now),
+                };
+                var employeeList = await _employeeRepository.GetAllEmployee(page, pageSize, sortColumn, sortOrder, employeeObj);
+
+                var list = employeeList.Item1;
+
+
+                var result = list.Select
+                    (
+                    employee =>
+                        new GetEmployeeForeignDTO
+                            (
+                                employee.Id,
+                                employee.FirstName,
+                                employee.LastName,
+                                employee.EmailAddress,
+                                employee.ContactNumber,
+                                (long)employee.GenderId,
+                                employee.Gender.GenderName,
+                                (long)employee.RoleId,
+                                employee.Roles.RoleName,
+                                (long)employee.ManagerId,
+                                employee.Manager.FirstName + " " + employee.Manager.LastName
+                            )
+                    );
+
+                return (result, employeeList.Item2);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
