@@ -23,7 +23,7 @@ namespace WBLMS.DTO
         );
     public record GetLeaveRequestDTO(
             long Id,
-            long EmployeeId,
+            long EmployeeId,    
             string FirstName,
             string LastName,
             string LeaveType,

@@ -1,130 +1,30 @@
 @WBLMS.API_HostAddress = https://localhost:7184
 
-GET {{WBLMS.API_HostAddress}}/weatherforecast/
-Accept: application/json
 
-###
 
-GET {{WBLMS.API_HostAddress}}/api/leaverequest
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/employee
+POST {{WBLMS.API_HostAddress}}/api/leaverequest
 Content-Type: application/json
 
 {
-  "FirstName" : "FirstName",
-
+  "EmployeeId": 4,
+  "ManagerId": 1,
+  "LeaveTypeId": 2,
+  "Reason": "Family vacation",
+  "StartDate": "2024-05-20",
+  "EndDate": "2024-05-25",
+  "NumberOfLeaveDays": 5.0,
+  "isHalfDay": false
 }
+
 
 ###
 
-POST {{WBLMS.API_HostAddress}}/api/employee
+POST {{WBLMS.API_HostAddress}}/api/leaverequest/paginated?sortColumn=string&sortOrder=string&page=0&pageSize=0
 Content-Type: application/json
 
 {
-  //CreateEmployeeDTO
+  //GetLeaveRequestDTO
 }
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/employee
-Content-Type: application/json
-
-{
-  "firstName": "string",
-  "lastName": "string",
-  "password": "string",
-  "emailAddress": "shubhampatil7998@gmail.com",
-  "contactNumber": "12345671234",
-  "genderId": 1,
-  "roleId": 1,
-  "managerId" : 1,
-  "createdById" : 1
-}
-
-###
-contactNumber
-: 
-""
-createdById
-: 
-1
-emailAddress
-: 
-"ishika.mishra@wb.in"
-firstName
-: 
-"Iskika"
-genderId
-: 
-"1"
-id
-: 
-0
-lastName
-: 
-"Mishra"
-managerId
-: 
-"1"
-password
-: 
-"Ishika@123"
-roleId
-: 
-"2"    );
-
-POST {{WBLMS.API_HostAddress}}/api/employee
-Content-Type: application/json
-
-{
-  //CreateEmployeeDTO
-}
-
-###
-
-DELETE {{WBLMS.API_HostAddress}}/api/employee/114
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/0
-
-###
-
-PUT {{WBLMS.API_HostAddress}}/api/employee/0
-Content-Type: application/json
-
-"string"
-
-###
-
-PUT {{WBLMS.API_HostAddress}}/api/employee/9
-Content-Type: application/json
-
-{
-  "id": 9,
-  "firstName": "stringstringstringstring9",
-  "lastName": "stringstring6",
-  "password": "stringstring3",
-  "emailAddress": "strinstringstrin234ggvs@@tring",
-  "contactNumber": "strings2tring",
-  "genderId": 3,
-  "roleId": 3,
-  "managerId": 8,
-  "updatedById": 3
-}
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/leaverequest/id?id=0
 
 ###
 
@@ -132,178 +32,7 @@ POST {{WBLMS.API_HostAddress}}/api/leaverequest
 Content-Type: application/json
 
 {
-
-  "employeeId": 3,
-  "managerId": 2,
-  "leaveTypeId": 4,
-  "reason": "reason",
-  "startDate" : "2024-05-10",
-  "endDate" : "2024-05-15",
-  "numberOfLeaveDays": 2,
-  "isHalfDay" : false
-}
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee?page=0&pageSize=0&sortColumn=string&sortOrder=string
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/employee
-Content-Type: application/json
-
-{
-  //CreateEmployeeDTO
-}
-
-###
-
-
-POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=1&pageSize=5&sortColumn=genderId&sortOrder=desc
-Content-Type: application/json
-
-{
-  "firstName": "",
-  "lastName": "",
-  "password": "",
-  "emailAddress": "",
-  "contactNumber": "",
-  "genderId": 0,
-  "roleId": 0,
-  "managerId" : 0,
-  "createdById" : 0
-}
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
-Content-Type: application/json
-
-{
-  "firstName": "",
-  "lastName": "",
-  "password": "",
-  "emailAddress": "",
-  "contactNumber": "",
-  "genderId": 0,
-  "roleId": 1,
-  "managerId" : 0,
-  "createdById" : 0
-}
-
-###
-
-DELETE {{WBLMS.API_HostAddress}}/api/employee/3
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/1
-
-###
-
-PUT {{WBLMS.API_HostAddress}}/api/employee/40
-Content-Type: application/json
-
-{
-  "id" : 4,
-  "FirstName" : "FirstName",
-  "LastName" : "LastName",
-  "Password" : "Password",
-  "EmailAddress" : "emailaddress",
-  "ContactNumber" : "1234567890",
-  "GenderId" : 3,
-  "RoleId" : 2,
-  "ManagerId" : 2,
-  "UpdatedById" : 1
-}
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/leaverequest/paginated?sortColumn=&sortOrder=&page=1&pageSize=4
-Content-Type: application/json
-
-{
-    "id" : 0,
-    "employeeId" : 0,
-    "firstName" : "",
-    "lastName" : "",
-    "leaveType" : "",
-    "reason" : "",
-    "status" : "",
-    "startDate" : "2024-02-11",
-    "endDate" : "2024-02-11",
-    "numberOfLeaveDays" : 0,
-    "requestDate" : "2024-02-11",
-    "approvedDate" : "2024-02-11"
-}
-
-###
-
-DELETE {{WBLMS.API_HostAddress}}/api/employee/10
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/shubhampatil7998@gmail.com
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/auth/reset-password
-Content-Type: application/json
-
-{
-  "Email" : "shubhampatil7998@gmail.com",
-  "EmailToken" : "EmailToken",
-  "NewPassword" : "NewPassword",
-  "OldPassword" : "string"
-}
-
-###
-public string Email { get; set; }
-        public string EmailToken { get; set; }
-        public string NewPassword { get; set; }
-        public string OldPassword { get; set; }
-
-GET {{WBLMS.API_HostAddress}}/api/leaverequest/id?id=0
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/leaverequest/id?id=0
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/0
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/leaverequest/2345
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/gender
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/roles
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/manager0
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/manager/3
-
-###
-
-GET {{WBLMS.API_HostAddress}}/api/employee/6
-
-###
-
-POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
-Content-Type: application/json
-
-{
-  //GetEmployeeDTO
+  //CreateLeaveRequestDTO
 }
 
 ###

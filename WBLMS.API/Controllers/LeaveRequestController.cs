@@ -240,5 +240,27 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+        [HttpGet("leavetype")]
+        public async Task<ActionResult<IEnumerable<GetLeaveTypesDTO>>> GetLeaveTypes()
+        {
+            try
+            {
+                var leaveTypes = await _leaveRequestService.GetLeavesType();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = leaveTypes
+                });
+            }
+            catch (Exception)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "Leave Types are empty"
+                });
+                throw;
+            }
+        }
     } 
 }

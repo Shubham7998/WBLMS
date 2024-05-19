@@ -361,6 +361,7 @@ namespace WBLMS.Services
 
                 var result = list.Select
                     (
+                    
                     employee =>
                         new GetEmployeeForeignDTO
                             (
@@ -373,8 +374,8 @@ namespace WBLMS.Services
                                 employee.Gender.GenderName,
                                 (long)employee.RoleId,
                                 employee.Roles.RoleName,
-                                (long)employee.ManagerId,
-                                employee.Manager.FirstName + " " + employee.Manager.LastName
+                                employee.ManagerId == null ? 0 : (long)employee.ManagerId,
+                                employee.Manager == null? "None" : employee.Manager.FirstName + " " + employee.Manager.LastName
                             )
                     );
 

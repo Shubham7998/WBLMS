@@ -1,4 +1,6 @@
-﻿using WBLMS.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using WBLMS.Data;
+using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
 using WBLMS.Models;
@@ -7,9 +9,11 @@ namespace WBLMS.Services
     public class LeaveRequestService : ILeaveRequestService
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
-        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
+        private readonly WBLMSDbContext _dbContext;
+        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, WBLMSDbContext dbContext)
         {
             _leaveRequestRepository = leaveRequestRepository;   
+            _dbContext = dbContext;
         }
 
         public async Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
@@ -153,6 +157,30 @@ namespace WBLMS.Services
                     leavesBalance.Id, leavesBalance.EmployeeId, leavesBalance.Balance, leavesBalance.TotalLeaves
                 );
             return leavesBalanceDTO;
+        }
+
+        public async Task<IEnumerable<GetLeaveTypesDTO>> GetLeavesType()
+        {
+            try
+            {
+                var leaveTypes = await _dbContext.LeaveTypes.ToListAsync();
+
+
+
+                var leaveTypeDTO = leaveTypes.Select
+                (
+                    leaveType => new GetLeaveTypesDTO(
+                        leaveType.Id,
+                        leaveType.LeaveTypeName
+                        )
+                );
+
+                return leaveTypeDTO;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
