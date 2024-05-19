@@ -135,11 +135,11 @@ Content-Type: application/json
 
   "employeeId": 3,
   "managerId": 2,
-  "leaveTypeId": 4,
-  "reason": "reason",
+  "leaveTypeId": 1,
+  "reason": "reason1",
   "startDate" : "2024-05-10",
   "endDate" : "2024-05-15",
-  "numberOfLeaveDays": 2,
+  "numberOfLeaveDays": 3,
   "isHalfDay" : false
 }
 
@@ -224,7 +224,7 @@ Content-Type: application/json
 
 {
     "id" : 0,
-    "employeeId" : 0,
+    "employeeId" : 2,
     "firstName" : "",
     "lastName" : "",
     "leaveType" : "",
@@ -304,6 +304,22 @@ Content-Type: application/json
 
 {
   //GetEmployeeDTO
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/leaverequest/paginated?sortColumn=string&sortOrder=string&page=1&pageSize=1
+Content-Type: application/json
+
+{
+  "id": 0,
+  "employeeId": 3,
+  "firstName": "",
+  "lastName": "",
+  "leaveType": "",
+  "reason": "",
+  "status": "",
+  "numberOfLeaveDays": 0
 }
 
 ###
