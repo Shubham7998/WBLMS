@@ -36,3 +36,26 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/leavetype
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/leaverequest
+Content-Type: application/json
+
+{
+    "id": 2,
+    "employeeId": 3,
+    "leaveTypeId" : 2,
+    "reason": "Family vacation",
+    "startDate": "2024-05-20",
+    "endDate": "2024-05-25",
+    "numberOfLeaveDays": 4.00
+}
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/2
+
+###

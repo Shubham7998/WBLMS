@@ -9,7 +9,7 @@ namespace WBLMS.DTO
 {
     public record CreateLeaveRequestDTO(
             [Required(ErrorMessage = "EmployeeId is required.")] long EmployeeId,
-            [Required(ErrorMessage = "ManagerId is required.")] long ManagerId,
+           // [Required(ErrorMessage = "ManagerId is required.")] long ManagerId,
             [Required(ErrorMessage = "LeaveTypeId is required.")] long LeaveTypeId,
             [Required(ErrorMessage = "Reason is required.")][MaxLength(150, ErrorMessage = "Length cannot exceed 150")] string Reason,
             [Required(ErrorMessage = "StartDate is required.")] DateOnly StartDate,

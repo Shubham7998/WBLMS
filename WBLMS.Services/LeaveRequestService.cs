@@ -23,6 +23,8 @@ namespace WBLMS.Services
                 // Get Manager From the table using Employee Id to get manager Id
                 // Calculate Number of leave days
 
+                var employee = await _dbContext.Employees.FindAsync(leaveRequestDTO.EmployeeId);
+
                 var newLeaveRequestObj = new LeaveRequest()
                 {
                     EmployeeId = leaveRequestDTO.EmployeeId,
@@ -30,7 +32,7 @@ namespace WBLMS.Services
                     Reason = leaveRequestDTO.Reason,
                     // Default is Pending so 1
                     StatusId = 1,
-                    ManagerId = leaveRequestDTO.ManagerId,
+                    ManagerId = (long)employee.ManagerId,
                     StartDate = leaveRequestDTO.StartDate,
                     EndDate = leaveRequestDTO.EndDate,
                     // Calculate Number of working days from start date and end date
