@@ -52,6 +52,7 @@ namespace WBLMS.API.Controllers
 
         [HttpPost("paginated")]
         public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
+        
         {
             try
             {

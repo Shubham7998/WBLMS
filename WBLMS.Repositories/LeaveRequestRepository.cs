@@ -48,7 +48,10 @@ namespace WBLMS.Repositories
                 .Include(e => e.Status)
                 .Include(e => e.LeaveType)
                 .AsQueryable();
-
+            if(leaveRequestObj.ManagerId > 0)
+            {
+                query = query.Where(leaveRequest => leaveRequest.ManagerId == leaveRequestObj.ManagerId);
+            }
             if (!string.IsNullOrWhiteSpace(leaveRequestObj.Reason))
             {
                 query = query.Where(reason => reason.Reason.Contains(leaveRequestObj.Reason));
@@ -169,6 +172,16 @@ namespace WBLMS.Repositories
         {
             var request = _dbContext.LeaveRequests.Update(leaveRequest);
             await _dbContext.SaveChangesAsync();
+            // Update Number of remaing leave days after the leaveRequest is approved
+            if(request.Entity.StatusId == 2)
+            {
+                var leaveBalanceEmployee = await _dbContext.LeaveBalances.FirstAsync(e => e.EmployeeId == request.Entity.EmployeeId);
+                if(leaveBalanceEmployee != null)
+                {
+                    leaveBalanceEmployee.Balance -= request.Entity.NumberOfLeaveDays;
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
             var leaveDataFromDb = await _dbContext.LeaveRequests
                 .Include(a => a.Employee)
                 .Include(b => b.Status)

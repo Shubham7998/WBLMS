@@ -23,17 +23,18 @@ namespace WBLMS.DTO
         );
     public record GetLeaveRequestDTO(
             long Id,
-            long EmployeeId,    
+            long EmployeeId,
+            long? ManagerId,
             string FirstName,
             string LastName,
             string LeaveType,
             string Reason,
             string Status,
-            DateOnly StartDate,
-            DateOnly EndDate,
+            DateOnly? StartDate,
+            DateOnly? EndDate,
             decimal NumberOfLeaveDays,
-            DateOnly RequestDate,
-            DateOnly ApprovedDate
+            DateOnly? RequestDate,
+            DateOnly? ApprovedDate
         );
 
     public record GetLeavesBalanceDTO(
