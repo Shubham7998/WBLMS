@@ -170,6 +170,8 @@ namespace WBLMS.Repositories
 
         public async Task<LeaveRequest> UpdateLeaveRequest(LeaveRequest leaveRequest)
         {
+            // Update Approved Date
+            leaveRequest.ApprovedDate = DateOnly.FromDateTime(DateTime.UtcNow.Date);
             var request = _dbContext.LeaveRequests.Update(leaveRequest);
             await _dbContext.SaveChangesAsync();
             // Update Number of remaing leave days after the leaveRequest is approved
@@ -181,6 +183,7 @@ namespace WBLMS.Repositories
                     leaveBalanceEmployee.Balance -= request.Entity.NumberOfLeaveDays;
                     await _dbContext.SaveChangesAsync();
                 }
+
             }
             var leaveDataFromDb = await _dbContext.LeaveRequests
                 .Include(a => a.Employee)
