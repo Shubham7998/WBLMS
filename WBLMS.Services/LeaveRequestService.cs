@@ -24,7 +24,6 @@ namespace WBLMS.Services
                 // Calculate Number of leave days
 
                 var employee = await _dbContext.Employees.FindAsync(leaveRequestDTO.EmployeeId);
-
                 var newLeaveRequestObj = new LeaveRequest()
                 {
                     EmployeeId = leaveRequestDTO.EmployeeId,
@@ -43,13 +42,18 @@ namespace WBLMS.Services
                     RequestDate = DateOnly.FromDateTime(DateTime.UtcNow.Date)
                 };
                 var returnObj = await _leaveRequestRepository.CreateLeaveRequest(newLeaveRequestObj);
-                var returnObjDTO = new GetLeaveRequestDTO(
+                if(returnObj != null)
+                {
+                    var returnObjDTO = new GetLeaveRequestDTO(
                         returnObj.Id, returnObj.EmployeeId, returnObj.ManagerId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
                         returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
                         returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
                     );
-                // Send Email
-                return returnObjDTO;
+                    // Send Email
+                    return returnObjDTO;
+                }
+                return null;
+                
             }
             return null;
         }

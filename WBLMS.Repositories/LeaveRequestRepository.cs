@@ -23,6 +23,11 @@ namespace WBLMS.Repositories
 
         public async Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequest)
         {
+            var leaveBalance = _dbContext.LeaveBalances.FirstOrDefault(x => x.EmployeeId == leaveRequest.EmployeeId);
+            if(leaveBalance.Balance < leaveRequest.NumberOfLeaveDays)
+            {
+                return null;
+            }
             var res = await _dbContext.LeaveRequests.AddAsync(leaveRequest);
             var res2 = await _dbContext.SaveChangesAsync();
             var leaveDataFromDb = await _dbContext.LeaveRequests
