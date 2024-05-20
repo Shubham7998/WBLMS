@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WBLMS.DTO;
 using WBLMS.IServices;
@@ -46,10 +47,10 @@ namespace WBLMS.API.Controllers
         //            ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
         //        });
         //        throw;
-                
+
         //    }
         //}
-
+        [Authorize(Roles="Admin,HR,Team Lead,Employee")]
         [HttpPost("paginated")]
         public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
         
@@ -88,6 +89,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,HR,Team Lead,Employee")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> GetLeaveRequestById(long id)
         {
@@ -119,6 +121,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,HR,Team Lead,Employee")]
         [HttpPost]
         public async Task<ActionResult<GetLeaveRequestDTO>> CreateLeaveRequest(CreateLeaveRequestDTO createLeaveRequestDTO)
         {
@@ -149,6 +152,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,HR,Team Lead")]
         [HttpPut("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO, long id)
         {
@@ -188,6 +192,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,HR,Team Lead,Employee")]
         [HttpDelete("{id}")] 
         public async Task<ActionResult<bool>> DeleteLeaveRequest(long id)
         {
@@ -211,6 +216,8 @@ namespace WBLMS.API.Controllers
             }
         }
 
+
+        [Authorize(Roles = "HR,Team Lead,Employee")]
         [HttpGet("leavesBalance/{id}")]
         public async Task<ActionResult<GetLeavesBalanceDTO>> GetLeavesBalanceByEmployeeId(long id)
         {
@@ -241,6 +248,8 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+
+
         [HttpGet("leavetype")]
         public async Task<ActionResult<IEnumerable<GetLeaveTypesDTO>>> GetLeaveTypes()
         {
