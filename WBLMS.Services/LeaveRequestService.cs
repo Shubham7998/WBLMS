@@ -184,5 +184,29 @@ namespace WBLMS.Services
                 throw;
             }
         }
+
+        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string search, long employeeId)
+        {
+            try
+            {
+                var listOfLeaveRequestsTuple = await _leaveRequestRepository.SearchLeaveRequests(page, pageSize,search,employeeId);
+
+                if (listOfLeaveRequestsTuple.Item1 != null)
+                {
+                    var listOfLeaveRequestDTO = listOfLeaveRequestsTuple
+                        .Item1
+                        .Select(request => new GetLeaveRequestDTO(
+                            request.Id, request.EmployeeId, request.ManagerId, request.Employee.FirstName, request.Employee.LastName, request.LeaveType.LeaveTypeName, request.Reason, request.Status.StatusName, request.StartDate, request.EndDate, request.NumberOfLeaveDays, request.RequestDate, request.ApprovedDate
+                        )
+                    );
+                    return (listOfLeaveRequestDTO, listOfLeaveRequestsTuple.Item2);
+                }
+                return (null, 0);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

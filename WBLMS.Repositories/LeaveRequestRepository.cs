@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Azure;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -145,11 +146,19 @@ namespace WBLMS.Repositories
 
             }
 
+            (query, var totalPages) = pagination(query, page, pageSize);
+
+            return (await query.ToListAsync(), totalPages);
+        }
+
+        private  (IQueryable<LeaveRequest> query, int totalPages) pagination(IQueryable<LeaveRequest> query, int page, int pageSize)
+        {
             int totalCount = query.Count();
             int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
 
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
-            return (await query.ToListAsync(), totalPages);
+
+            return ( query, totalPages);
         }
 
         public async Task<LeaveRequest> GetLeaveRequestById(long id)
@@ -165,6 +174,50 @@ namespace WBLMS.Repositories
         public async Task<LeaveBalance> GetLeavesBalanceById(long id)
         {
             var query = await _dbContext.LeaveBalances.FirstAsync(b => b.EmployeeId == id);
+            return query;
+        }
+
+        public async Task<(IEnumerable<LeaveRequest>, int)> SearchLeaveRequests(int page, int pageSize, string search, long employeeId)
+        {
+            try
+            {
+                var query = _dbContext.LeaveRequests
+                        .Include(e => e.Employee)
+                        .Include(e => e.Status)
+                        .Include(e => e.LeaveType)
+                        .AsQueryable();
+
+                query = query.Where(leaveReq => leaveReq.EmployeeId == employeeId);
+
+                query = searchEmployeeLeaveRequest(query,search);
+
+
+                (query, var totalPages) = pagination(query, page, pageSize);
+
+                return (await query.ToListAsync(), totalPages);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        private IQueryable<LeaveRequest> searchEmployeeLeaveRequest(IQueryable<LeaveRequest> query, string search)
+        {
+            query = query.Where(
+                leaveReq => 
+                    leaveReq.LeaveType.LeaveTypeName.Contains(search) ||
+                    leaveReq.Reason.Contains(search) ||
+                    leaveReq.Status.StatusName.Contains(search) ||
+                    leaveReq.StartDate.ToString().Contains(search) ||
+                    leaveReq.EndDate.ToString().Contains(search)  ||
+                    leaveReq.NumberOfLeaveDays.ToString().Contains(search) ||
+                    leaveReq.RequestDate.ToString().Contains(search) ||
+                    leaveReq.ApprovedDate.ToString().Contains(search)
+                    );
             return query;
         }
 

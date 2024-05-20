@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-var connectionString = configuration.GetConnectionString("connectionStringHemantHome");
-//var connectionString = configuration.GetConnectionString("connectionStringShubhamHome");
+//var connectionString = configuration.GetConnectionString("connectionStringHemantHome");
+var connectionString = configuration.GetConnectionString("connectionstringshubhamhome");
 //var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
 

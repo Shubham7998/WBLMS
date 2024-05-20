@@ -13,7 +13,7 @@ namespace WBLMS.IServices
         Task<bool> DeleteLeaveRequest(long id);
         Task<GetLeavesBalanceDTO> GetLeavesBalanceById(long employeeId);
 
-
+        Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string search, long employeeId);
 
         Task<IEnumerable<GetLeaveTypesDTO>> GetLeavesType();
     }

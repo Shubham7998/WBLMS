@@ -46,13 +46,13 @@ namespace WBLMS.API.Controllers
         //            ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
         //        });
         //        throw;
-                
+
         //    }
         //}
 
         [HttpPost("paginated")]
         public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
-        
+
         {
             try
             {
@@ -87,6 +87,46 @@ namespace WBLMS.API.Controllers
 
             }
         }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchAllLeaveRequests(int page, int pageSize, string search, long employeeId)
+
+        {
+            try
+            {
+                var listOfLeaveRequestsTuple = await _leaveRequestService.SearchLeaveRequests(page, pageSize, search, employeeId);
+                if (listOfLeaveRequestsTuple.Item1 != null)
+                {
+                    var dataObj = new Paginated<GetLeaveRequestDTO>()
+                    {
+                        dataArray = listOfLeaveRequestsTuple.Item1,
+                        totalPages = listOfLeaveRequestsTuple.Item2
+                    };
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = dataObj
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Request for all leave request!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
+                });
+                throw;
+
+            }
+        }
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> GetLeaveRequestById(long id)
@@ -124,7 +164,7 @@ namespace WBLMS.API.Controllers
         {
             try
             {
-                var returnLeaveRequestObj = await  _leaveRequestService.CreateLeaveRequest(createLeaveRequestDTO);
+                var returnLeaveRequestObj = await _leaveRequestService.CreateLeaveRequest(createLeaveRequestDTO);
                 if (returnLeaveRequestObj != null)
                 {
                     return Ok(new
@@ -141,7 +181,8 @@ namespace WBLMS.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new {
+                return BadRequest(new
+                {
                     StatusCode = 404,
                     ErrorMessage = "Create Leave Request Error.!" + ex.Message
                 });
@@ -154,7 +195,7 @@ namespace WBLMS.API.Controllers
         {
             try
             {
-                if(updateLeaveRequestDTO.Id != id)
+                if (updateLeaveRequestDTO.Id != id)
                 {
                     return BadRequest(new
                     {
@@ -188,7 +229,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        [HttpDelete("{id}")] 
+        [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteLeaveRequest(long id)
         {
             try
@@ -235,8 +276,8 @@ namespace WBLMS.API.Controllers
             {
                 return NotFound(new
                 {
-                   StatusCode = 404,
-                   ErrorMessage = "Data of EmployeeId: " + id + " doesn't exist."
+                    StatusCode = 404,
+                    ErrorMessage = "Data of EmployeeId: " + id + " doesn't exist."
                 });
                 throw;
             }
@@ -263,5 +304,5 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
-    } 
+    }
 }

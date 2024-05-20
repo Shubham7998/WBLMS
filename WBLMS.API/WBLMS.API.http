@@ -59,3 +59,7 @@ Content-Type: application/json
 GET {{WBLMS.API_HostAddress}}/api/leaverequest/2
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/leaverequest/search?page=1&pageSize=10&search=a&employeeId=6
+
+###
