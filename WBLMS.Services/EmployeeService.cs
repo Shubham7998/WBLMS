@@ -307,7 +307,7 @@ namespace WBLMS.Services
         public async Task<GetEmployeeForeignDTO> GetEmployeeForeignByIdAsync(int id)
         {
             try
-            {
+            {   
                 var employee = _dbContext.Employees
                         .Include(emp => emp.Manager)
                         .Include(emp => emp.Roles)
@@ -325,9 +325,9 @@ namespace WBLMS.Services
                         employee.Gender.GenderName,
                         (long)employee.RoleId,
                         employee.Roles.RoleName,
-                        (long)employee.ManagerId,
-                        employee.Manager.FirstName + " " + employee.Manager.LastName
-                    );
+                        employee.Manager != null ? (long)employee.ManagerId : -1,
+                        employee.Manager != null ? employee.Manager.FirstName + " " + employee.Manager.LastName : "Null"
+                    ) ;
                 return employeeDTO;
             }
             catch (Exception)
