@@ -86,7 +86,7 @@ namespace WBLMS.API.Controllers
                     RefreshToken = newRefreshToken,
                     EmployeeId = employee.Id,
                     RefreshTokenExpiry = DateTime.Now.AddDays(5),
-                    PasswordResetExpiry = DateTime.Now.AddDays(5),
+                    PasswordResetExpiry = DateTime.Now.AddMinutes(5),
                     PasswordResetToken = "random"
                 };
                 var tokenIdentity = await _dbContext.Tokens.AddAsync(token);
@@ -153,7 +153,7 @@ namespace WBLMS.API.Controllers
                 return BadRequest(new
                 {
                     StatusCode = 400,
-                    ErrorMessage = "Invalid Request"
+                    ErrorMessage = "Invalid Request Or Refresh Token is expired!"
                 });
             }
             var newAccessToken = _authService.CreateJwt(employee);
