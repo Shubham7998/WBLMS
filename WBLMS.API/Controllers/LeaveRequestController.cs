@@ -88,7 +88,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        [HttpPost("search")]
+        [HttpGet("search")]
         public async Task<IActionResult> SearchAllLeaveRequests(int page, int pageSize, string search, long employeeId)
 
         {
