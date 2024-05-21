@@ -304,5 +304,23 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+        [HttpGet("leavesStatusesData/{id}")]
+        public async Task<ActionResult<GetCountOfLeaveStatusesDTO>> GetLeaveStatusesData(long id)
+        {
+            var leaveStatusesData = await _leaveRequestService.GetCountOfLeaveStatuses(id);
+            if(leaveStatusesData != null)
+            {
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = leaveStatusesData
+                });
+            }
+            return NotFound(new
+            {
+                StatusCode = 404,
+                ErrorMessage = "No Leaves Exist"
+            });
+        }
     }
 }

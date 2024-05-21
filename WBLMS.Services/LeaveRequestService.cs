@@ -212,5 +212,11 @@ namespace WBLMS.Services
                 throw;
             }
         }
+
+        public async Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId)
+        {
+            var result = await _leaveRequestRepository.GetCountOfLeaveStatuses(employeeId);
+            return result;
+        }
     }
 }
