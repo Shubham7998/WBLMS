@@ -189,11 +189,11 @@ namespace WBLMS.Services
             }
         }
 
-        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string? search, long employeeId)
+        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string? search, long employeeId, long managerId)
         {
             try
             {
-                var listOfLeaveRequestsTuple = await _leaveRequestRepository.SearchLeaveRequests(page, pageSize,search,employeeId);
+                var listOfLeaveRequestsTuple = await _leaveRequestRepository.SearchLeaveRequests(page, pageSize,search,employeeId,managerId);
 
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {

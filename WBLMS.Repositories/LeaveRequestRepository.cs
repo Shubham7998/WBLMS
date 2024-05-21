@@ -25,7 +25,7 @@ namespace WBLMS.Repositories
         public async Task<LeaveRequest> CreateLeaveRequest(LeaveRequest leaveRequest)
         {
             var leaveBalance = _dbContext.LeaveBalances.FirstOrDefault(x => x.EmployeeId == leaveRequest.EmployeeId);
-            if(leaveBalance.Balance < leaveRequest.NumberOfLeaveDays)
+            if (leaveBalance.Balance < leaveRequest.NumberOfLeaveDays)
             {
                 return null;
             }
@@ -36,7 +36,7 @@ namespace WBLMS.Repositories
                 .Include(b => b.Status)
                 .Include(c => c.LeaveType)
                 .FirstAsync(leavereq => leavereq.Id == res.Entity.Id);
-                   
+
             return leaveDataFromDb;
 
         }
@@ -54,7 +54,7 @@ namespace WBLMS.Repositories
                 .Include(e => e.Status)
                 .Include(e => e.LeaveType)
                 .AsQueryable();
-            if(leaveRequestObj.ManagerId > 0)
+            if (leaveRequestObj.ManagerId > 0)
             {
                 query = query.Where(leaveRequest => leaveRequest.ManagerId == leaveRequestObj.ManagerId);
             }
@@ -84,7 +84,7 @@ namespace WBLMS.Repositories
             }
             if (leaveRequestObj.NumberOfLeaveDays > 0)
             {
-                query = query.Where(leaveRequest => leaveRequest.NumberOfLeaveDays  == leaveRequestObj.NumberOfLeaveDays);
+                query = query.Where(leaveRequest => leaveRequest.NumberOfLeaveDays == leaveRequestObj.NumberOfLeaveDays);
             }
             //if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
             //{
@@ -156,14 +156,14 @@ namespace WBLMS.Repositories
             return (await query.ToListAsync(), totalPages);
         }
 
-        private  (IQueryable<LeaveRequest> query, int totalPages) pagination(IQueryable<LeaveRequest> query, int page, int pageSize)
+        private (IQueryable<LeaveRequest> query, int totalPages) pagination(IQueryable<LeaveRequest> query, int page, int pageSize)
         {
             int totalCount = query.Count();
             int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
 
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
-            return ( query, totalPages);
+            return (query, totalCount);
         }
 
         public async Task<LeaveRequest> GetLeaveRequestById(long id)
@@ -182,7 +182,7 @@ namespace WBLMS.Repositories
             return query;
         }
 
-        public async Task<(IEnumerable<LeaveRequest>, int)> SearchLeaveRequests(int page, int pageSize, string search, long employeeId)
+        public async Task<(IEnumerable<LeaveRequest>, int)> SearchLeaveRequests(int page, int pageSize, string search, long employeeId, long managerId)
         {
             try
             {
@@ -192,13 +192,19 @@ namespace WBLMS.Repositories
                         .Include(e => e.LeaveType)
                         .AsQueryable();
 
-                query = query.Where(leaveReq => leaveReq.EmployeeId == employeeId);
+                if (managerId != 0)
+                {
+                    query = query.Where(leaveReq => leaveReq.ManagerId == managerId);
+                }
+                else if (employeeId != 0)
+                {
+                    query = query.Where(leaveReq => leaveReq.EmployeeId == employeeId);
+                }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query = searchEmployeeLeaveRequest(query,search);
+                    query = searchEmployeeLeaveRequest(query, search);
                 }
-
 
                 (query, var totalPages) = pagination(query, page, pageSize);
 
@@ -216,12 +222,12 @@ namespace WBLMS.Repositories
         private IQueryable<LeaveRequest> searchEmployeeLeaveRequest(IQueryable<LeaveRequest> query, string search)
         {
             query = query.Where(
-                leaveReq => 
+                leaveReq =>
                     leaveReq.LeaveType.LeaveTypeName.Contains(search) ||
                     leaveReq.Reason.Contains(search) ||
                     leaveReq.Status.StatusName.Contains(search) ||
                     leaveReq.StartDate.ToString().Contains(search) ||
-                    leaveReq.EndDate.ToString().Contains(search)  ||
+                    leaveReq.EndDate.ToString().Contains(search) ||
                     leaveReq.NumberOfLeaveDays.ToString().Contains(search) ||
                     leaveReq.RequestDate.ToString().Contains(search) ||
                     leaveReq.ApprovedDate.ToString().Contains(search)
@@ -236,10 +242,10 @@ namespace WBLMS.Repositories
             var request = _dbContext.LeaveRequests.Update(leaveRequest);
             await _dbContext.SaveChangesAsync();
             // Update Number of remaing leave days after the leaveRequest is approved
-            if(request.Entity.StatusId == 2)
+            if (request.Entity.StatusId == 2)
             {
                 var leaveBalanceEmployee = await _dbContext.LeaveBalances.FirstAsync(e => e.EmployeeId == request.Entity.EmployeeId);
-                if(leaveBalanceEmployee != null)
+                if (leaveBalanceEmployee != null)
                 {
                     leaveBalanceEmployee.Balance -= request.Entity.NumberOfLeaveDays;
                     await _dbContext.SaveChangesAsync();
