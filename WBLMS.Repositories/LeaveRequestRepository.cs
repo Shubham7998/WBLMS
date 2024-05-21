@@ -274,9 +274,10 @@ namespace WBLMS.Repositories
                 .Include(e => e.Status)
                 .AsQueryable();
                 query = query.Where(x => x.EmployeeId == employeeId);
-                var approvedLeaves = query.Count(x => x.Status.StatusName == "Approved");
-                var rejectedLeaves = query.Count(x => x.Status.StatusName == "Rejected");
-                var pendingLeaves = query.Count(x => x.Status.StatusName == "Pending");
+
+                var approvedLeaves = query.Where(x => x.Status.StatusName == "Approved").Sum(x => x.NumberOfLeaveDays);
+                var rejectedLeaves = query.Where(x => x.Status.StatusName == "Rejected").Sum(x => x.NumberOfLeaveDays);
+                var pendingLeaves = query.Where(x => x.Status.StatusName == "Pending").Sum(x => x.NumberOfLeaveDays);
                 return new GetCountOfLeaveStatusesDTO(approvedLeaves, pendingLeaves, rejectedLeaves);
             }
             return new GetCountOfLeaveStatusesDTO(0,0,0);

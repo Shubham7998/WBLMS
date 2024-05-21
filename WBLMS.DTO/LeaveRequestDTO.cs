@@ -45,8 +45,8 @@ namespace WBLMS.DTO
         );
 
     public record GetCountOfLeaveStatusesDTO(
-            long approvedLeaves,
-            long pendingLeaves,
-            long rejectedLeaves
+            decimal approvedLeavesCount,
+            decimal pendingLeavesCount,
+            decimal rejectedLeavesCount
         );
 }
