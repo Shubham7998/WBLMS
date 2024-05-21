@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -262,6 +263,23 @@ namespace WBLMS.Repositories
 
             return leaveDataFromDb;
 
+        }
+
+        public async Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId)
+        {
+            var employee = _dbContext.LeaveBalances.FirstOrDefault(x => x.EmployeeId == employeeId);
+            if(employee != null)
+            {
+                var query = _dbContext.LeaveRequests
+                .Include(e => e.Status)
+                .AsQueryable();
+                query = query.Where(x => x.EmployeeId == employeeId);
+                var approvedLeaves = query.Count(x => x.Status.StatusName == "Approved");
+                var rejectedLeaves = query.Count(x => x.Status.StatusName == "Rejected");
+                var pendingLeaves = query.Count(x => x.Status.StatusName == "Pending");
+                return new GetCountOfLeaveStatusesDTO(approvedLeaves, pendingLeaves, rejectedLeaves);
+            }
+            return new GetCountOfLeaveStatusesDTO(0,0,0);
         }
     }
 }
