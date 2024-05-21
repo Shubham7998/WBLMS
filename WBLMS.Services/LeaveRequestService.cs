@@ -12,13 +12,13 @@ namespace WBLMS.Services
         private readonly WBLMSDbContext _dbContext;
         public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, WBLMSDbContext dbContext)
         {
-            _leaveRequestRepository = leaveRequestRepository;   
+            _leaveRequestRepository = leaveRequestRepository;
             _dbContext = dbContext;
         }
 
         public async Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
         {
-            if(leaveRequestDTO != null) 
+            if (leaveRequestDTO != null)
             {
                 // Get Manager From the table using Employee Id to get manager Id
                 // Calculate Number of leave days
@@ -42,7 +42,7 @@ namespace WBLMS.Services
                     RequestDate = DateOnly.FromDateTime(DateTime.UtcNow.Date)
                 };
                 var returnObj = await _leaveRequestRepository.CreateLeaveRequest(newLeaveRequestObj);
-                if(returnObj != null)
+                if (returnObj != null)
                 {
                     var returnObjDTO = new GetLeaveRequestDTO(
                         returnObj.Id, returnObj.EmployeeId, returnObj.ManagerId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
@@ -53,7 +53,7 @@ namespace WBLMS.Services
                     return returnObjDTO;
                 }
                 return null;
-                
+
             }
             return null;
         }
@@ -78,12 +78,12 @@ namespace WBLMS.Services
         public async Task<GetLeaveRequestDTO> GetLeaveRequestById(long id)
         {
             var leaveRequest = await _leaveRequestRepository.GetLeaveRequestById(id);
-            if ( leaveRequest != null )
+            if (leaveRequest != null)
             {
                 var leaveRequestDTO = new GetLeaveRequestDTO(
                         leaveRequest.Id, leaveRequest.EmployeeId, leaveRequest.ManagerId, leaveRequest.Employee.FirstName, leaveRequest.Employee.LastName,
                         leaveRequest.LeaveType.LeaveTypeName, leaveRequest.Reason, leaveRequest.Status.StatusName, leaveRequest.StartDate,
-                        leaveRequest.EndDate, leaveRequest.NumberOfLeaveDays, leaveRequest.RequestDate, leaveRequest.ApprovedDate   
+                        leaveRequest.EndDate, leaveRequest.NumberOfLeaveDays, leaveRequest.RequestDate, leaveRequest.ApprovedDate
                     );
                 return leaveRequestDTO;
             }
@@ -96,7 +96,8 @@ namespace WBLMS.Services
             if (StartDate == EndDate)
             {
                 if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Friday)
-                {   if(isHalfDay)
+                {
+                    if (isHalfDay)
                     {
                         return 0.5M;
                     }
@@ -119,8 +120,8 @@ namespace WBLMS.Services
         public async Task<GetLeaveRequestDTO> UpdateLeaveRequest(UpdateLeaveRequestDTO leaveRequestDTO)
         {
             var oldLeaveRequest = await _leaveRequestRepository.GetLeaveRequestById(leaveRequestDTO.Id);
-            
-            if(oldLeaveRequest != null)
+
+            if (oldLeaveRequest != null)
             {
                 // Updating status 
                 oldLeaveRequest.StatusId = leaveRequestDTO.StatusId;
@@ -193,7 +194,7 @@ namespace WBLMS.Services
         {
             try
             {
-                var listOfLeaveRequestsTuple = await _leaveRequestRepository.SearchLeaveRequests(page, pageSize,search,employeeId,managerId);
+                var listOfLeaveRequestsTuple = await _leaveRequestRepository.SearchLeaveRequests(page, pageSize, search, employeeId, managerId);
 
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {
@@ -208,6 +209,30 @@ namespace WBLMS.Services
                 return (null, 0);
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<GetWonderbizLeaveDTO>> GetWonderbizHolidays()
+        {
+            try
+            {
+                var wonderBizHolidays = await _dbContext.WonderbizHolidays.ToListAsync();
+
+                var holidayListDTO = wonderBizHolidays.Select
+                    (
+                        wbHoliday =>
+                        new GetWonderbizLeaveDTO
+                        (
+                                wbHoliday.Id,
+                                wbHoliday.Date,
+                                wbHoliday.Day,
+                                wbHoliday.Event
+                        )
+                    );
+
+                return holidayListDTO;
+            }catch (Exception)
             {
                 throw;
             }

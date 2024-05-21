@@ -242,6 +242,7 @@ namespace WBLMS.Repositories
             var request = _dbContext.LeaveRequests.Update(leaveRequest);
             await _dbContext.SaveChangesAsync();
             // Update Number of remaing leave days after the leaveRequest is approved
+
             if (request.Entity.StatusId == 2)
             {
                 var leaveBalanceEmployee = await _dbContext.LeaveBalances.FirstAsync(e => e.EmployeeId == request.Entity.EmployeeId);
@@ -252,6 +253,7 @@ namespace WBLMS.Repositories
                 }
 
             }
+
             var leaveDataFromDb = await _dbContext.LeaveRequests
                 .Include(a => a.Employee)
                 .Include(b => b.Status)
@@ -259,6 +261,7 @@ namespace WBLMS.Repositories
                 .FirstAsync(leavereq => leavereq.Id == request.Entity.Id);
 
             return leaveDataFromDb;
+
         }
     }
 }

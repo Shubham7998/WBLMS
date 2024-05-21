@@ -79,3 +79,16 @@ GET {{WBLMS.API_HostAddress}}/api/leaverequest/search?page=1&pageSize=10&search=
 GET {{WBLMS.API_HostAddress}}/api/leaverequest/search?page=0&pageSize=0&search=string&employeeId=0&managerId=0
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  //GetEmployeeDTO
+}
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/wbHolidays
+
+###

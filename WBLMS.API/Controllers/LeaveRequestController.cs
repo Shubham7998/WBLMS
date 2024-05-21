@@ -304,5 +304,29 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+
+        [HttpGet("wbHolidays")]
+
+        public async Task<ActionResult<IEnumerable<GetWonderbizLeaveDTO>>> GetWBHolidays()
+        {
+            try
+            {
+                var holidays = await _leaveRequestService.GetWonderbizHolidays();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    data = holidays
+                });
+            }
+            catch(Exception ex)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    ErrorMessage = "No holiday"
+                });
+                throw;
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace WBLMS.Data
         public DbSet<Gender> Genders { get; set; }
         public DbSet<LeaveBalance> LeaveBalances { get; set;}
         public DbSet<LeaveType> LeaveTypes { get; set; }
+        public DbSet<WonderbizHolidays> WonderbizHolidays { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
