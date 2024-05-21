@@ -189,7 +189,7 @@ namespace WBLMS.Services
             }
         }
 
-        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string search, long employeeId)
+        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string? search, long employeeId)
         {
             try
             {

@@ -89,7 +89,7 @@ namespace WBLMS.API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchAllLeaveRequests(int page, int pageSize, string search, long employeeId)
+        public async Task<IActionResult> SearchAllLeaveRequests(int page, int pageSize, string? search, long employeeId)
 
         {
             try

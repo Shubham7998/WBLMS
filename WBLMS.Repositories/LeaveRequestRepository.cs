@@ -194,7 +194,10 @@ namespace WBLMS.Repositories
 
                 query = query.Where(leaveReq => leaveReq.EmployeeId == employeeId);
 
-                query = searchEmployeeLeaveRequest(query,search);
+                if (!string.IsNullOrEmpty(search))
+                {
+                    query = searchEmployeeLeaveRequest(query,search);
+                }
 
 
                 (query, var totalPages) = pagination(query, page, pageSize);
