@@ -56,7 +56,45 @@ namespace WBLMS.API.Controllers
         {
             try
             {
-                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj);
+                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj, "");
+                if (listOfLeaveRequestsTuple.Item1 != null)
+                {
+                    var dataObj = new Paginated<GetLeaveRequestDTO>()
+                    {
+                        dataArray = listOfLeaveRequestsTuple.Item1,
+                        totalPages = listOfLeaveRequestsTuple.Item2
+                    };
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        data = dataObj
+                    });
+                }
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    ErrorMessage = "Invalid Request for all leave request!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 500,
+                    ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
+                });
+                throw;
+
+            }
+        }
+        
+        [HttpPost("byRoles")]
+        public async Task<IActionResult> GetAllRolesRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
+
+        {
+            try
+            {
+                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj, searchKeyword);
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {
                     var dataObj = new Paginated<GetLeaveRequestDTO>()

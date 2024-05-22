@@ -34,7 +34,8 @@ namespace WBLMS.DTO
             DateOnly? EndDate,
             decimal NumberOfLeaveDays,
             DateOnly? RequestDate,
-            DateOnly? ApprovedDate
+            DateOnly? ApprovedDate,
+            string? RoleName
         );
 
     public record GetLeavesBalanceDTO(
@@ -45,8 +46,8 @@ namespace WBLMS.DTO
         );
 
     public record GetCountOfLeaveStatusesDTO(
-            long approvedLeaves,
-            long pendingLeaves,
-            long rejectedLeaves
+            decimal approvedLeavesCount,
+            decimal pendingLeavesCount,
+            decimal rejectedLeavesCount
         );
 }

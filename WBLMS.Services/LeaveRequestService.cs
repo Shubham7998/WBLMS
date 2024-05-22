@@ -47,7 +47,7 @@ namespace WBLMS.Services
                     var returnObjDTO = new GetLeaveRequestDTO(
                         returnObj.Id, returnObj.EmployeeId, returnObj.ManagerId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
                         returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
-                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
+                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate, returnObj.Employee.Roles.RoleName
                     );
                     // Send Email
                     return returnObjDTO;
@@ -58,16 +58,16 @@ namespace WBLMS.Services
             return null;
         }
 
-        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pagesize, GetLeaveRequestDTO leaveRequestObj)
+        public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pagesize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
         {
-            var listOfLeaveRequestsTuple = await _leaveRequestRepository.GetAllLeaveRequests(sortColumn, sortOrder, page, pagesize, leaveRequestObj);
+            var listOfLeaveRequestsTuple = await _leaveRequestRepository.GetAllLeaveRequests(sortColumn, sortOrder, page, pagesize, leaveRequestObj, "");
 
             if (listOfLeaveRequestsTuple.Item1 != null)
             {
                 var listOfLeaveRequestDTO = listOfLeaveRequestsTuple
                     .Item1
                     .Select(request => new GetLeaveRequestDTO(
-                        request.Id, request.EmployeeId, request.ManagerId, request.Employee.FirstName, request.Employee.LastName, request.LeaveType.LeaveTypeName, request.Reason, request.Status.StatusName, request.StartDate, request.EndDate, request.NumberOfLeaveDays, request.RequestDate, request.ApprovedDate
+                        request.Id, request.EmployeeId, request.ManagerId, request.Employee.FirstName, request.Employee.LastName, request.LeaveType.LeaveTypeName, request.Reason, request.Status.StatusName, request.StartDate, request.EndDate, request.NumberOfLeaveDays, request.RequestDate, request.ApprovedDate, request.Employee.Roles.RoleName
                     )
                 );
                 return (listOfLeaveRequestDTO, listOfLeaveRequestsTuple.Item2);
@@ -83,7 +83,7 @@ namespace WBLMS.Services
                 var leaveRequestDTO = new GetLeaveRequestDTO(
                         leaveRequest.Id, leaveRequest.EmployeeId, leaveRequest.ManagerId, leaveRequest.Employee.FirstName, leaveRequest.Employee.LastName,
                         leaveRequest.LeaveType.LeaveTypeName, leaveRequest.Reason, leaveRequest.Status.StatusName, leaveRequest.StartDate,
-                        leaveRequest.EndDate, leaveRequest.NumberOfLeaveDays, leaveRequest.RequestDate, leaveRequest.ApprovedDate
+                        leaveRequest.EndDate, leaveRequest.NumberOfLeaveDays, leaveRequest.RequestDate, leaveRequest.ApprovedDate, leaveRequest.Employee.Roles.RoleName
                     );
                 return leaveRequestDTO;
             }
@@ -135,7 +135,7 @@ namespace WBLMS.Services
                 var returnObjDTO = new GetLeaveRequestDTO(
                         returnObj.Id, returnObj.EmployeeId, returnObj.ManagerId, returnObj.Employee.FirstName, returnObj.Employee.LastName,
                         returnObj.LeaveType.LeaveTypeName, returnObj.Reason, returnObj.Status.StatusName, returnObj.StartDate,
-                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate
+                        returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate, returnObj.Employee.Roles.RoleName
                     );
                 return returnObjDTO;
             }
@@ -201,7 +201,7 @@ namespace WBLMS.Services
                     var listOfLeaveRequestDTO = listOfLeaveRequestsTuple
                         .Item1
                         .Select(request => new GetLeaveRequestDTO(
-                            request.Id, request.EmployeeId, request.ManagerId, request.Employee.FirstName, request.Employee.LastName, request.LeaveType.LeaveTypeName, request.Reason, request.Status.StatusName, request.StartDate, request.EndDate, request.NumberOfLeaveDays, request.RequestDate, request.ApprovedDate
+                            request.Id, request.EmployeeId, request.ManagerId, request.Employee.FirstName, request.Employee.LastName, request.LeaveType.LeaveTypeName, request.Reason, request.Status.StatusName, request.StartDate, request.EndDate, request.NumberOfLeaveDays, request.RequestDate, request.ApprovedDate, request.Employee.Roles.RoleName
                         )
                     );
                     return (listOfLeaveRequestDTO, listOfLeaveRequestsTuple.Item2);
