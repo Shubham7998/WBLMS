@@ -24,7 +24,7 @@ namespace WBLMS.Models
         [Required(ErrorMessage = "EmailAddress is required")]
         public string EmailAddress { get; set; }
         
-        [Required(ErrorMessage = "EmailAddress is required")]
+        [Required(ErrorMessage = "Contact Number is required")]
         public string ContactNumber { get; set; }
 
        // [Required (ErrorMessage ="Gender is required")]
