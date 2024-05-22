@@ -56,7 +56,7 @@ namespace WBLMS.API.Controllers
         {
             try
             {
-                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj);
+                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj, "");
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {
                     var dataObj = new Paginated<GetLeaveRequestDTO>()
@@ -89,12 +89,12 @@ namespace WBLMS.API.Controllers
         }
         
         [HttpPost("byRoles")]
-        public async Task<IActionResult> GetAllRolesRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
+        public async Task<IActionResult> GetAllRolesRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
 
         {
             try
             {
-                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj);
+                var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj, searchKeyword);
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {
                     var dataObj = new Paginated<GetLeaveRequestDTO>()

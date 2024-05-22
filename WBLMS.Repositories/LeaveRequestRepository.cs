@@ -43,7 +43,7 @@ namespace WBLMS.Repositories
 
         }
 
-        public async Task<(IEnumerable<LeaveRequest>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
+        public async Task<(IEnumerable<LeaveRequest>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
         {
             //var listOfLeaveRequests = await _dbContext.LeaveRequests
             //    .Include(employee => employee.Employee)
@@ -89,9 +89,13 @@ namespace WBLMS.Repositories
             {
                 query = query.Where(leaveRequest => leaveRequest.NumberOfLeaveDays == leaveRequestObj.NumberOfLeaveDays);
             }
-            if (!string.IsNullOrEmpty(leaveRequestObj.RoleName))
+            if (!string.IsNullOrWhiteSpace(leaveRequestObj.RoleName))
             {
                 query = query.Where(leaveRequest => leaveRequest.Employee.Roles.RoleName == leaveRequestObj.RoleName);
+            }
+            if (!string.IsNullOrWhiteSpace(searchKeyword))
+            {
+                query = searchEmployeeLeaveRequest(query, searchKeyword);
             }
             //if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
             //{
