@@ -36,6 +36,7 @@ namespace WBLMS.Repositories
                 .Include(a => a.Employee)
                 .Include(b => b.Status)
                 .Include(c => c.LeaveType)
+                .Include(d => d.Employee.Roles)
                 .FirstAsync(leavereq => leavereq.Id == res.Entity.Id);
 
             return leaveDataFromDb;
@@ -52,6 +53,7 @@ namespace WBLMS.Repositories
 
             var query = _dbContext.LeaveRequests
                 .Include(e => e.Employee)
+                .Include(e => e.Employee.Roles)
                 .Include(e => e.Status)
                 .Include(e => e.LeaveType)
                 .AsQueryable();
@@ -86,6 +88,10 @@ namespace WBLMS.Repositories
             if (leaveRequestObj.NumberOfLeaveDays > 0)
             {
                 query = query.Where(leaveRequest => leaveRequest.NumberOfLeaveDays == leaveRequestObj.NumberOfLeaveDays);
+            }
+            if (!string.IsNullOrEmpty(leaveRequestObj.RoleName))
+            {
+                query = query.Where(leaveRequest => leaveRequest.Employee.Roles.RoleName == leaveRequestObj.RoleName);
             }
             //if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
             //{
@@ -191,17 +197,19 @@ namespace WBLMS.Repositories
                         .Include(e => e.Employee)
                         .Include(e => e.Status)
                         .Include(e => e.LeaveType)
+                        .Include(e => e.Employee.Roles)
                         .AsQueryable();
-
+                
                 if (managerId != 0)
                 {
-                    query = query.Where(leaveReq => leaveReq.ManagerId == managerId);
+                    query = query.Where(leaveReq => leaveReq.ManagerId == managerId );
+                    query = query.Where(leaveReq => leaveReq.Status.StatusName == "Pending");
                 }
                 else if (employeeId != 0)
                 {
                     query = query.Where(leaveReq => leaveReq.EmployeeId == employeeId);
                 }
-
+                
                 if (!string.IsNullOrEmpty(search))
                 {
                     query = searchEmployeeLeaveRequest(query, search);
@@ -259,6 +267,7 @@ namespace WBLMS.Repositories
                 .Include(a => a.Employee)
                 .Include(b => b.Status)
                 .Include(c => c.LeaveType)
+                .Include(d => d.Employee.Roles)
                 .FirstAsync(leavereq => leavereq.Id == request.Entity.Id);
 
             return leaveDataFromDb;

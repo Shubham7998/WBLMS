@@ -34,7 +34,8 @@ namespace WBLMS.DTO
             DateOnly? EndDate,
             decimal NumberOfLeaveDays,
             DateOnly? RequestDate,
-            DateOnly? ApprovedDate
+            DateOnly? ApprovedDate,
+            string? RoleName
         );
 
     public record GetLeavesBalanceDTO(
