@@ -131,13 +131,13 @@ namespace WBLMS.Repositories
                     case "reason":
                         query = isAscending ? query.OrderBy(s => s.Reason) : query.OrderByDescending(s => s.Reason);
                         break;
-                    case "leavetypeid":
+                    case "leavetype":
                         query = isAscending ? query.OrderBy(s => s.LeaveType.LeaveTypeName) : query.OrderByDescending(s => s.LeaveType.LeaveTypeName);
                         break;
-                    case "statusid":
+                    case "status":
                         query = isAscending ? query.OrderBy(s => s.Status.StatusName) : query.OrderByDescending(s => s.Status.StatusName);
                         break;
-                    case "managerid":
+                    case "managerfirstname":
                         query = isAscending ? query.OrderBy(s => s.Manager.FirstName) : query.OrderByDescending(s => s.Manager.FirstName);
                         break;
                     case "startdate":
