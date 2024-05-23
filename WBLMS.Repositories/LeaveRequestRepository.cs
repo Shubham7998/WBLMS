@@ -161,7 +161,7 @@ namespace WBLMS.Repositories
                 }
 
             }
-
+            
             (query, var totalPages) = pagination(query, page, pageSize);
 
             return (await query.ToListAsync(), totalPages);

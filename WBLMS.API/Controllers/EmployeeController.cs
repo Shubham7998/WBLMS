@@ -88,7 +88,7 @@ namespace WBLMS.API.Controllers
                 var sendResult = new Paginated<GetEmployeeForeignDTO>
                 {
                     dataArray = result.Item1,
-                    totalPages = result.Item2,
+                    totalCount = result.Item2,
                 };
                 return Ok(new
                 {

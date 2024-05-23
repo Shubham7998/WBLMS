@@ -44,23 +44,26 @@ namespace WBLMS.API.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginDTO loginDTO)
         {
             if (loginDTO == null)
-                return BadRequest(new
-                {
-                    StatusCode = 400,
-                    ErrorMessage = "Invalid Login Details!"
-                });
+                return BadRequest(new APIResponseDTO<EmptyResult>(400, null, "Invalid Login Details!"));
+                //{
+                //    StatusCode = 400,
+                //    ErrorMessage = "Invalid Login Details!"
+                //});
             var employee = await _employeeService.GetEmployeeByEmailAsync(loginDTO.Email);
             if (employee == null)
             {
-                return NotFound(new 
-                {   StatusCode = 404,
-                    Message = "User Not Found!" 
-                });
+                return BadRequest(new APIResponseDTO<EmptyResult>(400, null, "User Not Found!"));
+                //{   StatusCode = 404,
+                //    Message = "User Not Found!" 
+                //});
             }
 
             if (!PasswordHashing.Verify(loginDTO.Password, employee.Password))
             {
-                return BadRequest(new {StatusCode = 400, Message = "Password is Incorrect!" });
+                return BadRequest(
+                    new APIResponseDTO<EmptyResult>(400, null, "Password is Incorrect!")
+                    /*new {StatusCode = 400, Message = "Password is Incorrect!" }*/
+                    );
             }
             // Saving Tokens to DB then assigning to the employee
             var newAccessToken = _authService.CreateJwt(employee);

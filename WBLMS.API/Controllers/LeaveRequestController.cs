@@ -17,39 +17,7 @@ namespace WBLMS.API.Controllers
         {
             _leaveRequestService = leaveRequestService;
         }
-        // GET: api/<LeaveRequest>
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<GetLeaveRequestDTO>>> GetAllLeaveRequests()
-        //{
-        //    try
-        //    {
-        //        var listOfLeaveRequests = await _leaveRequestService.GetAllLeaveRequests();
-        //        if (listOfLeaveRequests != null)
-        //        {
-        //            return Ok(new
-        //            {
-        //                StatusCode = 200,
-        //                data = listOfLeaveRequests
-        //            });
-        //        }
-        //        return BadRequest(new
-        //        {
-        //            StatusCode = 400,
-        //            ErrorMessage = "Invalid Request for all leave request!"
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new
-        //        {
-        //            StatusCode = 500,
-        //            ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
-        //        });
-        //        throw;
-
-        //    }
-        //}
-
+       
         [HttpPost("paginated")]
         public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
 
@@ -62,28 +30,46 @@ namespace WBLMS.API.Controllers
                     var dataObj = new Paginated<GetLeaveRequestDTO>()
                     {
                         dataArray = listOfLeaveRequestsTuple.Item1,
-                        totalPages = listOfLeaveRequestsTuple.Item2
+                        totalCount = listOfLeaveRequestsTuple.Item2
                     };
-                    return Ok(new
-                    {
-                        StatusCode = 200,
-                        data = dataObj
-                    });
+                    //return Ok(new
+                    //{
+                    //    StatusCode = 200,
+                    //    data = dataObj
+                    //});
+                    return Ok(new APIResponseDTO<Paginated<GetLeaveRequestDTO>>(200, dataObj, ""));
+                    //{
+                    //    StatusCode = 200,
+                    //    data = dataObj,
+                    //    ErrorMessages = ""
+                    //});
                 }
-                return BadRequest(new
-                {
-                    StatusCode = 400,
-                    ErrorMessage = "Invalid Request for all leave request!"
-                });
+                //return BadRequest(new
+                //{
+                //    StatusCode = 400,
+                //    ErrorMessage = "Invalid Request for all leave request!"
+                //});
+                return NotFound(new APIResponseDTO<GetLeaveRequestDTO>(404, null, "Invalid Leave Request"));
+                //{
+                //    StatusCode = 404,
+                //    data = null,
+                //    ErrorMessages = "Invalid Leave Request"
+                //});
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    StatusCode = 500,
-                    ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
-                });
-                throw;
+                //return BadRequest(new
+                //{
+                //    StatusCode = 500,
+                //    ErrorMessage = "Internal Server Error in leave request get by id api." + ex.Message
+                //});
+                //throw;
+                return BadRequest(new APIResponseDTO<GetLeaveRequestDTO>(500, null, ex.Message));
+                //{
+                //    StatusCode = 500,
+                //    data = null,
+                //    ErrorMessages = ex.Message
+                //});
 
             }
         }
@@ -100,7 +86,7 @@ namespace WBLMS.API.Controllers
                     var dataObj = new Paginated<GetLeaveRequestDTO>()
                     {
                         dataArray = listOfLeaveRequestsTuple.Item1,
-                        totalPages = listOfLeaveRequestsTuple.Item2
+                        totalCount = listOfLeaveRequestsTuple.Item2
                     };
                     return Ok(new
                     {
@@ -138,7 +124,7 @@ namespace WBLMS.API.Controllers
                     var dataObj = new Paginated<GetLeaveRequestDTO>()
                     {
                         dataArray = listOfLeaveRequestsTuple.Item1,
-                        totalPages = listOfLeaveRequestsTuple.Item2
+                        totalCount = listOfLeaveRequestsTuple.Item2
                     };
                     return Ok(new
                     {

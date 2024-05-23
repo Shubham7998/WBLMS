@@ -9,6 +9,6 @@ namespace WBLMS.Models
     public class Paginated<T> where T : class
     {
         public IEnumerable<T> dataArray { get; set; }
-        public int totalPages { get; set; }
+        public int totalCount { get; set; }
     }
 }
