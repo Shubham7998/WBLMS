@@ -29,15 +29,11 @@ namespace WBLMS.Models
         [Required(ErrorMessage = "ManagerId is required.")]
         [ForeignKey(nameof(Manager))]
         public long ManagerId { get; set; }
-        [Required(ErrorMessage = "StartDate is required.")]
         public DateOnly StartDate { get; set; }
-        [Required(ErrorMessage = "EndDate is required.")]
         public DateOnly EndDate { get; set; }
         [Required(ErrorMessage = "NumberOfLeaveDays is required.")]
         public decimal NumberOfLeaveDays { get; set; }
-        [Required(ErrorMessage = "ApprovedDate is required.")]
         public DateOnly ApprovedDate { get; set; }
-        [Required(ErrorMessage = "RequestDate is required.")]
         public DateOnly RequestDate { get; set; }
 
 
