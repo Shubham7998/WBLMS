@@ -60,7 +60,7 @@ namespace WBLMS.Services
 
         public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pagesize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
         {
-            var listOfLeaveRequestsTuple = await _leaveRequestRepository.GetAllLeaveRequests(sortColumn, sortOrder, page, pagesize, leaveRequestObj, "");
+            var listOfLeaveRequestsTuple = await _leaveRequestRepository.GetAllLeaveRequests(sortColumn, sortOrder, page, pagesize, leaveRequestObj, searchKeyword);
 
             if (listOfLeaveRequestsTuple.Item1 != null)
             {
