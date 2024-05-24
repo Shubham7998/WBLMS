@@ -43,7 +43,7 @@ namespace WBLMS.Data
                     new LeaveType() { Id = 5, LeaveTypeName = "Maternity"}
                 );
             _modelBuilder.Entity<Employee>().HasData(
-                    new Employee() { Id = 1, FirstName = "Hemant", LastName = "Patel", Password = hashedPassword, EmailAddress = "hemant.patel@wonderbiz.in", ContactNumber = "9874563210", GenderId = 1, RoleId = 1}
+                    new Employee() { Id = 1, FirstName = "Hemant", LastName = "Patel", Password = hashedPassword, EmailAddress = "hemant.patel@wonderbiz.in", ContactNumber = "9874563210", GenderId = 2, RoleId = 1}
                 );
             _modelBuilder.Entity<WonderbizHolidays>().HasData(
                     new WonderbizHolidays() { Id = 1, Date = new DateOnly(2024, 1, 1), Day = "Monday", Event = "New Year" },
