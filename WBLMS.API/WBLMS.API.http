@@ -6,8 +6,7 @@ POST {{WBLMS.API_HostAddress}}/api/leaverequest
 Content-Type: application/json
 
 {
-  "EmployeeId": 4,
-  "ManagerId": 1,
+  "EmployeeId": ,
   "LeaveTypeId": 2,
   "Reason": "Family vacation",
   "StartDate": "2024-05-20",
@@ -90,5 +89,9 @@ Content-Type: application/json
 ###
 
 GET {{WBLMS.API_HostAddress}}/api/leaverequest/wbHolidays
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/string
 
 ###

@@ -11,7 +11,6 @@
                         <p>Hello!</p>
                         <p>You have requested to reset your password. To proceed, please click the link below:</p>
                         <p><a href=""http://localhost:4200/reset?email={emailId}&token={emailToken}"">Reset Password</a></p>
-                        <p><a href=""http://localhost:3001/resetpassword?email={emailId}&token={emailToken}"">Reset ok Password</a></p>
                         <p>If you did not make this request, you can safely ignore this email.</p>
                         <p>Thank you!</p>
                     </body>
