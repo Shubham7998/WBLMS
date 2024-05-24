@@ -97,23 +97,23 @@ namespace WBLMS.Repositories
             {
                 query = searchEmployeeLeaveRequest(query, searchKeyword);
             }
-            //if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
-            //{
-            //    query = query.Where(leaveRequest => leaveRequest.StartDate == leaveRequestObj.StartDate);
-            //}
-            //if (!string.IsNullOrEmpty(leaveRequestObj.EndDate.ToString()) && leaveRequestObj.EndDate != DateOnly.MinValue)
-            //{
-            //    query = query.Where(leaveRequest => leaveRequest.EndDate == leaveRequestObj.EndDate);
-            //}
-            //if (!string.IsNullOrEmpty(leaveRequestObj.ApprovedDate.ToString()) && leaveRequestObj.ApprovedDate != DateOnly.MinValue)
-            //{
-            //    query = query.Where(leaveRequest => leaveRequest.ApprovedDate == leaveRequest.ApprovedDate);
-            //}
-            //if (!string.IsNullOrEmpty(leaveRequestObj.RequestDate.ToString()) && leaveRequestObj.RequestDate != DateOnly.MinValue)
-            //{
-            //    query = query.Where(leaveRequest => leaveRequest.RequestDate == leaveRequestObj.RequestDate);
-            //}
-
+            if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
+            {
+                query = query.Where(leaveRequest => leaveRequest.StartDate == leaveRequestObj.StartDate);
+            }
+            if (!string.IsNullOrEmpty(leaveRequestObj.EndDate.ToString()) && leaveRequestObj.EndDate != DateOnly.MinValue)
+            {
+                query = query.Where(leaveRequest => leaveRequest.EndDate == leaveRequestObj.EndDate);
+            }
+            if (!string.IsNullOrEmpty(leaveRequestObj.ApprovedDate.ToString()) && leaveRequestObj.ApprovedDate != DateOnly.MinValue)
+            {
+                query = query.Where(leaveRequest => leaveRequest.ApprovedDate == leaveRequest.ApprovedDate);
+            }
+            if (!string.IsNullOrEmpty(leaveRequestObj.RequestDate.ToString()) && leaveRequestObj.RequestDate != DateOnly.MinValue)
+            {
+                query = query.Where(leaveRequest => leaveRequest.RequestDate == leaveRequestObj.RequestDate);
+            }
+            
             // Sorting 
 
             if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
@@ -156,7 +156,7 @@ namespace WBLMS.Repositories
                         query = isAscending ? query.OrderBy(s => s.RequestDate) : query.OrderByDescending(s => s.RequestDate);
                         break;
                     default:
-                        query = query.OrderBy(s => s.Id);
+                        query = query.OrderBy(s => s.RequestDate).OrderBy(s => s.ApprovedDate);
                         break;
                 }
 
