@@ -99,11 +99,11 @@ namespace WBLMS.Repositories
             }
             if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
             {
-                query = query.Where(leaveRequest => leaveRequest.StartDate == leaveRequestObj.StartDate);
+                query = query.Where(leaveRequest => leaveRequest.StartDate >= leaveRequestObj.StartDate);
             }
             if (!string.IsNullOrEmpty(leaveRequestObj.EndDate.ToString()) && leaveRequestObj.EndDate != DateOnly.MinValue)
             {
-                query = query.Where(leaveRequest => leaveRequest.EndDate == leaveRequestObj.EndDate);
+                query = query.Where(leaveRequest => leaveRequest.EndDate <= leaveRequestObj.EndDate);
             }
             if (!string.IsNullOrEmpty(leaveRequestObj.ApprovedDate.ToString()) && leaveRequestObj.ApprovedDate != DateOnly.MinValue)
             {
