@@ -96,9 +96,9 @@ namespace WBLMS.Data.Migrations
                             ContactNumber = "9874563210",
                             EmailAddress = "hemant.patel@wonderbiz.in",
                             FirstName = "Hemant",
-                            GenderId = 1L,
+                            GenderId = 2L,
                             LastName = "Patel",
-                            Password = "4BE8D91B722315C36F224D6E2407827DB4AD7C47D4E60855AD55B5E20D66DD6F:3525B52ED5F01634A602A4420EEF5393:50000:SHA256",
+                            Password = "05DE0BA6E0B516DACFDF253175A1B2452467865F2EA2797FB052E5B0B1AEB6A0:13FC9E36C243D0ACBE941549F167232C:50000:SHA256",
                             RoleId = 1L
                         });
                 });
