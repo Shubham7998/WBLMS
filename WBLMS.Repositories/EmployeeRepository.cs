@@ -71,7 +71,7 @@ namespace WBLMS.Repositories
         private static (IQueryable<Employee>, int) Pagination(IQueryable<Employee> query, int page, int pageSize)
         {
             int totalCount = query.Count();
-            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+            //int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             return (query, totalCount);

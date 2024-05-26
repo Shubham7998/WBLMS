@@ -99,3 +99,25 @@ POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/string
 GET {{WBLMS.API_HostAddress}}/api/employee/2
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/employeeLeaveReq?page=1&pageSize=100&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "emailAddress": "",
+    "contactNumber": "",
+    "genderId": 0,
+    "genderName": "",
+    "roleId": 0,
+    "roleName": "",
+    "managerId": 0,
+    "managerName": "",
+    "balanceLeaveRequest" : 0,
+    "totalLeaveRequest" : 0
+}
+
+###
+     

@@ -33,6 +33,23 @@ namespace WBLMS.DTO
             string? ManagerName
         );
 
+    public record GetEmployeeLeaveReqDTO
+        (
+            long Id,
+            string FirstName,
+            string LastName,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
+            string? GenderName,
+            long RoleId,
+            string? RoleName,
+            long ManagerId,
+            string? ManagerName,
+            decimal BalanceLeaveRequest,
+            decimal TotalLeaveRequest
+        );
+
     public record CreateEmployeeDTO
         (
             [Required(ErrorMessage = "FirstName is required")]

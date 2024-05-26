@@ -386,5 +386,57 @@ namespace WBLMS.Services
                 throw;
             }
         }
+
+        public async Task<(IEnumerable<GetEmployeeLeaveReqDTO>, int)> GetAllEmployeeLeaveAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeLeaveReqDTO employeeDTO)
+        {
+            try
+            {
+                var employeeObj = new Employee()
+                {
+                    FirstName = employeeDTO.FirstName,
+                    LastName = employeeDTO.LastName,
+                    //  Password = employeeDTO.Password,
+                    EmailAddress = employeeDTO.EmailAddress,
+                    ContactNumber = employeeDTO.ContactNumber,
+                    GenderId = employeeDTO.GenderId,
+                    RoleId = employeeDTO.RoleId,
+                    ManagerId = employeeDTO.ManagerId,
+                    CreatedById = 1,
+                    JoiningDate = DateOnly.FromDateTime(DateTime.Now),
+                };
+                var employeeList = await _employeeRepository.GetAllEmployee(page, pageSize, sortColumn, sortOrder, employeeObj);
+
+                var list = employeeList.Item1;
+
+
+                var result = list.Select
+                    (
+
+                    employee =>
+                        new GetEmployeeLeaveReqDTO
+                            (
+                                employee.Id,
+                                employee.FirstName,
+                                employee.LastName,
+                                employee.EmailAddress,
+                                employee.ContactNumber,
+                                (long)employee.GenderId,
+                                employee.Gender.GenderName,
+                                (long)employee.RoleId,
+                                employee.Roles.RoleName,
+                                employee.ManagerId == null ? 0 : (long)employee.ManagerId,
+                                employee.Manager == null ? "None" : employee.Manager.FirstName + " " + employee.Manager.LastName,
+                                employee.LeaveBalance.Balance,
+                                employee.LeaveBalance.TotalLeaves
+                            )
+                    );
+
+                return (result, employeeList.Item2);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

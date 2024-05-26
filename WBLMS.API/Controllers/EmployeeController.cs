@@ -88,6 +88,35 @@ namespace WBLMS.API.Controllers
             }
         }
 
+       // [Authorize(Roles = "Admin")]
+        [HttpPost("employeeLeaveReq")]
+        public async Task<ActionResult<Paginated<GetEmployeeLeaveReqDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeLeaveReqDTO employee)
+        {
+            try
+            {
+                var result = await _employeeService.GetAllEmployeeLeaveAsync(page, pageSize, sortColumn, sortOrder, employee);
+
+                var sendResult = new Paginated<GetEmployeeLeaveReqDTO>
+                {
+                    dataArray = result.Item1,
+                    totalCount = result.Item2,
+                };
+                //return Ok(new
+                //{
+                //    StatusCode = 200,
+                //    data = sendResult
+                //});
+                return Ok(new APIResponseDTO<Paginated<GetEmployeeLeaveReqDTO>>(200, sendResult, success));
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
+            }
+        }
+
+
+
         [Authorize(Roles = "Admin,HR,Team Lead")]
         [HttpPost("paginated")]
         public async Task<ActionResult<Paginated<GetEmployeeForeignDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)

@@ -11,7 +11,7 @@ namespace WBLMS.IServices
     public interface IEmployeeService
     {
         Task<(IEnumerable<GetEmployeeDTO>,int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee);
-        Task<(IEnumerable<GetEmployeeDTO>,int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEm employee);
+        Task<(IEnumerable<GetEmployeeLeaveReqDTO>,int)> GetAllEmployeeLeaveAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeLeaveReqDTO employee);
         Task<(IEnumerable<GetEmployeeForeignDTO>,int)> GetAllEmployeeForeignAsync(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee);
 
         Task<GetEmployeeDTO> GetEmployeeByIdAsync(int id);
