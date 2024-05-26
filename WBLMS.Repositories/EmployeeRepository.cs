@@ -53,6 +53,7 @@ namespace WBLMS.Repositories
                 .Include(e => e.Manager)
                 .Include(e => e.Roles)
                 .Include(e => e.Gender)
+                .Include(e => e.LeaveBalance)
                 .AsQueryable();
 
             query = SearchEmployee(query, employee);
@@ -106,6 +107,9 @@ namespace WBLMS.Repositories
                 case "joiningdate":
                     query = sortInAsc ? query.OrderBy(s => s.JoiningDate) : query.OrderByDescending(s => s.JoiningDate);
                     break;
+                case "leavebalance":
+                    query = sortInAsc ? query.OrderBy(s => s.LeaveBalance.Balance) : query.OrderByDescending(s => s.LeaveBalance.Balance);
+                    break;
                 default:
                     return query;
             }
@@ -147,7 +151,33 @@ namespace WBLMS.Repositories
                 query = query.Where(employee => employee.CreatedById == employeeObj.CreatedById);
             }
 
+            //if(employeeObj.LeaveBalanceId != 0) 
+            //{
+            //    query = query.Where(employee => employee.LeaveBalance.Balance == employeeObj.LeaveBalance.Balance);
+            //}
+
             return query;
+        }
+
+        public async Task<(IEnumerable<Employee>, int)> GetAllEmployeeLeaveReq(int page, int pageSize, string? sortColumn, string? sortOrder, Employee employee)
+        {
+            var query = _dbContext.Employees
+                .Include(e => e.Manager)
+                .Include(e => e.Roles)
+                .Include(e => e.Gender)
+                .Include(e => e.LeaveBalance)
+                .AsQueryable();
+
+            query = SearchEmployee(query, employee);
+
+            if (!string.IsNullOrEmpty(sortOrder) && !string.IsNullOrEmpty(sortColumn))
+            {
+                query = SortEmployee(query, sortOrder, sortColumn);
+            }
+
+            (query, int totalCount) = Pagination(query, page, pageSize);
+
+            return (await query.ToListAsync(), totalCount);
         }
     }
 }

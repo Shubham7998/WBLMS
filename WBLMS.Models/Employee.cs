@@ -57,7 +57,9 @@ namespace WBLMS.Models
         [ForeignKey (nameof(Token))]
         public long? TokenId { get; set; }
         public virtual Token? Token { get; set; }
-
+        [ForeignKey(nameof(LeaveBalance))]
+        public long? LeaveBalanceId { get; set; }
+        public virtual LeaveBalance? LeaveBalance { get; set; }
         public List<Employee>? Subordinates { get; set; }
     }
 

@@ -95,3 +95,7 @@ GET {{WBLMS.API_HostAddress}}/api/leaverequest/wbHolidays
 POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/string
 
 ###
+
+GET {{WBLMS.API_HostAddress}}/api/employee/2
+
+###
