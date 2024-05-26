@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WBLMS.Data;
-using WBLMS.Data.Migrations;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;

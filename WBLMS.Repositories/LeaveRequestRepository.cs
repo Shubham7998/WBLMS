@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WBLMS.Data;
-using WBLMS.Data.Migrations;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.Models;
@@ -93,10 +92,7 @@ namespace WBLMS.Repositories
             {
                 query = query.Where(leaveRequest => leaveRequest.Employee.Roles.RoleName == leaveRequestObj.RoleName);
             }
-            if (!string.IsNullOrWhiteSpace(searchKeyword))
-            {
-                query = searchEmployeeLeaveRequest(query, searchKeyword);
-            }
+
             if (!string.IsNullOrEmpty(leaveRequestObj.StartDate.ToString()) && leaveRequestObj.StartDate != DateOnly.MinValue)
             {
                 query = query.Where(leaveRequest => leaveRequest.StartDate >= leaveRequestObj.StartDate);
@@ -113,7 +109,11 @@ namespace WBLMS.Repositories
             {
                 query = query.Where(leaveRequest => leaveRequest.RequestDate == leaveRequestObj.RequestDate);
             }
-            
+            if (!string.IsNullOrWhiteSpace(searchKeyword))
+            {
+                query = searchEmployeeLeaveRequest(query, searchKeyword);
+            }
+
             // Sorting 
 
             if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))

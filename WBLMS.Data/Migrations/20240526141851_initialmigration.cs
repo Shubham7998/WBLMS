@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WBLMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class changeNullableOperations : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,6 +66,21 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WonderbizHolidays",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Event = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WonderbizHolidays", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -76,14 +91,14 @@ namespace WBLMS.Data.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ContactNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GenderId = table.Column<long>(type: "bigint", nullable: false),
-                    RoleId = table.Column<long>(type: "bigint", nullable: false),
+                    GenderId = table.Column<long>(type: "bigint", nullable: true),
+                    RoleId = table.Column<long>(type: "bigint", nullable: true),
                     ManagerId = table.Column<long>(type: "bigint", nullable: true),
-                    CreatedById = table.Column<long>(type: "bigint", nullable: false),
-                    JoiningDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    UpdateById = table.Column<long>(type: "bigint", nullable: false),
-                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    TokenId = table.Column<long>(type: "bigint", nullable: false)
+                    CreatedById = table.Column<long>(type: "bigint", nullable: true),
+                    JoiningDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    UpdateById = table.Column<long>(type: "bigint", nullable: true),
+                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    TokenId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,14 +112,12 @@ namespace WBLMS.Data.Migrations
                         name: "FK_Employees_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Employees_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -149,11 +162,15 @@ namespace WBLMS.Data.Migrations
                 {
                     table.PrimaryKey("PK_LeaveRequests", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_LeaveRequests_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_LeaveRequests_Employees_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_LeaveRequests_LeaveTypes_LeaveTypeId",
                         column: x => x.LeaveTypeId,
@@ -177,8 +194,8 @@ namespace WBLMS.Data.Migrations
                     EmployeeId = table.Column<long>(type: "bigint", nullable: false),
                     AccessToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RefreshTokenExpiry = table.Column<DateOnly>(type: "date", nullable: false),
-                    PasswordResetExpiry = table.Column<DateOnly>(type: "date", nullable: false),
+                    RefreshTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PasswordResetExpiry = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PasswordResetToken = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -219,10 +236,10 @@ namespace WBLMS.Data.Migrations
                 columns: new[] { "Id", "RoleName" },
                 values: new object[,]
                 {
-                    { 1L, "Employee" },
-                    { 2L, "Team Lead" },
-                    { 3L, "HR" },
-                    { 4L, "Admin" }
+                    { 1L, "Admin" },
+                    { 2L, "HR" },
+                    { 3L, "Team Lead" },
+                    { 4L, "Employee" }
                 });
 
             migrationBuilder.InsertData(
@@ -234,6 +251,28 @@ namespace WBLMS.Data.Migrations
                     { 2L, "Approved" },
                     { 3L, "Rejected" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "WonderbizHolidays",
+                columns: new[] { "Id", "Date", "Day", "Event" },
+                values: new object[,]
+                {
+                    { 1L, new DateOnly(2024, 1, 1), "Monday", "New Year" },
+                    { 2L, new DateOnly(2024, 1, 26), "Friday", "Republic Day" },
+                    { 3L, new DateOnly(2024, 3, 25), "Monday", "Holi" },
+                    { 4L, new DateOnly(2024, 4, 11), "Thursday", "Eid" },
+                    { 5L, new DateOnly(2024, 5, 1), "Wednesday", "Maharashtra Day" },
+                    { 6L, new DateOnly(2024, 8, 15), "Thursday", "Independence Day" },
+                    { 7L, new DateOnly(2024, 10, 2), "Wednesday", "Gandhi Jayanti" },
+                    { 8L, new DateOnly(2024, 10, 31), "Thursday", "Diwali" },
+                    { 9L, new DateOnly(2024, 11, 1), "Friday", "Diwali" },
+                    { 10L, new DateOnly(2024, 12, 25), "Wednesday", "Christmas" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "ContactNumber", "CreatedById", "EmailAddress", "FirstName", "GenderId", "JoiningDate", "LastName", "ManagerId", "Password", "RoleId", "TokenId", "UpdateById", "UpdatedDate" },
+                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, "05DE0BA6E0B516DACFDF253175A1B2452467865F2EA2797FB052E5B0B1AEB6A0:13FC9E36C243D0ACBE941549F167232C:50000:SHA256", 1L, null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmailAddress_ContactNumber",
@@ -272,6 +311,11 @@ namespace WBLMS.Data.Migrations
                 table: "LeaveBalances",
                 column: "EmployeeId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LeaveRequests_EmployeeId",
+                table: "LeaveRequests",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LeaveRequests_LeaveTypeId",
@@ -334,6 +378,9 @@ namespace WBLMS.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "LeaveRequests");
+
+            migrationBuilder.DropTable(
+                name: "WonderbizHolidays");
 
             migrationBuilder.DropTable(
                 name: "LeaveTypes");
