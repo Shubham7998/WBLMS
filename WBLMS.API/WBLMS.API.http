@@ -121,3 +121,7 @@ Content-Type: application/json
 
 ###
      
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/2024
+
+###

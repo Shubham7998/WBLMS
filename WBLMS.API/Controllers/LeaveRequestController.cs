@@ -341,6 +341,26 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
+
+        [HttpGet("getLeaveBy/{year}")]
+        public async Task<ActionResult<GetLeaveRequestByYear>> GetLeavesReqByYear(long year)
+        {
+            try
+            {
+                var leaveCount = await _leaveRequestService.GetLeaveRequestCountByYear(year);
+                if(leaveCount != null)
+                {
+                    return Ok(new APIResponseDTO<GetLeaveRequestByYear>(200, leaveCount, successMessage));
+
+                }
+                    return Ok(new APIResponseDTO<GetLeaveRequestByYear>(204, null, "No data found"));
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new APIResponseDTO<GetLeaveRequestByYear>(500, null, ex.Message));
+            }
+        }
         [HttpGet("leavetype")]
         public async Task<ActionResult<IEnumerable<GetLeaveTypesDTO>>> GetLeaveTypes()
         {

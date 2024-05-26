@@ -243,5 +243,48 @@ namespace WBLMS.Services
                 throw;
             }
         }
+
+        public async Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long year)
+        {
+            var leaveRequests = await _dbContext.LeaveRequests.ToListAsync();
+
+            var leaveReqDTO = new GetLeaveRequestByYear(
+                        await GetLeaveRequestCountForMonth(1, year),
+                        await GetLeaveRequestCountForMonth(2, year),
+                        await GetLeaveRequestCountForMonth(3, year),
+                        await GetLeaveRequestCountForMonth(4, year),
+                        await GetLeaveRequestCountForMonth(5, year),
+                        await GetLeaveRequestCountForMonth(6, year),
+                        await GetLeaveRequestCountForMonth(7, year),
+                        await GetLeaveRequestCountForMonth(8, year),
+                        await GetLeaveRequestCountForMonth(9, year),
+                        await GetLeaveRequestCountForMonth(10, year),
+                        await GetLeaveRequestCountForMonth(11, year),
+                        await GetLeaveRequestCountForMonth(12, year)
+                    );
+            return leaveReqDTO;
+        }
+
+        public  async Task<LeaveRequestStatusDTO> GetLeaveRequestCountForMonth(int month, long year)
+        {
+            var leaveReqForMonth = await  _dbContext.LeaveRequests
+                .Where(lr => lr.StartDate.Month == month && lr.StartDate.Year == year)
+                .ToListAsync();
+
+            var appliedLeaveRequests = leaveReqForMonth.Count;
+            var acceptedLeaveRequests = leaveReqForMonth.Count(lr => lr.StatusId == 2); 
+            var rejectedLeaveRequests = leaveReqForMonth.Count(lr => lr.StatusId == 3); 
+            var pendingLeaveRequests = leaveReqForMonth.Count(lr => lr.StatusId == 1); 
+
+            var dto =  new LeaveRequestStatusDTO(
+                appliedLeaveRequests,
+                acceptedLeaveRequests,
+                rejectedLeaveRequests,
+                pendingLeaveRequests
+            );
+
+            return dto;
+        }
+
     }
 }

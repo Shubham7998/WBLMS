@@ -9,13 +9,35 @@ namespace WBLMS.DTO
 {
     public record CreateLeaveRequestDTO(
             [Required(ErrorMessage = "EmployeeId is required.")] long EmployeeId,
-           // [Required(ErrorMessage = "ManagerId is required.")] long ManagerId,
+            // [Required(ErrorMessage = "ManagerId is required.")] long ManagerId,
             [Required(ErrorMessage = "LeaveTypeId is required.")] long LeaveTypeId,
             [Required(ErrorMessage = "Reason is required.")][MaxLength(150, ErrorMessage = "Length cannot exceed 150")] string Reason,
             [Required(ErrorMessage = "StartDate is required.")] DateOnly StartDate,
             [Required(ErrorMessage = "EndDate is required.")] DateOnly EndDate,
             [Required(ErrorMessage = "NumberOfLeaveDays is required.")] decimal NumberOfLeaveDays,
             bool isHalfDay
+        );
+
+    public record GetLeaveRequestByYear(
+            LeaveRequestStatusDTO January,
+            LeaveRequestStatusDTO February,
+            LeaveRequestStatusDTO March,
+            LeaveRequestStatusDTO April,
+            LeaveRequestStatusDTO May,
+            LeaveRequestStatusDTO June,
+            LeaveRequestStatusDTO July,
+            LeaveRequestStatusDTO August,
+            LeaveRequestStatusDTO September,
+            LeaveRequestStatusDTO October,
+            LeaveRequestStatusDTO November,
+            LeaveRequestStatusDTO December
+        );
+
+    public record LeaveRequestStatusDTO(
+            long AppliedLeaveRequests,
+            long AcceptedLeaveRequests,
+            long RejectedLeaveRequests,
+            long PendingLeaveRequests
         );
     public record UpdateLeaveRequestDTO(
             [Required(ErrorMessage = "LeaveRequestId is required.")] long Id,
