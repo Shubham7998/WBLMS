@@ -111,7 +111,7 @@ namespace WBLMS.API.Controllers
                         RefreshToken = newRefreshToken,
                         EmployeeId = employee.Id,
                         RefreshTokenExpiry = DateTime.Now.AddDays(5),
-                        PasswordResetExpiry = DateTime.Now.AddDays(5),
+                        PasswordResetExpiry = DateTime.Now.AddMinutes(5),
                         PasswordResetToken = "random"
                     };
                     employee.Token.AccessToken = newAccessToken;
@@ -256,17 +256,13 @@ namespace WBLMS.API.Controllers
                 }
                 var token = await _employeeService.GetTokenByEmployeeIdAsync(employee.Id);
 
-                var isOldPasswordCorrect = PasswordHashing.Verify(resetPasswordDTO.OldPassword, employee.Password);
-                if (!isOldPasswordCorrect)
-                {
-                    //return BadRequest(new
-                    //{
-                    //    StatusCode = 204,
-                    //    Message = "Old password you have enter is wrong"
-                    //});
-                    return NotFound(new APIResponseDTO<EmptyResult>(204, null, "Old password you have enter is wrong"));
+                //var isOldPasswordCorrect = PasswordHashing.Verify(resetPasswordDTO.OldPassword, employee.Password);
+                //if (!isOldPasswordCorrect)
+                //{
+                    
+                //    return NotFound(new APIResponseDTO<EmptyResult>(204, null, "Old password you have enter is wrong"));
 
-                }
+                //}
 
 
                 var tokenCode = token.PasswordResetToken;
@@ -293,7 +289,7 @@ namespace WBLMS.API.Controllers
                 //    StatusCode = 200,
                 //    Message = "Password reset successfully"
                 //});
-                return NotFound(new APIResponseDTO<EmptyResult>(200, null, "Password reset successfully"));
+                return Ok(new APIResponseDTO<EmptyResult>(200, null, "Password reset successfully"));
 
             }
             catch (Exception ex)

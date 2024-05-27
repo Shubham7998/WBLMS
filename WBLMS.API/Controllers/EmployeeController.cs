@@ -207,7 +207,7 @@ namespace WBLMS.API.Controllers
         }
 
         // PUT api/<EmployeeController>/5
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<GetEmployeeDTO>> Put(int id, [FromBody] UpdateEmployeeDTO employeeDTO)
         {
