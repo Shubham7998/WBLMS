@@ -125,3 +125,108 @@ Content-Type: application/json
 GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/2024
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/employeeLeaveReq?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  //GetEmployeeLeaveReqDTO
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/employee
+Content-Type: application/json
+
+{
+  ""
+}
+
+###
+public record CreateEmployeeDTO
+        (
+            [Required(ErrorMessage = "FirstName is required")]
+            [MaxLength(50)] string FirstName,
+            [Required(ErrorMessage = "LastName is required")]
+            [MaxLength(50)] string LastName,
+            [Required(ErrorMessage = "Password is required")]
+            [MaxLength(25)] string Password,
+            [Required(ErrorMessage = "EmailAddress is required")]
+            string EmailAddress,
+            [Required(ErrorMessage = "ContactNumber is required")]
+            string ContactNumber,
+            [Required(ErrorMessage = "Gender is required")]
+            long GenderId,
+            long RoleId,
+            long? ManagerId,
+            long? CreatedById
+        );
+
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+    "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "emailAddress": "",
+    "contactNumber": "",
+    "genderId": 0,
+    "roleId": 0,
+    "managerId": 0,
+    "createdById" : 0,
+    "joiningDate" : 0
+}
+
+###
+ public record GetEmployeeForeignDTO
+        (
+            long Id,
+            string FirstName,
+            string LastName,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
+            string? GenderName,
+            long RoleId,
+            string? RoleName,
+            long ManagerId,
+            string? ManagerName
+        );
+
+    public record GetEmployeeLeaveReqDTO
+        (
+            long Id,
+            string FirstName,
+            string LastName,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
+            string? GenderName,
+            long RoleId,
+            string? RoleName,
+            long ManagerId,
+            string? ManagerName,
+            decimal BalanceLeaveRequest,
+            decimal TotalLeaveRequest
+        );
+
+POST {{WBLMS.API_HostAddress}}/api/employee/paginated?page=0&pageSize=0&sortColumn=string&sortOrder=string
+Content-Type: application/json
+
+{
+  //GetEmployeeDTO
+}
+
+###
+long Id,
+            string FirstName,
+            string LastName,
+            //string? Password,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
+            long RoleId,
+            long ManagerId,
+            long CreatedById,
+            DateOnly? JoiningDate

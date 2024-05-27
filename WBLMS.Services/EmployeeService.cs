@@ -65,14 +65,31 @@ namespace WBLMS.Services
                 Balance = 25,
                 TotalLeaves = 25
             };
-            await _dbContext.LeaveBalances.AddAsync(leaveBalance);
-            await _dbContext.SaveChangesAsync();
 
 
-            if (employee != null)
+            var leaveBalanceData =  await _dbContext.LeaveBalances.AddAsync(leaveBalance);
+            var leaveBal = await _dbContext.SaveChangesAsync();
+
+
+            //if (employee != null)
+            //{
+            //    //employee.TokenId = tokenData.Entity.Id;
+            //    //await _dbContext.SaveChangesAsync();
+            //}
+
+            //var leaveBalanceEmployee = await _dbContext.LeaveBalances.FirstAsync(e => e.EmployeeId == .Entity.EmployeeId);
+
+            var employeeData = await _dbContext.Employees.FirstAsync(e => e.Id == employee.Id);
+            //if (leaveBalanceEmployee != null)
+            //{
+            //    leaveBalanceEmployee.Balance -= request.Entity.NumberOfLeaveDays;
+            //    await _dbContext.SaveChangesAsync();
+            //}
+
+            if ( leaveBalanceData != null )
             {
-                //employee.TokenId = tokenData.Entity.Id;
-                //await _dbContext.SaveChangesAsync();
+                employeeData.LeaveBalanceId = leaveBalanceData.Entity.Id;
+                await _dbContext.SaveChangesAsync();
             }
 
             return new GetEmployeeDTO
