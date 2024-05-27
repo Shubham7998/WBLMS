@@ -26,9 +26,10 @@ namespace WBLMS.Data
                 );
             _modelBuilder.Entity<Roles>().HasData(
                     new Roles() { Id = 1, RoleName = "Admin"},
-                    new Roles() { Id = 2, RoleName = "HR"},
+                    new Roles() { Id = 2, RoleName = "HR Manager"},
                     new Roles() { Id = 3, RoleName = "Team Lead"},
-                    new Roles() { Id = 4, RoleName = "Employee" }
+                    new Roles() { Id = 4, RoleName = "HR"},
+                    new Roles() { Id = 5, RoleName = "Employee" }
                 );
             _modelBuilder.Entity<Status>().HasData(
                     new Status() { Id = 1, StatusName = "Pending"},

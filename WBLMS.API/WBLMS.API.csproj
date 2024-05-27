@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
@@ -19,12 +17,10 @@
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\WBLMS.Data\WBLMS.Data.csproj" />
     <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
     <ProjectReference Include="..\WBLMS.IServices\WBLMS.IServices.csproj" />
     <ProjectReference Include="..\WBLMS.Services\WBLMS.Services.csproj" />
   </ItemGroup>
-
 </Project>
