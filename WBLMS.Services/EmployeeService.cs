@@ -303,9 +303,33 @@ namespace WBLMS.Services
             try
             {
                 var employees = await _dbContext.Employees.ToListAsync();
+
+                var employeeRole = await _dbContext.Roles.FindAsync(id);
+
+                var managerRoleName = "";
+
+                if(employeeRole != null)
+                {
+                    if(employeeRole.RoleName == "HR")
+                    {
+                        managerRoleName = "HR Manager";
+                    }
+                    if (employeeRole.RoleName == "Developer")
+                    {
+                        managerRoleName = "Team Lead";
+                    }
+                    if(employeeRole.RoleName == "Team Lead" || employeeRole.RoleName == "HR Manager")
+                    {
+                        managerRoleName = "Admin";
+                    }
+                }
+
+                var managerRole =  _dbContext.Roles.FirstOrDefault(role => role.RoleName == managerRoleName);
+
+                
                 var managers = employees.FindAll
                     (
-                        employee => employee.RoleId == id - 1
+                        employee => employee.RoleId == managerRole.Id
                     );
                 var managerList = managers.Select
                     (
