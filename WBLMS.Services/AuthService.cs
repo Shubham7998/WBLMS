@@ -39,7 +39,7 @@ namespace WBLMS.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,
-                Expires = DateTime.Now.AddMinutes(5),
+                Expires = DateTime.Now.AddMinutes(10),
                 SigningCredentials = credentials
             };
 
@@ -57,7 +57,8 @@ namespace WBLMS.Services
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-            var key = Encoding.UTF8.GetBytes("this is my custom Secret key for authentication");
+            //var key = Encoding.UTF8.GetBytes("this is my custom Secret key for authentication");
+            var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]);
             var tokenValidationParmaters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
