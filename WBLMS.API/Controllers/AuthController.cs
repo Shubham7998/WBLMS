@@ -126,7 +126,7 @@ namespace WBLMS.API.Controllers
                     RefreshToken = newRefreshToken
                 });
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
             }
@@ -186,7 +186,7 @@ namespace WBLMS.API.Controllers
         }
 
 
-        [HttpPost("send-reset-email/{email}")]
+        [HttpPost("send-forget-email/{email}")]
 
         public async Task<IActionResult> SendEmail(string email)
         {
@@ -205,7 +205,7 @@ namespace WBLMS.API.Controllers
                 }
 
                 var token = await _employeeRepository.GetTokenAsync(getEmployee.Id);
-                if(token == null)
+                if (token == null)
                 {
                     return NotFound(new APIResponseDTO<EmptyResult>(500, null, "You have to login first"));
                 }
@@ -256,10 +256,12 @@ namespace WBLMS.API.Controllers
                 }
                 var token = await _employeeService.GetTokenByEmployeeIdAsync(employee.Id);
 
+
+
                 //var isOldPasswordCorrect = PasswordHashing.Verify(resetPasswordDTO.OldPassword, employee.Password);
                 //if (!isOldPasswordCorrect)
                 //{
-                    
+
                 //    return NotFound(new APIResponseDTO<EmptyResult>(204, null, "Old password you have enter is wrong"));
 
                 //}
@@ -297,6 +299,49 @@ namespace WBLMS.API.Controllers
                 return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
             }
         }
+        [HttpPost("forget-password")]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordDTO forgetPasswordDTO)
+        {
+            var newToken = forgetPasswordDTO.EmailToken.Replace(" ", "+");
+
+            var employee = await _employeeService.GetEmployeeByEmailAsync(forgetPasswordDTO.Email);
+
+            if (employee == null)
+            {
+                return NotFound(new
+                {
+                    StatusCode = 404,
+                    Message = "email doesnt exist"
+                });
+            }
+            var token = await _employeeService.GetTokenByEmployeeIdAsync(employee.Id);
+
+            var tokenCode = token.PasswordResetToken;
+            DateTime emailTokenExpiry = token.PasswordResetExpiry;
+
+            var isTokenValid = tokenCode == forgetPasswordDTO.EmailToken;
+
+            if (!isTokenValid || emailTokenExpiry < DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    StatusCode = 400,
+                    Message = "Invalid reset link"
+                });
+            }
+            token.PasswordResetToken = "random";
+
+            employee.Password = PasswordHashing.getHashPassword(forgetPasswordDTO.NewPassword);
+            _dbContext.Entry(token).State = EntityState.Modified;
+            _dbContext.Entry(employee).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            //return Ok(new
+            //{
+            //    StatusCode = 200,
+            //    Message = "Password reset successfully"
+            //});
+            return Ok(new APIResponseDTO<EmptyResult>(200, null, " New password set successfully"));
+        }                
     }
 }
 

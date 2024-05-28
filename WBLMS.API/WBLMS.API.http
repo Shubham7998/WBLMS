@@ -230,3 +230,22 @@ long Id,
             long ManagerId,
             long CreatedById,
             DateOnly? JoiningDate
+
+POST {{WBLMS.API_HostAddress}}/api/auth/forget-password
+Content-Type: application/json
+
+{
+    "email" : "shubham.patil@wonderbiz.in",
+  "emailToken" : "plwUCXBc3sC1MKtgSCB2CrGEb/NrlFJbhq3rWziS+coEL1F+yMY7sOti1ITR1+ABdKzM5qwpJJyCwD8E2HTcFA==",
+  "newPassword" : "First@1234"
+}
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/string
+
+###
+
+POST {{WBLMS.API_HostAddress}}/api/auth/send-forget-email/shubham.patil@wonderbiz.in
+
+###
