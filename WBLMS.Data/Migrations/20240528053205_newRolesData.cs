@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WBLMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration : Migration
+    public partial class newRolesData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -98,7 +98,8 @@ namespace WBLMS.Data.Migrations
                     JoiningDate = table.Column<DateOnly>(type: "date", nullable: true),
                     UpdateById = table.Column<long>(type: "bigint", nullable: true),
                     UpdatedDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    TokenId = table.Column<long>(type: "bigint", nullable: true)
+                    TokenId = table.Column<long>(type: "bigint", nullable: true),
+                    LeaveBalanceId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -237,9 +238,10 @@ namespace WBLMS.Data.Migrations
                 values: new object[,]
                 {
                     { 1L, "Admin" },
-                    { 2L, "HR" },
+                    { 2L, "HR Manager" },
                     { 3L, "Team Lead" },
-                    { 4L, "Employee" }
+                    { 4L, "HR" },
+                    { 5L, "Developer" }
                 });
 
             migrationBuilder.InsertData(
@@ -271,8 +273,8 @@ namespace WBLMS.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "ContactNumber", "CreatedById", "EmailAddress", "FirstName", "GenderId", "JoiningDate", "LastName", "ManagerId", "Password", "RoleId", "TokenId", "UpdateById", "UpdatedDate" },
-                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, "05DE0BA6E0B516DACFDF253175A1B2452467865F2EA2797FB052E5B0B1AEB6A0:13FC9E36C243D0ACBE941549F167232C:50000:SHA256", 1L, null, null, null });
+                columns: new[] { "Id", "ContactNumber", "CreatedById", "EmailAddress", "FirstName", "GenderId", "JoiningDate", "LastName", "LeaveBalanceId", "ManagerId", "Password", "RoleId", "TokenId", "UpdateById", "UpdatedDate" },
+                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, null, "2D77CD6437A22EC2F65FA782BA743CC584F12261FBCCB6B6B59AF8B661AFE44D:EA49D63D00E1137AA746E316FC5C3683:50000:SHA256", 1L, null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmailAddress_ContactNumber",
@@ -284,6 +286,11 @@ namespace WBLMS.Data.Migrations
                 name: "IX_Employees_GenderId",
                 table: "Employees",
                 column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_LeaveBalanceId",
+                table: "Employees",
+                column: "LeaveBalanceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_ManagerId",
@@ -351,6 +358,13 @@ namespace WBLMS.Data.Migrations
                 unique: true);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Employees_LeaveBalances_LeaveBalanceId",
+                table: "Employees",
+                column: "LeaveBalanceId",
+                principalTable: "LeaveBalances",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Employees_Tokens_TokenId",
                 table: "Employees",
                 column: "TokenId",
@@ -366,15 +380,16 @@ namespace WBLMS.Data.Migrations
                 table: "Employees");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Employees_LeaveBalances_LeaveBalanceId",
+                table: "Employees");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Roles_RoleId",
                 table: "Employees");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Tokens_TokenId",
                 table: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "LeaveBalances");
 
             migrationBuilder.DropTable(
                 name: "LeaveRequests");
@@ -390,6 +405,9 @@ namespace WBLMS.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genders");
+
+            migrationBuilder.DropTable(
+                name: "LeaveBalances");
 
             migrationBuilder.DropTable(
                 name: "Roles");
