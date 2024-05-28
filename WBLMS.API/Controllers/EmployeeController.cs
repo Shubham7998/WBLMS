@@ -91,7 +91,7 @@ namespace WBLMS.API.Controllers
        // [Authorize(Roles = "Admin")]
         [HttpPost("employeeLeaveReq")]
         public async Task<ActionResult<Paginated<GetEmployeeLeaveReqDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeLeaveReqDTO employee)
-        {
+      {
             try
             {
                 var result = await _employeeService.GetAllEmployeeLeaveAsync(page, pageSize, sortColumn, sortOrder, employee);

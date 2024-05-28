@@ -462,6 +462,7 @@ namespace WBLMS.Services
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
                                 employee.Gender.GenderName,
+                                employee.JoiningDate.ToString(),
                                 (long)employee.RoleId,
                                 employee.Roles.RoleName,
                                 employee.ManagerId == null ? 0 : (long)employee.ManagerId,

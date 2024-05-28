@@ -42,6 +42,7 @@ namespace WBLMS.DTO
             string ContactNumber,
             long GenderId,
             string? GenderName,
+            string JoiningDate,
             long RoleId,
             string? RoleName,
             long ManagerId,
