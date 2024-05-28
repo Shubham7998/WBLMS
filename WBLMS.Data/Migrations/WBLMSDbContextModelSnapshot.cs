@@ -103,7 +103,7 @@ namespace WBLMS.Data.Migrations
                             FirstName = "Hemant",
                             GenderId = 2L,
                             LastName = "Patel",
-                            Password = "17133B89F75DC23D48688C3E8FB72CBCDEA5C1041D5D42C7BEA35F3524E7AAB3:DEE085176D27CA8FFEF8FDED2A5F3937:50000:SHA256",
+                            Password = "2D77CD6437A22EC2F65FA782BA743CC584F12261FBCCB6B6B59AF8B661AFE44D:EA49D63D00E1137AA746E316FC5C3683:50000:SHA256",
                             RoleId = 1L
                         });
                 });
@@ -309,7 +309,7 @@ namespace WBLMS.Data.Migrations
                         new
                         {
                             Id = 5L,
-                            RoleName = "Employee"
+                            RoleName = "Developer"
                         });
                 });
 

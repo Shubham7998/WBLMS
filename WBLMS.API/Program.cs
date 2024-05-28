@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-//var connectionString = configuration.GetConnectionString("connectionStringHemantHome");
-var connectionString = configuration.GetConnectionString("connectionstringshubhamhome");
+var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
+//var connectionString = configuration.GetConnectionString("connectionstringshubhamhome");
 //var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
 builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));

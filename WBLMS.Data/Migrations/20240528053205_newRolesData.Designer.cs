@@ -12,8 +12,8 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240526163653_leaveReqConnected")]
-    partial class leaveReqConnected
+    [Migration("20240528053205_newRolesData")]
+    partial class newRolesData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,7 +106,7 @@ namespace WBLMS.Data.Migrations
                             FirstName = "Hemant",
                             GenderId = 2L,
                             LastName = "Patel",
-                            Password = "976CD11455FD8260FAC223CD683404BBF9FE1A69EF067DC230C7A54FB49D8BE4:51345705419A05A43D74E12B5AC0035C:50000:SHA256",
+                            Password = "2D77CD6437A22EC2F65FA782BA743CC584F12261FBCCB6B6B59AF8B661AFE44D:EA49D63D00E1137AA746E316FC5C3683:50000:SHA256",
                             RoleId = 1L
                         });
                 });
@@ -297,7 +297,7 @@ namespace WBLMS.Data.Migrations
                         new
                         {
                             Id = 2L,
-                            RoleName = "HR"
+                            RoleName = "HR Manager"
                         },
                         new
                         {
@@ -307,7 +307,12 @@ namespace WBLMS.Data.Migrations
                         new
                         {
                             Id = 4L,
-                            RoleName = "Employee"
+                            RoleName = "HR"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            RoleName = "Developer"
                         });
                 });
 
