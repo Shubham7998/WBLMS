@@ -274,8 +274,7 @@ namespace WBLMS.API.Controllers
 
 
         [HttpPost("profilePicUpload")]
-        [DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadImage(long employeeId)
+        public async Task<IActionResult> UploadImage(IFormFile formFile, long employeeId)
         {
             try
             {
