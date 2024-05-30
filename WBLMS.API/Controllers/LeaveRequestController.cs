@@ -346,12 +346,12 @@ namespace WBLMS.API.Controllers
             }
         }
         //[Authorize(Roles = "Admin,Employee,HR,Team Lead")]
-        [HttpGet("getLeaveBy/{year}")]
-        public async Task<ActionResult<GetLeaveRequestByYear>> GetLeavesReqByYear(long year)
+        [HttpGet("getLeaveBy/{employeeId}")]
+        public async Task<ActionResult<GetLeaveRequestByYear>> GetLeavesReqByYear(long? employeeId,long year)
         {
             try
             {
-                var leaveCount = await _leaveRequestService.GetLeaveRequestCountByYear(year);
+                var leaveCount = await _leaveRequestService.GetLeaveRequestCountByYear(year,(long)employeeId);
                 if(leaveCount != null)
                 {
                     return Ok(new APIResponseDTO<GetLeaveRequestByYear>(200, leaveCount, successMessage));

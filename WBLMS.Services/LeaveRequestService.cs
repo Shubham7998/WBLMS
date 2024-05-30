@@ -244,32 +244,37 @@ namespace WBLMS.Services
             }
         }
 
-        public async Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long year)
+        public async Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long year, long employeeId)
         {
-            var leaveRequests = await _dbContext.LeaveRequests.ToListAsync();
+            //var leaveRequests = await _dbContext.LeaveRequests.ToListAsync();
 
             var leaveReqDTO = new GetLeaveRequestByYear(
-                        await GetLeaveRequestCountForMonth(1, year),
-                        await GetLeaveRequestCountForMonth(2, year),
-                        await GetLeaveRequestCountForMonth(3, year),
-                        await GetLeaveRequestCountForMonth(4, year),
-                        await GetLeaveRequestCountForMonth(5, year),
-                        await GetLeaveRequestCountForMonth(6, year),
-                        await GetLeaveRequestCountForMonth(7, year),
-                        await GetLeaveRequestCountForMonth(8, year),
-                        await GetLeaveRequestCountForMonth(9, year),
-                        await GetLeaveRequestCountForMonth(10, year),
-                        await GetLeaveRequestCountForMonth(11, year),
-                        await GetLeaveRequestCountForMonth(12, year)
+                        await GetLeaveRequestCountForMonth(1, year, employeeId),
+                        await GetLeaveRequestCountForMonth(2, year, employeeId),
+                        await GetLeaveRequestCountForMonth(3, year, employeeId),
+                        await GetLeaveRequestCountForMonth(4, year, employeeId),
+                        await GetLeaveRequestCountForMonth(5, year, employeeId),
+                        await GetLeaveRequestCountForMonth(6, year, employeeId),
+                        await GetLeaveRequestCountForMonth(7, year, employeeId),
+                        await GetLeaveRequestCountForMonth(8, year, employeeId),
+                        await GetLeaveRequestCountForMonth(9, year, employeeId),
+                        await GetLeaveRequestCountForMonth(10, year, employeeId),
+                        await GetLeaveRequestCountForMonth(11, year, employeeId),
+                        await GetLeaveRequestCountForMonth(12, year, employeeId)
                     );
             return leaveReqDTO;
         }
 
-        public  async Task<LeaveRequestStatusDTO> GetLeaveRequestCountForMonth(int month, long year)
+        public  async Task<LeaveRequestStatusDTO> GetLeaveRequestCountForMonth(int month, long year, long employeeId)
         {
             var leaveReqForMonth = await  _dbContext.LeaveRequests
                 .Where(lr => lr.StartDate.Month == month && lr.StartDate.Year == year)
                 .ToListAsync();
+
+            if (employeeId != 0)
+            {
+                leaveReqForMonth = leaveReqForMonth.Where(emp => emp.EmployeeId == employeeId).ToList();
+            }
 
             var appliedLeaveRequests = leaveReqForMonth.Count;
             var acceptedLeaveRequests = leaveReqForMonth.Count(lr => lr.StatusId == 2); 

@@ -40,9 +40,9 @@ namespace WBLMS.API.Controllers
                 //    StatusCode = 200,
                 //    data = genders
                 //});
-                return Ok(new APIResponseDTO<IEnumerable<Gender>> (200, genders, success));
+                return Ok(new APIResponseDTO<IEnumerable<Gender>>(200, genders, success));
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
             }
@@ -88,10 +88,10 @@ namespace WBLMS.API.Controllers
             }
         }
 
-       // [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpPost("employeeLeaveReq")]
         public async Task<ActionResult<Paginated<GetEmployeeLeaveReqDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeLeaveReqDTO employee)
-      {
+        {
             try
             {
                 var result = await _employeeService.GetAllEmployeeLeaveAsync(page, pageSize, sortColumn, sortOrder, employee);
@@ -145,13 +145,48 @@ namespace WBLMS.API.Controllers
         }
         // GET api/<EmployeeController>/5
         //[Authorize(Roles = "Admin,HR,Team Lead")]
+
+      //  [Authorize(Roles = "Admin,HR,Team Lead")]
+        [HttpGet("getAll")]
+        public async Task<ActionResult<Paginated<GetEmployeesDTO>>> GetEmployees(int page, int pageSize, string? sortColumn, string? sortOrder,  string? searchKeyword="")
+        {
+            try
+            {
+                if(sortColumn != null)
+                {
+                    sortColumn = RemoveWhiteSpace(sortColumn);
+                }
+                var result = await _employeeService.GetAllEmployeeAsync(page, pageSize, sortColumn, sortOrder, searchKeyword);
+
+                var sendResult = new Paginated<GetEmployeesDTO>
+                {
+                    dataArray = result.Item1,
+                    totalCount = result.Item2,
+                };
+                //return Ok(new
+                //{
+                //    StatusCode = 200,
+                //    data = sendResult
+                //});
+                return Ok(new APIResponseDTO<Paginated<GetEmployeesDTO>>(200, sendResult, success));
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
+            }
+        }
+        string RemoveWhiteSpace(string sortColum)
+        {
+            return new String(sortColum.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<GetEmployeeForeignDTO>> Get(int id)
         {
             try
             {
                 var result = await _employeeService.GetEmployeeForeignByIdAsync(id);
-                if(result != null)
+                if (result != null)
                 {
                     //return Ok(new
                     //{
@@ -221,7 +256,7 @@ namespace WBLMS.API.Controllers
                     //    StatusCode = 200,
                     //    data = result
                     //});
-                return Ok(new APIResponseDTO<GetEmployeeDTO>(200, result, success));
+                    return Ok(new APIResponseDTO<GetEmployeeDTO>(200, result, success));
                 }
                 //return Ok(new
                 //{
@@ -253,7 +288,7 @@ namespace WBLMS.API.Controllers
                     //    StatusCode = 200,
                     //    data = result
                     //});
-                    return Ok(new APIResponseDTO<string>(200, msg , success));
+                    return Ok(new APIResponseDTO<string>(200, msg, success));
 
                 }
                 //return BadRequest(new

@@ -68,6 +68,88 @@ namespace WBLMS.Repositories
             return (await query.ToListAsync(), totalCount);
         }
 
+        public async Task<(IEnumerable<Employee>, int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, string searchkeyword)
+        {
+            var query = _dbContext.Employees
+                .Include(e => e.Manager)
+                .Include(e => e.Roles)
+                .Include(e => e.Gender)
+                .Include(e => e.LeaveBalance)
+                .Where(e => e.Id != 1)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchkeyword))
+            {
+                query = SearchEmployee(query, searchkeyword);
+            }
+
+            if (!string.IsNullOrEmpty(sortOrder) && !string.IsNullOrEmpty(sortColumn))
+            {
+                query = SortEmployee(query, sortOrder, sortColumn);
+            }
+
+            (query, int totalCount) = Pagination(query, page, pageSize);
+
+            return (await query.ToListAsync(), totalCount);
+        }
+
+        private IQueryable<Employee> SearchEmployee(IQueryable<Employee> query, GetEmployeesDTO employeeObj, string searchKeyword)
+        {
+            if (!string.IsNullOrWhiteSpace(employeeObj.FirstName))
+            {
+                query = query.Where(employee => employee.FirstName.Contains(employeeObj.FirstName));
+            }
+            if (!string.IsNullOrWhiteSpace(employeeObj.LastName))
+            {
+                query = query.Where(employee => employee.LastName.Contains(employeeObj.LastName));
+            }
+            if (!string.IsNullOrWhiteSpace(employeeObj.EmailAddress))
+            {
+                query = query.Where(employee => employee.EmailAddress.Contains(employeeObj.EmailAddress));
+            }
+            if (!string.IsNullOrWhiteSpace(employeeObj.ContactNumber))
+            {
+                query = query.Where(employee => employee.ContactNumber.Contains(employeeObj.EmailAddress));
+            }
+            if (employeeObj.GenderId != 0)
+            {
+                query = query.Where(employee => employee.Gender.GenderName.Contains(employeeObj.GenderName));
+            }
+            if (employeeObj.RoleId != 0)
+            {
+                query = query.Where(employee => employee.Roles.RoleName.Contains(employeeObj.RoleName));
+            }
+            if (employeeObj.ManagerId != 0)
+            {
+                query = query.Where(employee => employee.Manager.FirstName.Contains(employeeObj.ManagerName) || employee.Manager.LastName.Contains(employeeObj.ManagerName));
+            }
+            if (employeeObj.BalanceLeaveRequest != 0)
+            {
+                query = query.Where(employee => employee.LeaveBalance.Balance == int.Parse(searchKeyword));
+            }
+
+            return query;
+        }
+
+        private IQueryable<Employee> SearchEmployee(IQueryable<Employee> query, string searchKeyword)
+        {
+            var result = query.Where
+                (
+                    emp =>
+                            emp.FirstName.Contains(searchKeyword) ||
+                            emp.LastName.Contains(searchKeyword) ||
+                            emp.EmailAddress.Contains(searchKeyword) ||
+                            emp.ContactNumber.Contains(searchKeyword) ||
+                            emp.Gender.GenderName.Contains(searchKeyword) ||
+                            emp.Roles.RoleName.Contains(searchKeyword) ||
+                            emp.Manager.FirstName.Contains(searchKeyword) ||
+                            emp.Manager.LastName.Contains(searchKeyword) ||
+                            emp.JoiningDate.ToString().Contains(searchKeyword) ||
+                            emp.LeaveBalance.Balance.ToString().Contains(searchKeyword)
+                );
+            return result;
+        }
+
         private static (IQueryable<Employee>, int) Pagination(IQueryable<Employee> query, int page, int pageSize)
         {
             int totalCount = query.Count();
@@ -95,13 +177,13 @@ namespace WBLMS.Repositories
                 case "contactnumber":
                     query = sortInAsc ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
                     break;
-                case "genderid":
+                case "gendername":
                     query = sortInAsc ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
                     break;
-                case "roleid":
+                case "rolename":
                     query = sortInAsc ? query.OrderBy(s => s.Roles.RoleName) : query.OrderByDescending(s => s.Roles.RoleName);
                     break;
-                case "managerid":
+                case "managername":
                     query = sortInAsc ? query.OrderBy(s => s.Manager.FirstName) : query.OrderByDescending(s => s.Manager.FirstName);
                     break;
                 case "joiningdate":

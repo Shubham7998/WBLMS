@@ -19,6 +19,6 @@ namespace WBLMS.IServices
 
         Task<IEnumerable<GetLeaveTypesDTO>> GetLeavesType();
         Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId);
-        Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long  year);
+        Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long  year, long employeeId);
     }
 }

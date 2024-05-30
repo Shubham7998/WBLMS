@@ -67,7 +67,7 @@ namespace WBLMS.Services
             };
 
 
-            var leaveBalanceData =  await _dbContext.LeaveBalances.AddAsync(leaveBalance);
+            var leaveBalanceData = await _dbContext.LeaveBalances.AddAsync(leaveBalance);
             var leaveBal = await _dbContext.SaveChangesAsync();
 
 
@@ -86,7 +86,7 @@ namespace WBLMS.Services
             //    await _dbContext.SaveChangesAsync();
             //}
 
-            if ( leaveBalanceData != null )
+            if (leaveBalanceData != null)
             {
                 employeeData.LeaveBalanceId = leaveBalanceData.Entity.Id;
                 await _dbContext.SaveChangesAsync();
@@ -308,9 +308,9 @@ namespace WBLMS.Services
 
                 var managerRoleName = "";
 
-                if(employeeRole != null)
+                if (employeeRole != null)
                 {
-                    if(employeeRole.RoleName == "HR")
+                    if (employeeRole.RoleName == "HR")
                     {
                         managerRoleName = "HR Manager";
                     }
@@ -318,15 +318,15 @@ namespace WBLMS.Services
                     {
                         managerRoleName = "Team Lead";
                     }
-                    if(employeeRole.RoleName == "Team Lead" || employeeRole.RoleName == "HR Manager")
+                    if (employeeRole.RoleName == "Team Lead" || employeeRole.RoleName == "HR Manager")
                     {
                         managerRoleName = "Admin";
                     }
                 }
 
-                var managerRole =  _dbContext.Roles.FirstOrDefault(role => role.RoleName == managerRoleName);
+                var managerRole = _dbContext.Roles.FirstOrDefault(role => role.RoleName == managerRoleName);
 
-                
+
                 var managers = employees.FindAll
                     (
                         employee => employee.RoleId == managerRole.Id
@@ -347,7 +347,7 @@ namespace WBLMS.Services
         public async Task<GetEmployeeForeignDTO> GetEmployeeForeignByIdAsync(int id)
         {
             try
-            {   
+            {
                 var employee = _dbContext.Employees
                         .Include(emp => emp.Manager)
                         .Include(emp => emp.Roles)
@@ -367,7 +367,7 @@ namespace WBLMS.Services
                         employee.Roles.RoleName,
                         employee.Manager != null ? (long)employee.ManagerId : -1,
                         employee.Manager != null ? employee.Manager.FirstName + " " + employee.Manager.LastName : "Null"
-                    ) ;
+                    );
                 return employeeDTO;
             }
             catch (Exception)
@@ -401,7 +401,7 @@ namespace WBLMS.Services
 
                 var result = list.Select
                     (
-                    
+
                     employee =>
                         new GetEmployeeForeignDTO
                             (
@@ -415,11 +415,45 @@ namespace WBLMS.Services
                                 (long)employee.RoleId,
                                 employee.Roles.RoleName,
                                 employee.ManagerId == null ? 0 : (long)employee.ManagerId,
-                                employee.Manager == null? "None" : employee.Manager.FirstName + " " + employee.Manager.LastName
+                                employee.Manager == null ? "None" : employee.Manager.FirstName + " " + employee.Manager.LastName
                             )
                     );
 
                 return (result, employeeList.Item2);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public async Task<(IEnumerable<GetEmployeesDTO>, int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, string searchKeyword)
+        {
+            try
+            {
+                var result = await _employeeRepository.GetAllEmployeeAsync(page, pageSize, sortColumn, sortOrder, searchKeyword);
+                var employeeList = result.Item1;
+
+                var employeeDTO = employeeList.Select(
+                        emp =>
+                            new GetEmployeesDTO
+                            (
+                                emp.Id,
+                                emp.FirstName,
+                                emp.LastName,
+                                emp.EmailAddress,
+                                emp.ContactNumber,
+                                (long)emp.GenderId,
+                                emp.Gender.GenderName,
+                                (long)emp.RoleId,
+                                emp.Roles.RoleName,
+                                emp.JoiningDate.ToString(),
+                                (long)emp.ManagerId,
+                                emp.Manager.FirstName + emp.Manager.LastName,
+                                emp.LeaveBalance.Balance,
+                                emp.LeaveBalance.TotalLeaves
+                            )
+                        );
+                return (employeeDTO, result.Item2);
             }
             catch (Exception ex)
             {
@@ -479,5 +513,6 @@ namespace WBLMS.Services
                 throw;
             }
         }
+
     }
 }

@@ -249,3 +249,78 @@ POST {{WBLMS.API_HostAddress}}/api/auth/send-reset-email/string
 POST {{WBLMS.API_HostAddress}}/api/auth/send-forget-email/shubham.patil@wonderbiz.in
 
 ###
+
+POST {{WBLMS.API_HostAddress}}/api/employee/getAll?page=1&pageSize=10&sortColumn=firstName&sortOrder=asc&searchKeyword=g
+Content-Type: application/json
+
+
+###
+public record GetEmployeesDTO
+        (
+            long Id,
+            string FirstName,
+            string LastName,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
+            string? GenderName,
+            long RoleId,
+            string? RoleName,
+            string JoiningDate,
+            long ManagerId,
+            string? ManagerName,
+            decimal BalanceLeaveRequest,
+            decimal TotalLeaveRequest
+        );
+
+POST {{WBLMS.API_HostAddress}}/api/employee/getAll?page=1&pageSize=5&sortColumn=firstName&sortOrder=asc&searchKeyword=g
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy?year=0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/year0&employeeId{employeeId}
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/year0&employeeId{employeeId}
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy?year=0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy?year=0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy?year=0
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy?year=2023
+
+###
+
+GET {{WBLMS.API_HostAddress}}/api/leaverequest/getLeaveBy/6?year=2023
+
+###

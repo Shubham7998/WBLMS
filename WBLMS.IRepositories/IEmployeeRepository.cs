@@ -11,7 +11,7 @@ namespace WBLMS.IRepositories
     public interface IEmployeeRepository : IRepository<Employee>
     {
         // Task<IEnumerable<GetEmployeeDTO>> GetAllEmployeeForeignAsync();
-
+        Task<(IEnumerable<Employee>, int)> GetAllEmployeeAsync(int page, int pageSize, string? sortColumn, string? sortOrder, string searchkeyword);
         Task<(IEnumerable<Employee>, int)> GetAllEmployee(int page, int pageSize, string? sortColumn, string? sortOrder, Employee employee);
         Task<(IEnumerable<Employee>, int)> GetAllEmployeeLeaveReq(int page, int pageSize, string? sortColumn, string? sortOrder, Employee employee);
 

@@ -33,6 +33,24 @@ namespace WBLMS.DTO
             string? ManagerName
         );
 
+    public record GetEmployeesDTO
+        (
+            long Id,
+            string FirstName,
+            string LastName,
+            string EmailAddress,
+            string ContactNumber,
+            long GenderId,
+            string? GenderName,
+            long RoleId,
+            string? RoleName,
+            string JoiningDate,
+            long ManagerId,
+            string? ManagerName,
+            decimal BalanceLeaveRequest,
+            decimal TotalLeaveRequest
+        );
+
     public record GetEmployeeLeaveReqDTO
         (
             long Id,
