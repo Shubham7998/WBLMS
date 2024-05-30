@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WBLMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class newRolesData : Migration
+    public partial class addedprofilepicField : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -91,6 +91,7 @@ namespace WBLMS.Data.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ContactNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GenderId = table.Column<long>(type: "bigint", nullable: true),
                     RoleId = table.Column<long>(type: "bigint", nullable: true),
                     ManagerId = table.Column<long>(type: "bigint", nullable: true),
@@ -273,8 +274,8 @@ namespace WBLMS.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "ContactNumber", "CreatedById", "EmailAddress", "FirstName", "GenderId", "JoiningDate", "LastName", "LeaveBalanceId", "ManagerId", "Password", "RoleId", "TokenId", "UpdateById", "UpdatedDate" },
-                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, null, "2D77CD6437A22EC2F65FA782BA743CC584F12261FBCCB6B6B59AF8B661AFE44D:EA49D63D00E1137AA746E316FC5C3683:50000:SHA256", 1L, null, null, null });
+                columns: new[] { "Id", "ContactNumber", "CreatedById", "EmailAddress", "FirstName", "GenderId", "JoiningDate", "LastName", "LeaveBalanceId", "ManagerId", "Password", "ProfilePicture", "RoleId", "TokenId", "UpdateById", "UpdatedDate" },
+                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, null, "751AFDA54D0CA549AC93FE13CDD2AD54EB425CADEC29883C80099E0406C1DFF3:29DB59DD1DE2221DD98D518C940C2627:50000:SHA256", null, 1L, null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmailAddress_ContactNumber",

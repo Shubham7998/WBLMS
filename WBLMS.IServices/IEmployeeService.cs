@@ -32,6 +32,6 @@ namespace WBLMS.IServices
 
         Task<Token> GetTokenByEmployeeIdAsync(long id);
 
-
+        Task<bool> SaveProfileImage(long id, string ImagePath);
     }
 }

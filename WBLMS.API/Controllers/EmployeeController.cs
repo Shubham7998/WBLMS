@@ -21,11 +21,13 @@ namespace WBLMS.API.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly JwtSettings _jwtSettings;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public EmployeeController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings)
+        public EmployeeController(IEmployeeService employeeService, IOptions<JwtSettings> jwtSettings, IWebHostEnvironment webHostEnvironment)
         {
             _employeeService = employeeService;
             _jwtSettings = jwtSettings.Value;
+            _webHostEnvironment = webHostEnvironment;
         }
         string success = "Successfull";
 
@@ -270,5 +272,85 @@ namespace WBLMS.API.Controllers
             }
         }
 
+
+        [HttpPost("profilePicUpload")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadImage(long employeeId)
+        {
+            try
+            {
+                string Filepath = GetFilePath(employeeId);
+                if (!System.IO.Directory.Exists(Filepath))
+                {
+                    System.IO.Directory.CreateDirectory(Filepath);
+                }
+                else
+                {
+                    string ImageUrl = string.Empty;
+                    var employee = await _employeeService.GetEmployeeByIdAsync((int)employeeId);
+                    if (employee != null)
+                    {
+                        string OldImagePath = employee.ProfilePic;
+                        string[] pathsArray = OldImagePath.Split("\\");
+                        ImageUrl = pathsArray[pathsArray.Length - 1];
+                    }
+                    System.IO.File.Delete(ImageUrl);
+                }
+                string ImagePath = Filepath + "\\" + Guid.NewGuid().ToString() + ".png";
+                
+                using(FileStream stream = System.IO.File.Create(ImagePath))
+                {
+                    await formFile.CopyToAsync(stream);
+                }
+                //Save the path to db 
+                var result = await _employeeService.SaveProfileImage(employeeId, ImagePath);    
+                if(result == false)
+                {
+                    return NotFound(new APIResponseDTO<GetEmployeeDTO>(404, null, "Employee doesn't exist!."));
+                }
+                
+                return Ok(new APIResponseDTO<GetEmployeeDTO>(200, null, "Image Uploaded Successfully!"));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new APIResponseDTO<GetEmployeeDTO>(500, null, ex.Message));
+            }
+        }
+
+        [HttpGet("getProfilePic")]
+        public async Task<IActionResult> GetProfileImage(long employeeId)
+        {
+            string ImageUrl = string.Empty;
+            try
+            {
+                var employee = await _employeeService.GetEmployeeByIdAsync((int)employeeId);
+                if(employee != null)
+                {
+                    string ImagePath = employee.ProfilePic;
+                    string[] pathsArray = ImagePath.Split("\\");
+                    string HostUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/";
+                    if (System.IO.File.Exists(ImagePath))
+                    {
+                        ImageUrl = HostUrl + "Uploads/Profile/" + employeeId + "/" + pathsArray[pathsArray.Length - 1];
+                       
+                    }
+                    else
+                    {
+                        return NotFound(new APIResponseDTO<EmptyResult>(404, null, "Image doesn't exists!."));
+                    }
+                }
+                return Ok(new APIResponseDTO<string>(200, ImageUrl, "Image exists and hosted."));
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [NonAction]
+        private string GetFilePath(long employeeId)
+        {
+            return _webHostEnvironment.WebRootPath + "\\Uploads\\Profile\\" + employeeId;
+        }
     }
 }
