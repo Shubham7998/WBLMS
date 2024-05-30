@@ -274,7 +274,7 @@ namespace WBLMS.API.Controllers
 
 
         [HttpPost("profilePicUpload")]
-        public async Task<IActionResult> UploadImage(IFormFile formFile, long employeeId)
+        public async Task<ActionResult> UploadImage([FromForm] IFormFile formFile, [FromForm] long employeeId)
         {
             try
             {
@@ -292,8 +292,8 @@ namespace WBLMS.API.Controllers
                         string OldImagePath = employee.ProfilePic;
                         string[] pathsArray = OldImagePath.Split("\\");
                         ImageUrl = pathsArray[pathsArray.Length - 1];
+                        System.IO.File.Delete(OldImagePath);
                     }
-                    System.IO.File.Delete(ImageUrl);
                 }
                 string ImagePath = Filepath + "\\" + Guid.NewGuid().ToString() + ".png";
                 

@@ -26,6 +26,5 @@
   <ItemGroup>
     <Folder Include="wwwroot\Uploads\Common\" />
     <Folder Include="wwwroot\Uploads\Profile\" />
-    <Folder Include="wwwroot\Uploads\Profile\1\" />
   </ItemGroup>
 </Project>
