@@ -27,6 +27,8 @@ namespace WBLMS.Models
         [Required(ErrorMessage = "Contact Number is required")]
         public string ContactNumber { get; set; }
 
+        public string? ProfilePicture { get; set; }
+
        // [Required (ErrorMessage ="Gender is required")]
         [ForeignKey(nameof(Gender))]
         public long? GenderId { get; set; }
@@ -61,6 +63,7 @@ namespace WBLMS.Models
         public long? LeaveBalanceId { get; set; }
         public virtual LeaveBalance? LeaveBalance { get; set; }
         public List<Employee>? Subordinates { get; set; }
+        
     }
 
 }

@@ -65,6 +65,9 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long?>("RoleId")
                         .HasColumnType("bigint");
 
@@ -103,7 +106,7 @@ namespace WBLMS.Data.Migrations
                             FirstName = "Hemant",
                             GenderId = 2L,
                             LastName = "Patel",
-                            Password = "2D77CD6437A22EC2F65FA782BA743CC584F12261FBCCB6B6B59AF8B661AFE44D:EA49D63D00E1137AA746E316FC5C3683:50000:SHA256",
+                            Password = "EF8A4034AAF5094D9CCF324A08F7A75D1E21961BE570CEDB8C65AE5BEFEE12AD:5FDE0258B34627EEA7384A97281463B8:50000:SHA256",
                             RoleId = 1L
                         });
                 });

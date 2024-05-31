@@ -8,7 +8,7 @@ namespace WBLMS.DTO
             long Id,
             string FirstName,
             string LastName,
-            //string? Password,
+            string? ProfilePic,
             string EmailAddress,
             string ContactNumber,
             long GenderId,

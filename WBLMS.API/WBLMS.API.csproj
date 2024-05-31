@@ -23,4 +23,8 @@
     <ProjectReference Include="..\WBLMS.IServices\WBLMS.IServices.csproj" />
     <ProjectReference Include="..\WBLMS.Services\WBLMS.Services.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\Common\" />
+    <Folder Include="wwwroot\Uploads\Profile\" />
+  </ItemGroup>
 </Project>

@@ -28,6 +28,8 @@ namespace WBLMS.Services
         public async Task<GetEmployeeDTO> CreateEmployeeAsync(CreateEmployeeDTO employeeDTO)
         {
             var Password = PasswordHashing.getHashPassword(employeeDTO.Password);
+           
+
 
             var employee = await _employeeRepository.CreateAsync
                 (
@@ -97,7 +99,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                //employee.Password,
+                                employee.ProfilePicture,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -186,7 +188,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                // employee.Password,
+                                employee.ProfilePicture,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -216,7 +218,7 @@ namespace WBLMS.Services
                         employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                // employee.Password,
+                                employee.ProfilePicture,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -263,7 +265,7 @@ namespace WBLMS.Services
                                 employee.Id,
                                 employee.FirstName,
                                 employee.LastName,
-                                // employee.Password,
+                                employee.ProfilePicture,
                                 employee.EmailAddress,
                                 employee.ContactNumber,
                                 (long)employee.GenderId,
@@ -512,6 +514,21 @@ namespace WBLMS.Services
             {
                 throw;
             }
+        }
+
+        public async Task<bool> SaveProfileImage(long id, string ImagePath)
+        {
+           var oldEmployee = await _employeeRepository.GetAsyncById(id);
+            if(oldEmployee != null)
+            {
+                oldEmployee.ProfilePicture = ImagePath;
+            }
+            var result = await _employeeRepository.UpdateAsync(oldEmployee);
+            if(result != null)
+            {
+                return true;
+            }
+            return false;
         }
 
     }
