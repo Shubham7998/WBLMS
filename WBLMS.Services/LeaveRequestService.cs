@@ -1,19 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using WBLMS.Data;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
 using WBLMS.Models;
+using WBLMS.Utilities;
 namespace WBLMS.Services
 {
     public class LeaveRequestService : ILeaveRequestService
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
         private readonly WBLMSDbContext _dbContext;
-        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, WBLMSDbContext dbContext)
+        private readonly IEmailService _emailService;
+
+        public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository, WBLMSDbContext dbContext, IEmailService emailService)
         {
             _leaveRequestRepository = leaveRequestRepository;
             _dbContext = dbContext;
+            _emailService = emailService;
         }
 
         public async Task<GetLeaveRequestDTO> CreateLeaveRequest(CreateLeaveRequestDTO leaveRequestDTO)
@@ -50,6 +55,16 @@ namespace WBLMS.Services
                         returnObj.EndDate, returnObj.NumberOfLeaveDays, returnObj.RequestDate, returnObj.ApprovedDate, returnObj.Employee.Roles.RoleName
                     );
                     // Send Email
+
+                    var manager = await _dbContext.Employees.FindAsync(employee.ManagerId);
+                    var managerName = manager.FirstName + " " + manager.LastName;
+                    var emailModel = new EmailModel(manager.EmailAddress, "Leave Request ", EmailBody.LeaveRequestEmailBody(manager.EmailAddress, managerName, returnObjDTO));
+
+                    _emailService.SendEmail(emailModel);
+
+                    //_dbContext.Entry(leaveRequestDTO).State = EntityState.Modified;
+                    await _dbContext.SaveChangesAsync();
+
                     return returnObjDTO;
                 }
                 return null;
@@ -109,7 +124,7 @@ namespace WBLMS.Services
 
             while (StartDate <= EndDate)
             {
-                if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Friday)
+                if (StartDate.DayOfWeek != DayOfWeek.Saturday && StartDate.DayOfWeek != DayOfWeek.Sunday)
                     ++counter;
                 StartDate = StartDate.AddDays(1);
             }

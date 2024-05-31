@@ -93,43 +93,43 @@ namespace WBLMS.Repositories
             return (await query.ToListAsync(), totalCount);
         }
 
-        private IQueryable<Employee> SearchEmployee(IQueryable<Employee> query, GetEmployeesDTO employeeObj, string searchKeyword)
-        {
-            if (!string.IsNullOrWhiteSpace(employeeObj.FirstName))
-            {
-                query = query.Where(employee => employee.FirstName.Contains(employeeObj.FirstName));
-            }
-            if (!string.IsNullOrWhiteSpace(employeeObj.LastName))
-            {
-                query = query.Where(employee => employee.LastName.Contains(employeeObj.LastName));
-            }
-            if (!string.IsNullOrWhiteSpace(employeeObj.EmailAddress))
-            {
-                query = query.Where(employee => employee.EmailAddress.Contains(employeeObj.EmailAddress));
-            }
-            if (!string.IsNullOrWhiteSpace(employeeObj.ContactNumber))
-            {
-                query = query.Where(employee => employee.ContactNumber.Contains(employeeObj.EmailAddress));
-            }
-            if (employeeObj.GenderId != 0)
-            {
-                query = query.Where(employee => employee.Gender.GenderName.Contains(employeeObj.GenderName));
-            }
-            if (employeeObj.RoleId != 0)
-            {
-                query = query.Where(employee => employee.Roles.RoleName.Contains(employeeObj.RoleName));
-            }
-            if (employeeObj.ManagerId != 0)
-            {
-                query = query.Where(employee => employee.Manager.FirstName.Contains(employeeObj.ManagerName) || employee.Manager.LastName.Contains(employeeObj.ManagerName));
-            }
-            if (employeeObj.BalanceLeaveRequest != 0)
-            {
-                query = query.Where(employee => employee.LeaveBalance.Balance == int.Parse(searchKeyword));
-            }
+        //private IQueryable<Employee> SearchEmployee(IQueryable<Employee> query, GetEmployeesDTO employeeObj, string searchKeyword)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(employeeObj.FirstName))
+        //    {
+        //        query = query.Where(employee => employee.FirstName.Contains(employeeObj.FirstName));
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(employeeObj.LastName))
+        //    {
+        //        query = query.Where(employee => employee.LastName.Contains(employeeObj.LastName));
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(employeeObj.EmailAddress))
+        //    {
+        //        query = query.Where(employee => employee.EmailAddress.Contains(employeeObj.EmailAddress));
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(employeeObj.ContactNumber))
+        //    {
+        //        query = query.Where(employee => employee.ContactNumber.Contains(employeeObj.EmailAddress));
+        //    }
+        //    if (employeeObj.GenderId != 0)
+        //    {
+        //        query = query.Where(employee => employee.Gender.GenderName.Contains(employeeObj.GenderName));
+        //    }
+        //    if (employeeObj.RoleId != 0)
+        //    {
+        //        query = query.Where(employee => employee.Roles.RoleName.Contains(employeeObj.RoleName));
+        //    }
+        //    if (employeeObj.ManagerId != 0)
+        //    {
+        //        query = query.Where(employee => employee.Manager.FirstName.Contains(employeeObj.ManagerName) || employee.Manager.LastName.Contains(employeeObj.ManagerName));
+        //    }
+        //    if (employeeObj.BalanceLeaveRequest != 0)
+        //    {
+        //        query = query.Where(employee => employee.LeaveBalance.Balance == int.Parse(searchKeyword));
+        //    }
 
-            return query;
-        }
+        //    return query;
+        //}
 
         private IQueryable<Employee> SearchEmployee(IQueryable<Employee> query, string searchKeyword)
         {

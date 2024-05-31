@@ -10,4 +10,8 @@
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WBLMS.DTO\WBLMS.DTO.csproj" />
+  </ItemGroup>
+
 </Project>
