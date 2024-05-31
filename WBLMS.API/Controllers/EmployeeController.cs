@@ -287,7 +287,7 @@ namespace WBLMS.API.Controllers
                 {
                     string ImageUrl = string.Empty;
                     var employee = await _employeeService.GetEmployeeByIdAsync((int)employeeId);
-                    if (employee != null)
+                    if (employee != null && employee.ProfilePic != null)
                     {
                         string OldImagePath = employee.ProfilePic;
                         string[] pathsArray = OldImagePath.Split("\\");
@@ -323,20 +323,34 @@ namespace WBLMS.API.Controllers
             try
             {
                 var employee = await _employeeService.GetEmployeeByIdAsync((int)employeeId);
-                if(employee != null)
+
+                if(employee == null)
                 {
-                    string ImagePath = employee.ProfilePic;
-                    string[] pathsArray = ImagePath.Split("\\");
-                    string HostUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/";
-                    if (System.IO.File.Exists(ImagePath))
+                    return NotFound(new APIResponseDTO<EmptyResult>(404, null, "Employee doesn't exist."));
+                }
+                if (employee.ProfilePic != null)
                     {
-                        ImageUrl = HostUrl + "Uploads/Profile/" + employeeId + "/" + pathsArray[pathsArray.Length - 1];
+                        string ImagePath = employee.ProfilePic;
+                        string[] pathsArray = ImagePath.Split("\\");
+                        string HostUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/";
+                        if (System.IO.File.Exists(ImagePath))
+                        {
+                            ImageUrl = HostUrl + "Uploads/Profile/" + employeeId + "/" + pathsArray[pathsArray.Length - 1];
                        
+                        }
+                        else
+                        {
+                            return NotFound(new APIResponseDTO<EmptyResult>(404, null, "Image doesn't exists!."));
+                        }
                     }
-                    else
-                    {
-                        return NotFound(new APIResponseDTO<EmptyResult>(404, null, "Image doesn't exists!."));
-                    }
+                else
+                {
+                    var genderName = "Others";
+                    if (employee.GenderId == 1)
+                        genderName = "Female";
+                    else if (employee.GenderId == 2)
+                        genderName = "Male";
+                    return Ok(new APIResponseDTO<string>(200, $"https://localhost:7184/Uploads/Common/{genderName}.png", "Image Loaded."));
                 }
                 return Ok(new APIResponseDTO<string>(200, ImageUrl, "Image exists and hosted."));
             }

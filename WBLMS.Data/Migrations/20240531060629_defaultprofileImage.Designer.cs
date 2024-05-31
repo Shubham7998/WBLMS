@@ -12,8 +12,8 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240530084349_addedprofilepicField")]
-    partial class addedprofilepicField
+    [Migration("20240531060629_defaultprofileImage")]
+    partial class defaultprofileImage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,7 +109,7 @@ namespace WBLMS.Data.Migrations
                             FirstName = "Hemant",
                             GenderId = 2L,
                             LastName = "Patel",
-                            Password = "751AFDA54D0CA549AC93FE13CDD2AD54EB425CADEC29883C80099E0406C1DFF3:29DB59DD1DE2221DD98D518C940C2627:50000:SHA256",
+                            Password = "EF8A4034AAF5094D9CCF324A08F7A75D1E21961BE570CEDB8C65AE5BEFEE12AD:5FDE0258B34627EEA7384A97281463B8:50000:SHA256",
                             RoleId = 1L
                         });
                 });

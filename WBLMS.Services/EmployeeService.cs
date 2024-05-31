@@ -28,6 +28,8 @@ namespace WBLMS.Services
         public async Task<GetEmployeeDTO> CreateEmployeeAsync(CreateEmployeeDTO employeeDTO)
         {
             var Password = PasswordHashing.getHashPassword(employeeDTO.Password);
+           
+
 
             var employee = await _employeeRepository.CreateAsync
                 (

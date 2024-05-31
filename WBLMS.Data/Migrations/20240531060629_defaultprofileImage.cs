@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WBLMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addedprofilepicField : Migration
+    public partial class defaultprofileImage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -275,7 +275,7 @@ namespace WBLMS.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "Id", "ContactNumber", "CreatedById", "EmailAddress", "FirstName", "GenderId", "JoiningDate", "LastName", "LeaveBalanceId", "ManagerId", "Password", "ProfilePicture", "RoleId", "TokenId", "UpdateById", "UpdatedDate" },
-                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, null, "751AFDA54D0CA549AC93FE13CDD2AD54EB425CADEC29883C80099E0406C1DFF3:29DB59DD1DE2221DD98D518C940C2627:50000:SHA256", null, 1L, null, null, null });
+                values: new object[] { 1L, "9874563210", null, "hemant.patel@wonderbiz.in", "Hemant", 2L, null, "Patel", null, null, "EF8A4034AAF5094D9CCF324A08F7A75D1E21961BE570CEDB8C65AE5BEFEE12AD:5FDE0258B34627EEA7384A97281463B8:50000:SHA256", null, 1L, null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmailAddress_ContactNumber",
