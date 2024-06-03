@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Encodings.Web;
 using WBLMS.DTO;
 using WBLMS.IServices;
 using WBLMS.Models;
@@ -80,9 +82,14 @@ namespace WBLMS.API.Controllers
         [HttpPost("byRoles")]
         public async Task<IActionResult> GetAllRolesRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
 
-        {
+            {
             try
             {
+                if(!String.IsNullOrWhiteSpace(searchKeyword))
+                {
+                    string EncodedSearchKeyword = System.Web.HttpUtility.HtmlEncode(searchKeyword);
+                    searchKeyword = EncodedSearchKeyword;
+                }
                 var listOfLeaveRequestsTuple = await _leaveRequestService.GetAllLeaveRequests(sortColumn, sortOrder, page, pageSize, leaveRequestObj, searchKeyword);
                 if (listOfLeaveRequestsTuple.Item1 != null)
                 {
