@@ -22,7 +22,8 @@ namespace WBLMS.API.Controllers
         }
 
         string successMessage = "Successfull";
-        
+
+        [Authorize(Roles = "Admin,Team Lead, HR Manager")]
         [HttpPost("paginated")]
         public async Task<IActionResult> GetAllLeaveRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj)
 
@@ -78,7 +79,7 @@ namespace WBLMS.API.Controllers
 
             }
         }
-        //[Authorize(Roles="Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,HR Manager,Team Lead, HR, Developer")]
         [HttpPost("byRoles")]
         public async Task<IActionResult> GetAllRolesRequestsPaginated(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
 
@@ -122,7 +123,7 @@ namespace WBLMS.API.Controllers
 
             }
         }
-        [Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,HR Manager,Team Lead, Developer, HR")]
         [HttpGet("search")]
         public async Task<IActionResult> SearchAllLeaveRequests(int page, int pageSize, string? search, long employeeId, long managerId)
 
@@ -168,7 +169,7 @@ namespace WBLMS.API.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,HR Manager,Team Lead, HR, Developer")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> GetLeaveRequestById(long id)
         {
@@ -204,7 +205,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpPost]
         public async Task<ActionResult<GetLeaveRequestDTO>> CreateLeaveRequest(CreateLeaveRequestDTO createLeaveRequestDTO)
         {
@@ -239,7 +240,8 @@ namespace WBLMS.API.Controllers
                 //throw;
             }
         }
-        //[Authorize(Roles = "Admin,HR,Team Lead")]
+
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpPut("{id}")]
         public async Task<ActionResult<GetLeaveRequestDTO>> UpdateLeaveRequest(UpdateLeaveRequestDTO updateLeaveRequestDTO, long id)
         {
@@ -315,7 +317,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpGet("leavesBalance/{id}")]
         public async Task<ActionResult<GetLeavesBalanceDTO>> GetLeavesBalanceByEmployeeId(long id)
         {
@@ -352,7 +354,8 @@ namespace WBLMS.API.Controllers
                 throw;
             }
         }
-        //[Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpGet("getLeaveBy/{employeeId}")]
         public async Task<ActionResult<GetLeaveRequestByYear>> GetLeavesReqByYear(long? employeeId,long year)
         {
@@ -373,7 +376,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpGet("leavetype")]
         public async Task<ActionResult<IEnumerable<GetLeaveTypesDTO>>> GetLeaveTypes()
         {
@@ -401,7 +404,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin,Employee,HR,Team Lead")]
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpGet("leavesStatusesData/{id}")]
         public async Task<ActionResult<GetCountOfLeaveStatusesDTO>> GetLeaveStatusesData(long id)
         {

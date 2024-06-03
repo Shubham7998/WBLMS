@@ -156,7 +156,8 @@ namespace WBLMS.Repositories
                         query = isAscending ? query.OrderBy(s => s.RequestDate) : query.OrderByDescending(s => s.RequestDate);
                         break;
                     default:
-                        query = query.OrderBy(s => s.RequestDate).OrderBy(s => s.ApprovedDate);
+                        query = query.OrderBy(s => s.RequestDate);
+                        query = query.OrderByDescending(s => s.ApprovedDate);
                         break;
                 }
 
