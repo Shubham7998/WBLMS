@@ -12,7 +12,7 @@ namespace WBLMS.Utilities
         private const int _saltSize = 16; // 128 bits
         private const int _keySize = 32; // 256 bits
         private const int _iterations = 50000;
-        private const string _key = "pw";
+        //private const string _key = "pw";
 
         private static readonly HashAlgorithmName _algorithm = HashAlgorithmName.SHA256;
 
@@ -41,7 +41,6 @@ namespace WBLMS.Utilities
                 _iterations,
                 _algorithm
             );
-
             Console.WriteLine(result);
             return result;
         }
@@ -62,7 +61,6 @@ namespace WBLMS.Utilities
             );
             Console.WriteLine(inputHash);
             var result = CryptographicOperations.FixedTimeEquals(inputHash, hash);
-
             return result;
         }
 

@@ -111,7 +111,7 @@ namespace WBLMS.Repositories
             }
             if (!string.IsNullOrWhiteSpace(searchKeyword))
             {
-                query = searchEmployeeLeaveRequest(query, searchKeyword);
+                query = searchEmployeeLeaveRequest(query, searchKeyword, leaveRequestObj.EmployeeId);
             }
 
             // Sorting 
@@ -161,7 +161,7 @@ namespace WBLMS.Repositories
                 }
 
             }
-            
+
             (query, var totalPages) = pagination(query, page, pageSize);
 
             return (await query.ToListAsync(), totalPages);
@@ -203,20 +203,20 @@ namespace WBLMS.Repositories
                         .Include(e => e.LeaveType)
                         .Include(e => e.Employee.Roles)
                         .AsQueryable();
-                
+
                 if (managerId != 0)
                 {
-                    query = query.Where(leaveReq => leaveReq.ManagerId == managerId );
+                    query = query.Where(leaveReq => leaveReq.ManagerId == managerId);
                     query = query.Where(leaveReq => leaveReq.Status.StatusName == "Pending");
                 }
                 else if (employeeId != 0)
                 {
                     query = query.Where(leaveReq => leaveReq.EmployeeId == employeeId);
                 }
-                
+
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query = searchEmployeeLeaveRequest(query, search);
+                    query = searchEmployeeLeaveRequest(query, search, employeeId);
                 }
 
                 (query, var totalPages) = pagination(query, page, pageSize);
@@ -232,9 +232,28 @@ namespace WBLMS.Repositories
 
         }
 
-        private IQueryable<LeaveRequest> searchEmployeeLeaveRequest(IQueryable<LeaveRequest> query, string search)
+        private IQueryable<LeaveRequest> searchEmployeeLeaveRequest(IQueryable<LeaveRequest> query, string search, long? employeeId)
         {
-            query = query.Where(
+
+            if (employeeId == 0)
+            {
+                query = query.Where(
+                        leaveReq =>
+                            leaveReq.Employee.FirstName.Contains(search) ||
+                            leaveReq.Employee.LastName.Contains(search) ||
+                            leaveReq.LeaveType.LeaveTypeName.Contains(search) ||
+                            leaveReq.Reason.Contains(search) ||
+                            leaveReq.Status.StatusName.Contains(search) ||
+                            leaveReq.StartDate.ToString().Contains(search) ||
+                            leaveReq.EndDate.ToString().Contains(search) ||
+                            leaveReq.NumberOfLeaveDays.ToString().Contains(search) ||
+                            leaveReq.RequestDate.ToString().Contains(search) ||
+                            leaveReq.ApprovedDate.ToString().Contains(search)
+                    );
+            }
+            else
+            {
+                query = query.Where(
                 leaveReq =>
                     leaveReq.LeaveType.LeaveTypeName.Contains(search) ||
                     leaveReq.Reason.Contains(search) ||
@@ -245,6 +264,7 @@ namespace WBLMS.Repositories
                     leaveReq.RequestDate.ToString().Contains(search) ||
                     leaveReq.ApprovedDate.ToString().Contains(search)
                     );
+            }
             return query;
         }
 
@@ -281,7 +301,7 @@ namespace WBLMS.Repositories
         public async Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId)
         {
             var employee = _dbContext.LeaveBalances.FirstOrDefault(x => x.EmployeeId == employeeId);
-            if(employee != null)
+            if (employee != null)
             {
                 var query = _dbContext.LeaveRequests
                 .Include(e => e.Status)
@@ -293,7 +313,7 @@ namespace WBLMS.Repositories
                 var pendingLeaves = query.Where(x => x.Status.StatusName == "Pending").Sum(x => x.NumberOfLeaveDays);
                 return new GetCountOfLeaveStatusesDTO(approvedLeaves, pendingLeaves, rejectedLeaves);
             }
-            return new GetCountOfLeaveStatusesDTO(0,0,0);
+            return new GetCountOfLeaveStatusesDTO(0, 0, 0);
         }
     }
 }
