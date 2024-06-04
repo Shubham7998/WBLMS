@@ -49,7 +49,7 @@ namespace WBLMS.API.Controllers
                 return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
             }
         }
-
+        [Authorize(Roles="Admin")]
         [HttpGet("manager/{id}")]
 
         public async Task<ActionResult> GetManagers(long id)
@@ -71,6 +71,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("roles")]
         public async Task<ActionResult> GetRoles()
         {
@@ -90,7 +91,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Team Lead, HR Manager")]
         [HttpPost("employeeLeaveReq")]
         public async Task<ActionResult<Paginated<GetEmployeeLeaveReqDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeLeaveReqDTO employee)
         {
@@ -119,7 +120,7 @@ namespace WBLMS.API.Controllers
 
 
 
-        [Authorize(Roles = "Admin,HR,Team Lead")]
+        [Authorize(Roles = "Admin,Team Lead, HR Manager")]
         [HttpPost("paginated")]
         public async Task<ActionResult<Paginated<GetEmployeeForeignDTO>>> GetPaginated(int page, int pageSize, string? sortColumn, string? sortOrder, GetEmployeeDTO employee)
         {
@@ -148,7 +149,7 @@ namespace WBLMS.API.Controllers
         // GET api/<EmployeeController>/5
         //[Authorize(Roles = "Admin,HR,Team Lead")]
 
-      //  [Authorize(Roles = "Admin,HR,Team Lead")]
+        [Authorize(Roles = "Admin,HR Manager,Team Lead")]
         [HttpGet("getAll")]
         public async Task<ActionResult<Paginated<GetEmployeesDTO>>> GetEmployees(int page, int pageSize, string? sortColumn, string? sortOrder,  string? searchKeyword="")
         {
@@ -182,6 +183,8 @@ namespace WBLMS.API.Controllers
         {
             return new String(sortColum.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
         }
+
+        [Authorize(Roles = "Admin,HR Manager,Team Lead,Developer,HR")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetEmployeeForeignDTO>> Get(int id)
         {
@@ -244,7 +247,7 @@ namespace WBLMS.API.Controllers
         }
 
         // PUT api/<EmployeeController>/5
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpPut("{id}")]
         public async Task<ActionResult<GetEmployeeDTO>> Put(int id, [FromBody] UpdateEmployeeDTO employeeDTO)
         {
@@ -307,7 +310,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpPost("profilePicUpload")]
         public async Task<ActionResult> UploadImage([FromForm] IFormFile formFile, [FromForm] long employeeId)
         {
@@ -351,6 +354,7 @@ namespace WBLMS.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpGet("getProfilePic")]
         public async Task<IActionResult> GetProfileImage(long employeeId)
         {

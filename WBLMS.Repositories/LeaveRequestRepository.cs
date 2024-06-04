@@ -43,7 +43,7 @@ namespace WBLMS.Repositories
         }
 
         public async Task<(IEnumerable<LeaveRequest>, int)> GetAllLeaveRequests(string? sortColumn, string? sortOrder, int page, int pageSize, GetLeaveRequestDTO leaveRequestObj, string? searchKeyword)
-        {
+        {   
             //var listOfLeaveRequests = await _dbContext.LeaveRequests
             //    .Include(employee => employee.Employee)
             //    .Include(status => status.Status)
@@ -156,7 +156,8 @@ namespace WBLMS.Repositories
                         query = isAscending ? query.OrderBy(s => s.RequestDate) : query.OrderByDescending(s => s.RequestDate);
                         break;
                     default:
-                        query = query.OrderBy(s => s.RequestDate).OrderBy(s => s.ApprovedDate);
+                        query = query.OrderBy(s => s.RequestDate);
+                        query = query.OrderByDescending(s => s.ApprovedDate);
                         break;
                 }
 
@@ -257,7 +258,7 @@ namespace WBLMS.Repositories
                 leaveReq =>
                     leaveReq.LeaveType.LeaveTypeName.Contains(search) ||
                     leaveReq.Reason.Contains(search) ||
-                    leaveReq.Status.StatusName.Contains(search) ||
+                    //leaveReq.Status.StatusName.Contains(search) ||
                     leaveReq.StartDate.ToString().Contains(search) ||
                     leaveReq.EndDate.ToString().Contains(search) ||
                     leaveReq.NumberOfLeaveDays.ToString().Contains(search) ||
