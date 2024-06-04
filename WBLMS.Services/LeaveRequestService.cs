@@ -204,6 +204,27 @@ namespace WBLMS.Services
                 throw;
             }
         }
+        public async Task<IEnumerable<GetLeaveStatusesDTO>> GetLeavesStatuses()
+        {
+            try
+            {
+                var leaveStatuses = await _dbContext.Statuses.ToListAsync();
+
+                var leaveStatusesDTO = leaveStatuses.Select
+                (
+                    leaveStatus => new GetLeaveStatusesDTO(
+                        leaveStatus.Id,
+                        leaveStatus.StatusName
+                        )
+                );
+
+                return leaveStatusesDTO;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public async Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string? search, long employeeId, long managerId)
         {

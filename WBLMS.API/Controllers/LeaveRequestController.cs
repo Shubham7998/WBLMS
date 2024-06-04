@@ -384,23 +384,27 @@ namespace WBLMS.API.Controllers
             {
                 var leaveTypes = await _leaveRequestService.GetLeavesType();
                 return Ok(new APIResponseDTO<IEnumerable<GetLeaveTypesDTO>>(200, leaveTypes, successMessage));
-
-                return Ok(new
-                {
-                    StatusCode = 200,
-                    data = leaveTypes
-                });
             }
             catch (Exception ex)
             {
-                return NotFound(new APIResponseDTO<GetCountOfLeaveStatusesDTO>(500, null, ex.Message));
+                return NotFound(new APIResponseDTO<GetLeaveTypesDTO>(500, null, ex.Message));
 
-                //return NotFound(new
-                //{
-                //    StatusCode = 404,
-                //    ErrorMessage = "Leave Types are empty"
-                //});
-                //throw;
+            }
+        }
+
+        [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
+        [HttpGet("leaveStatuses")]
+        public async Task<ActionResult<IEnumerable<GetLeaveStatusesDTO>>> GetLeaveStatuses()
+        {
+            try
+            {
+                var leaveStatuses = await _leaveRequestService.GetLeavesStatuses();
+                return Ok(new APIResponseDTO<IEnumerable<GetLeaveStatusesDTO>>(200, leaveStatuses, successMessage));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new APIResponseDTO<GetLeaveStatusesDTO>(500, null, ex.Message));
+
             }
         }
 

@@ -18,6 +18,7 @@ namespace WBLMS.IServices
         Task<(IEnumerable<GetLeaveRequestDTO>, int)> SearchLeaveRequests(int page, int pageSize, string? search, long employeeId, long managerId);
 
         Task<IEnumerable<GetLeaveTypesDTO>> GetLeavesType();
+        Task<IEnumerable<GetLeaveStatusesDTO>> GetLeavesStatuses();
         Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId);
         Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long  year, long employeeId);
     }
