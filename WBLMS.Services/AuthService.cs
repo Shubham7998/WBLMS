@@ -39,7 +39,7 @@ namespace WBLMS.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,
-                Expires = DateTime.Now.AddMinutes(10),
+                Expires = DateTime.Now.AddMinutes(60),
                 SigningCredentials = credentials
             };
 
