@@ -9,15 +9,20 @@ using System.Threading.Tasks;
 
 namespace WBLMS.Models
 {
-    [Table("Genders")]
-    [Index (nameof(GenderName), IsUnique = true)]
-    public class Gender
+    [Table("LeaveSubTypes")]
+    [Index(nameof(LeaveSubTypeName), IsUnique = true)]
+    public class LeaveSubType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public int Id { get; set; }
-
-        [Required (ErrorMessage ="Gender is required")]
-        public string GenderName { get; set; }
+        [Required]
+        public int LeaveTypeId { get; set; }
+        [Required]
+        public string LeaveSubTypeName { get; set; }
+        [Required]
+        public decimal MaxLeaveDays { get; set; }
+        public LeaveType LeaveType { get; set; }
     }
 }

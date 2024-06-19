@@ -25,25 +25,25 @@ namespace WBLMS.Data
                     new Gender() { Id = 2, GenderName = "Male"},
                     new Gender() { Id = 3, GenderName = "Others"}
                 );
-            _modelBuilder.Entity<Roles>().HasData(
-                    new Roles() { Id = 1, RoleName = "Admin"},
-                    new Roles() { Id = 2, RoleName = "HR Manager"},
-                    new Roles() { Id = 3, RoleName = "Team Lead"},
-                    new Roles() { Id = 4, RoleName = "HR"},
-                    new Roles() { Id = 5, RoleName = "Developer" }
-                );
+            //_modelBuilder.Entity<Roles>().HasData(
+            //        new Roles() { Id = 1, RoleName = "Admin"},
+            //        new Roles() { Id = 2, RoleName = "HR Manager"},
+            //        new Roles() { Id = 3, RoleName = "Team Lead"},
+            //        new Roles() { Id = 4, RoleName = "HR"},
+            //        new Roles() { Id = 5, RoleName = "Developer" }
+            //    );
             _modelBuilder.Entity<Status>().HasData(
                     new Status() { Id = 1, StatusName = "Pending"},
                     new Status() { Id = 2, StatusName = "Approved"},
                     new Status() { Id = 3, StatusName = "Rejected"}
                 );
-            _modelBuilder.Entity<LeaveType>().HasData(
-                    new LeaveType() { Id = 1, LeaveTypeName = "Vacation"},
-                    new LeaveType() { Id = 2, LeaveTypeName = "Sick"},
-                    new LeaveType() { Id = 3, LeaveTypeName = "Casual"},
-                    new LeaveType() { Id = 4, LeaveTypeName = "Marriage"},
-                    new LeaveType() { Id = 5, LeaveTypeName = "Maternity"}
-                );
+            //_modelBuilder.Entity<LeaveType>().HasData(
+            //        new LeaveType() { Id = 1, LeaveTypeName = "Vacation"},
+            //        new LeaveType() { Id = 2, LeaveTypeName = "Sick"},
+            //        new LeaveType() { Id = 3, LeaveTypeName = "Casual"},
+            //        new LeaveType() { Id = 4, LeaveTypeName = "Marriage"},
+            //        new LeaveType() { Id = 5, LeaveTypeName = "Maternity"}
+            //    );
             _modelBuilder.Entity<Employee>().HasData(
                     new Employee() { Id = 1, FirstName = "Hemant", LastName = "Patel", Password = hashedPassword, EmailAddress = "hemant.patel@wonderbiz.in", ContactNumber = "9874563210", GenderId = 2, RoleId = 1 }
                 );

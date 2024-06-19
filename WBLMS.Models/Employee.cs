@@ -31,7 +31,7 @@ namespace WBLMS.Models
 
        // [Required (ErrorMessage ="Gender is required")]
         [ForeignKey(nameof(Gender))]
-        public long? GenderId { get; set; }
+        public int? GenderId { get; set; }
         public virtual Gender Gender { get; set; }
 
         [ForeignKey(nameof(Roles))]

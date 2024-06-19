@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace WBLMS.Models
 {
-    public class Roles
+    [Table("Holidays")]
+    [Index(nameof(HolidayDate), IsUnique = true)]
+    public class Holiday
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
-        [Required (ErrorMessage ="Please enter role")]
-        public string RoleName { get; set; }
         [Required]
+        public int Id { get; set; }
         public int BranchId { get; set; }
+        public string HolidayName { get; set; }
+        public DateOnly HolidayDate { get; set; }
         public Branch Branch { get; set; }
     }
 }

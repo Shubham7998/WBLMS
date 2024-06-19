@@ -20,7 +20,7 @@ namespace WBLMS.Models
         public long EmployeeId { get; set; }
         [Required(ErrorMessage = "LeaveTypeId is required.")]
         [ForeignKey(nameof(LeaveType))]
-        public long LeaveTypeId { get; set; }
+        public int LeaveTypeId { get; set; }
         [Required(ErrorMessage = "Reason is required.")]
         public string Reason { get; set; }
         [Required(ErrorMessage = "StatusId is required.")]

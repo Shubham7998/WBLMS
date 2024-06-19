@@ -11,7 +11,7 @@ namespace WBLMS.DTO
             string? ProfilePic,
             string EmailAddress,
             string ContactNumber,
-            long GenderId,
+            int GenderId,
             long RoleId,
             long ManagerId,
             long CreatedById,
@@ -25,7 +25,7 @@ namespace WBLMS.DTO
             string LastName,
             string EmailAddress,
             string ContactNumber,
-            long GenderId,
+            int GenderId,
             string? GenderName,
             long RoleId,
             string? RoleName,
@@ -40,7 +40,7 @@ namespace WBLMS.DTO
             string LastName,
             string EmailAddress,
             string ContactNumber,
-            long GenderId,
+            int GenderId,
             string? GenderName,
             long RoleId,
             string? RoleName,
@@ -58,7 +58,7 @@ namespace WBLMS.DTO
             string LastName,
             string EmailAddress,
             string ContactNumber,
-            long GenderId,
+            int GenderId,
             string? GenderName,
             string JoiningDate,
             long RoleId,
@@ -82,7 +82,7 @@ namespace WBLMS.DTO
             [Required(ErrorMessage = "ContactNumber is required")]
             string ContactNumber,
             [Required(ErrorMessage = "Gender is required")]
-            long GenderId,
+            int GenderId,
             long RoleId,
             long? ManagerId,
             long? CreatedById
@@ -102,7 +102,7 @@ namespace WBLMS.DTO
             [Required(ErrorMessage = "ContactNumber is required")]
             string ContactNumber,
             [Required(ErrorMessage = "Gender is required")]
-            long GenderId,
+            int GenderId,
             long RoleId,
             long ManagerId,
             long UpdatedById
