@@ -18,7 +18,9 @@ namespace WBLMS.Data
         public DbSet<Holiday> Holidays { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<LeaveSubType> LeaveSubTypes { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Reporting> Reportings { get; set; }
+        public DbSet<Employee2> Employee2s { get; set; }
+        public DbSet<SuperAdmin> SuperAdmins { get; set; }
 
 
         public DbSet<Employee> Employees { get; set; }
@@ -54,7 +56,7 @@ namespace WBLMS.Data
                 .HasMany(b => b.Holidays)
                 .WithOne(d => d.Branch)
                 .HasForeignKey(d => d.BranchId);
-
+            
             modelBuilder.Entity<Department>()
                 .HasMany(d => d.Teams)
                 .WithOne(t => t.Department)
@@ -65,7 +67,9 @@ namespace WBLMS.Data
                 .WithOne(l => l.LeaveType)
                 .HasForeignKey(l => l.LeaveTypeId);
 
-                
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.TeamMembers)
+                .WithOne(e => e.Team);
 
             modelBuilder.Entity<Employee>()
             .HasOne(e => e.Manager)

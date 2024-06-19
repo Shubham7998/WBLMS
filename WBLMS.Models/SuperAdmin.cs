@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace WBLMS.Models
 {
-    [Index(nameof(ContactNumber), IsUnique = true)]
-    public class User : BaseEntity
+    public class SuperAdmin : BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]  
+        [Required]
         public int Id { get; set; }
-        [Required]  
+        [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
@@ -26,6 +24,5 @@ namespace WBLMS.Models
         [ForeignKey(nameof(Gender))]
         public int GenderId { get; set; }
         public Gender Gender { get; set; }
-
     }
 }

@@ -17,5 +17,10 @@ namespace WBLMS.Models
         public string Name { get; set; }
 
         public Department Department { get; set; }
+        [ForeignKey(nameof(Employee2))]
+        public int TeamLeader { get; set; }
+        public Employee2 Employee2 { get; set; }
+
+        public ICollection<Employee2> TeamMembers { get; set; }
     }
 }

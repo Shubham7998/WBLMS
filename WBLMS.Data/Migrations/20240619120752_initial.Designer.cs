@@ -12,7 +12,7 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240619104615_initial")]
+    [Migration("20240619120752_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -153,6 +153,53 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("WBLMS.Models.Employee2", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReportingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("UpdatedDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("ReportingId");
+
+                    b.ToTable("Employee2s");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Gender", b =>
@@ -360,6 +407,28 @@ namespace WBLMS.Data.Migrations
                     b.ToTable("Organizations");
                 });
 
+            modelBuilder.Entity("WBLMS.Models.Reporting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ReportFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReportTo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReportFrom", "ReportTo")
+                        .IsUnique();
+
+                    b.ToTable("Reportings");
+                });
+
             modelBuilder.Entity("WBLMS.Models.Roles", b =>
                 {
                     b.Property<long>("Id")
@@ -400,6 +469,48 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Statuses");
+                });
+
+            modelBuilder.Entity("WBLMS.Models.SuperAdmin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("UpdatedDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenderId");
+
+                    b.ToTable("SuperAdmins");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Team", b =>
@@ -462,51 +573,6 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Tokens");
-                });
-
-            modelBuilder.Entity("WBLMS.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContactNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("CreatedDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GenderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UpdatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("UpdatedDate")
-                        .HasColumnType("date");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContactNumber")
-                        .IsUnique();
-
-                    b.HasIndex("GenderId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WBLMS.Models.WonderbizHolidays", b =>
@@ -630,6 +696,25 @@ namespace WBLMS.Data.Migrations
                     b.Navigation("Token");
                 });
 
+            modelBuilder.Entity("WBLMS.Models.Employee2", b =>
+                {
+                    b.HasOne("WBLMS.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WBLMS.Models.Reporting", "Reporting")
+                        .WithMany()
+                        .HasForeignKey("ReportingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+
+                    b.Navigation("Reporting");
+                });
+
             modelBuilder.Entity("WBLMS.Models.Holiday", b =>
                 {
                     b.HasOne("WBLMS.Models.Branch", "Branch")
@@ -720,6 +805,17 @@ namespace WBLMS.Data.Migrations
                     b.Navigation("Branch");
                 });
 
+            modelBuilder.Entity("WBLMS.Models.SuperAdmin", b =>
+                {
+                    b.HasOne("WBLMS.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+                });
+
             modelBuilder.Entity("WBLMS.Models.Team", b =>
                 {
                     b.HasOne("WBLMS.Models.Department", "Department")
@@ -740,17 +836,6 @@ namespace WBLMS.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("WBLMS.Models.User", b =>
-                {
-                    b.HasOne("WBLMS.Models.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("WBLMS.Models.WorkingDays", b =>

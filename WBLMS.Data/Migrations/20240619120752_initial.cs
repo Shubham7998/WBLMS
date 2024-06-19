@@ -39,6 +39,20 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reportings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReportTo = table.Column<int>(type: "int", nullable: false),
+                    ReportFrom = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reportings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Statuses",
                 columns: table => new
                 {
@@ -67,14 +81,14 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "SuperAdmins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GenderId = table.Column<int>(type: "int", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     UpdatedById = table.Column<int>(type: "int", nullable: false),
@@ -83,9 +97,9 @@ namespace WBLMS.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_SuperAdmins", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Genders_GenderId",
+                        name: "FK_SuperAdmins_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
                         principalColumn: "Id",
@@ -109,6 +123,39 @@ namespace WBLMS.Data.Migrations
                         name: "FK_Branches_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee2s",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: false),
+                    ReportingId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    UpdatedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee2s", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employee2s_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employee2s_Reportings_ReportingId",
+                        column: x => x.ReportingId,
+                        principalTable: "Reportings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -416,6 +463,16 @@ namespace WBLMS.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employee2s_GenderId",
+                table: "Employee2s",
+                column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee2s_ReportingId",
+                table: "Employee2s",
+                column: "ReportingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmailAddress_ContactNumber",
                 table: "Employees",
                 columns: new[] { "EmailAddress", "ContactNumber" },
@@ -518,6 +575,12 @@ namespace WBLMS.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reportings_ReportFrom_ReportTo",
+                table: "Reportings",
+                columns: new[] { "ReportFrom", "ReportTo" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Roles_BranchId",
                 table: "Roles",
                 column: "BranchId");
@@ -527,6 +590,11 @@ namespace WBLMS.Data.Migrations
                 table: "Statuses",
                 column: "StatusName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SuperAdmins_GenderId",
+                table: "SuperAdmins",
+                column: "GenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_DepartmentId",
@@ -544,17 +612,6 @@ namespace WBLMS.Data.Migrations
                 table: "Tokens",
                 column: "EmployeeId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_ContactNumber",
-                table: "Users",
-                column: "ContactNumber",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_GenderId",
-                table: "Users",
-                column: "GenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkingDays_BranchId",
@@ -605,6 +662,9 @@ namespace WBLMS.Data.Migrations
                 table: "Employees");
 
             migrationBuilder.DropTable(
+                name: "Employee2s");
+
+            migrationBuilder.DropTable(
                 name: "Holidays");
 
             migrationBuilder.DropTable(
@@ -614,16 +674,19 @@ namespace WBLMS.Data.Migrations
                 name: "LeaveSubTypes");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "SuperAdmins");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "WonderbizHolidays");
 
             migrationBuilder.DropTable(
                 name: "WorkingDays");
+
+            migrationBuilder.DropTable(
+                name: "Reportings");
 
             migrationBuilder.DropTable(
                 name: "Statuses");
