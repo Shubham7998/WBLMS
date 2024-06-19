@@ -12,7 +12,7 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240619120752_initial")]
+    [Migration("20240619123947_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -65,6 +65,9 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartmentHead")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -72,6 +75,8 @@ namespace WBLMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("DepartmentHead");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -170,8 +175,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -187,17 +192,22 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("ReportingId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UpdatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("UpdatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GenderId");
 
                     b.HasIndex("ReportingId");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Employee2s");
                 });
@@ -286,6 +296,12 @@ namespace WBLMS.Data.Migrations
                     b.Property<DateOnly>("ApprovedDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("EmployeeId")
                         .HasColumnType("bigint");
 
@@ -313,6 +329,12 @@ namespace WBLMS.Data.Migrations
 
                     b.Property<long>("StatusId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -486,8 +508,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -503,8 +525,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("UpdatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("UpdatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -528,12 +550,17 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("TeamLeader")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("TeamLeader");
 
                     b.ToTable("Teams");
                 });
@@ -658,7 +685,13 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WBLMS.Models.Employee2", "Employee2")
+                        .WithMany()
+                        .HasForeignKey("DepartmentHead");
+
                     b.Navigation("Branch");
+
+                    b.Navigation("Employee2");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Employee", b =>
@@ -710,9 +743,15 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WBLMS.Models.Team", "Team")
+                        .WithMany("TeamMembers")
+                        .HasForeignKey("TeamId");
+
                     b.Navigation("Gender");
 
                     b.Navigation("Reporting");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Holiday", b =>
@@ -824,7 +863,13 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WBLMS.Models.Employee2", "Employee2")
+                        .WithMany()
+                        .HasForeignKey("TeamLeader");
+
                     b.Navigation("Department");
+
+                    b.Navigation("Employee2");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Token", b =>
@@ -881,6 +926,11 @@ namespace WBLMS.Data.Migrations
             modelBuilder.Entity("WBLMS.Models.Organization", b =>
                 {
                     b.Navigation("Branches");
+                });
+
+            modelBuilder.Entity("WBLMS.Models.Team", b =>
+                {
+                    b.Navigation("TeamMembers");
                 });
 #pragma warning restore 612, 618
         }

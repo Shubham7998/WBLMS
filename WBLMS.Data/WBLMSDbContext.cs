@@ -71,6 +71,7 @@ namespace WBLMS.Data
                 .HasMany(t => t.TeamMembers)
                 .WithOne(e => e.Team);
 
+
             modelBuilder.Entity<Employee>()
             .HasOne(e => e.Manager)
             .WithMany(e => e.Subordinates)

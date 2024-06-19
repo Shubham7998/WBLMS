@@ -12,8 +12,8 @@ namespace WBLMS.Models
     {
         public int CreatedById { get; set; }
         public int UpdatedById { get; set; }
-        public DateOnly CreatedDate { get; set; }
-        public DateOnly UpdatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
     }
 }

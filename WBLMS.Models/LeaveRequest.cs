@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace WBLMS.Models
 {
-    [Table("LeaveRequests")]
-    public class LeaveRequest
+    [Table("LeaveRequests")] 
+    public class LeaveRequest : BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
@@ -36,10 +36,14 @@ namespace WBLMS.Models
         public DateOnly ApprovedDate { get; set; }
         public DateOnly RequestDate { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(LeaveSubType))]
+        public int LeaveSubTypeId { get; set; }
 
         public virtual LeaveType LeaveType { get; set; }
         public virtual Status Status { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Employee Manager { get; set; }
+        public virtual LeaveSubType LeaveSubType { get; set; }
     }
 }

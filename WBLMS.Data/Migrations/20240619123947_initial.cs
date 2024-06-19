@@ -92,8 +92,8 @@ namespace WBLMS.Data.Migrations
                     GenderId = table.Column<int>(type: "int", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: false),
                     UpdatedById = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,59 +123,6 @@ namespace WBLMS.Data.Migrations
                         name: "FK_Branches_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employee2s",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GenderId = table.Column<int>(type: "int", nullable: false),
-                    ReportingId = table.Column<int>(type: "int", nullable: false),
-                    CreatedById = table.Column<int>(type: "int", nullable: false),
-                    UpdatedById = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    UpdatedDate = table.Column<DateOnly>(type: "date", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employee2s", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employee2s_Genders_GenderId",
-                        column: x => x.GenderId,
-                        principalTable: "Genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Employee2s_Reportings_ReportingId",
-                        column: x => x.ReportingId,
-                        principalTable: "Reportings",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BranchId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Departments_Branches_BranchId",
-                        column: x => x.BranchId,
-                        principalTable: "Branches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -269,26 +216,6 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Teams_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LeaveSubTypes",
                 columns: table => new
                 {
@@ -307,6 +234,87 @@ namespace WBLMS.Data.Migrations
                         principalTable: "LeaveTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BranchId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentHead = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Departments_Branches_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee2s",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: false),
+                    ReportingId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: true),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    UpdatedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee2s", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employee2s_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employee2s_Reportings_ReportingId",
+                        column: x => x.ReportingId,
+                        principalTable: "Reportings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TeamLeader = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Teams_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Teams_Employee2s_TeamLeader",
+                        column: x => x.TeamLeader,
+                        principalTable: "Employee2s",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -387,7 +395,11 @@ namespace WBLMS.Data.Migrations
                     EndDate = table.Column<DateOnly>(type: "date", nullable: false),
                     NumberOfLeaveDays = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ApprovedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    RequestDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    RequestDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    UpdatedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -457,6 +469,11 @@ namespace WBLMS.Data.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departments_DepartmentHead",
+                table: "Departments",
+                column: "DepartmentHead");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Departments_Name",
                 table: "Departments",
                 column: "Name",
@@ -471,6 +488,11 @@ namespace WBLMS.Data.Migrations
                 name: "IX_Employee2s_ReportingId",
                 table: "Employee2s",
                 column: "ReportingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee2s_TeamId",
+                table: "Employee2s",
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmailAddress_ContactNumber",
@@ -608,6 +630,11 @@ namespace WBLMS.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Teams_TeamLeader",
+                table: "Teams",
+                column: "TeamLeader");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tokens_EmployeeId",
                 table: "Tokens",
                 column: "EmployeeId",
@@ -618,6 +645,20 @@ namespace WBLMS.Data.Migrations
                 table: "WorkingDays",
                 column: "BranchId",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Departments_Employee2s_DepartmentHead",
+                table: "Departments",
+                column: "DepartmentHead",
+                principalTable: "Employee2s",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Employee2s_Teams_TeamId",
+                table: "Employee2s",
+                column: "TeamId",
+                principalTable: "Teams",
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Employees_LeaveBalances_LeaveBalanceId",
@@ -642,8 +683,20 @@ namespace WBLMS.Data.Migrations
                 table: "Branches");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Departments_Branches_BranchId",
+                table: "Departments");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Roles_Branches_BranchId",
                 table: "Roles");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Departments_Employee2s_DepartmentHead",
+                table: "Departments");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Teams_Employee2s_TeamLeader",
+                table: "Teams");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Genders_GenderId",
@@ -662,9 +715,6 @@ namespace WBLMS.Data.Migrations
                 table: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Employee2s");
-
-            migrationBuilder.DropTable(
                 name: "Holidays");
 
             migrationBuilder.DropTable(
@@ -677,16 +727,10 @@ namespace WBLMS.Data.Migrations
                 name: "SuperAdmins");
 
             migrationBuilder.DropTable(
-                name: "Teams");
-
-            migrationBuilder.DropTable(
                 name: "WonderbizHolidays");
 
             migrationBuilder.DropTable(
                 name: "WorkingDays");
-
-            migrationBuilder.DropTable(
-                name: "Reportings");
 
             migrationBuilder.DropTable(
                 name: "Statuses");
@@ -695,13 +739,22 @@ namespace WBLMS.Data.Migrations
                 name: "LeaveTypes");
 
             migrationBuilder.DropTable(
-                name: "Departments");
-
-            migrationBuilder.DropTable(
                 name: "Organizations");
 
             migrationBuilder.DropTable(
                 name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Employee2s");
+
+            migrationBuilder.DropTable(
+                name: "Reportings");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Genders");

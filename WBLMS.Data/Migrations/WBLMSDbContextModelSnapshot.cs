@@ -172,8 +172,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -195,8 +195,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("UpdatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("UpdatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -293,6 +293,12 @@ namespace WBLMS.Data.Migrations
                     b.Property<DateOnly>("ApprovedDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("EmployeeId")
                         .HasColumnType("bigint");
 
@@ -320,6 +326,12 @@ namespace WBLMS.Data.Migrations
 
                     b.Property<long>("StatusId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -493,8 +505,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -510,8 +522,8 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("UpdatedById")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("UpdatedDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
