@@ -17,5 +17,7 @@ namespace WBLMS.IRepositories
         Task<LeaveRequest> UpdateLeaveRequest(LeaveRequest leaveRequest);
         Task<LeaveBalance> GetLeavesBalanceById(long id);
         Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId);
+
+        PagedList<LeaveRequest> GPLR();
     }
 }

@@ -316,5 +316,10 @@ namespace WBLMS.Repositories
             }
             return new GetCountOfLeaveStatusesDTO(0, 0, 0);
         }
+
+        public PagedList<LeaveRequest> GPLR()
+        {
+            return PagedList<LeaveRequest>.ToPagedList(_dbContext.LeaveRequests, 1, 5);
+        }
     }
 }

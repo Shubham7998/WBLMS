@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Ocsp;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using WBLMS.DTO;
 using WBLMS.IServices;
 using WBLMS.Models;
@@ -466,6 +468,23 @@ namespace WBLMS.API.Controllers
                 return NotFound(new APIResponseDTO<GetLeaveRequestDTO>(500, null, "Error occur"));
 
             }
+        }
+
+        [HttpGet("GPLR")]
+        public ActionResult GPLR()
+        {
+            var req = _leaveRequestService.GPLR();
+            var metadata = new
+            {
+                req.TotalCount,
+                req.PageSize,
+                req.CurrentPage,
+                req.TotalPages,
+                req.HasNext,
+                req.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
+            return Ok(req);
         }
     }
 }

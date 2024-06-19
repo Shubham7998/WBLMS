@@ -21,5 +21,7 @@ namespace WBLMS.IServices
         Task<IEnumerable<GetLeaveStatusesDTO>> GetLeavesStatuses();
         Task<GetCountOfLeaveStatusesDTO> GetCountOfLeaveStatuses(long employeeId);
         Task<GetLeaveRequestByYear> GetLeaveRequestCountByYear(long  year, long employeeId);
+
+        PagedList<LeaveRequest> GPLR();
     }
 }

@@ -531,5 +531,9 @@ namespace WBLMS.Services
             return false;
         }
 
+        public PagedList<Employee> GetEmployees()
+        {
+            return PagedList<Employee>.ToPagedList(_dbContext.Employees, 2, 5);
+        }
     }
 }

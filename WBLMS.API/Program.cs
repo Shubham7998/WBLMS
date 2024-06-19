@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using WBLMS.Data;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
@@ -10,6 +12,7 @@ using WBLMS.Services;
 using WBLMS.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 var configuration = builder.Configuration;
 

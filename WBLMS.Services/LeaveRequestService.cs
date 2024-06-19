@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Text.Json;
 using WBLMS.Data;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
@@ -327,5 +329,11 @@ namespace WBLMS.Services
             return dto;
         }
 
+        public PagedList<LeaveRequest> GPLR()
+        {
+            var req = _leaveRequestRepository.GPLR();
+            return req;
+
+        }
     }
 }

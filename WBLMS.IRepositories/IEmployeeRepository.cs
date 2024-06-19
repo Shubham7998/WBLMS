@@ -18,5 +18,6 @@ namespace WBLMS.IRepositories
         Task<Employee> GetEmployeeByEmail(string email);
 
         Task<Token> GetTokenAsync(long id);
+
     }
 }

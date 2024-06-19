@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.IO.Pipelines;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
@@ -403,6 +405,27 @@ namespace WBLMS.API.Controllers
         private string GetFilePath(long employeeId)
         {
             return _webHostEnvironment.WebRootPath + "\\Uploads\\Profile\\" + employeeId;
+        }
+
+
+        [HttpGet("PagedList")]
+        public ActionResult<IEnumerable<GetEmployeeDTO>> GetPagedEmployees()
+        {
+            var emp = _employeeService.GetEmployees();
+            var metadata = new
+            {
+                emp.TotalCount,
+                emp.PageSize,
+                emp.CurrentPage,
+                emp.TotalPages,
+                emp.HasNext,
+                emp.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metadata));
+            Console.WriteLine($"--> Emp List: {emp}");
+            var empDtos = emp.Select(e => new GetEmployeeDTO(e.Id,e.FirstName,e.LastName,e.ProfilePicture,e.EmailAddress,e.ContactNumber,(long)e.GenderId, (long)e.RoleId,(long)e.ManagerId, (long) e.CreatedById,e.JoiningDate));
+            return Ok(empDtos);
         }
     }
 }
