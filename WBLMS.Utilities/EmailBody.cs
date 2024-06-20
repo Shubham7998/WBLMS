@@ -39,6 +39,18 @@ namespace WBLMS.Utilities
                 </body>
             </html>";
         }
+        
+        public static string WelcomeEmail(string emailId)
+        {
+            return $@"
+            <html>
+                <body>
+                    <h2>Welcome to Wonderbiz!</h2>
+                    <p>Please review the request and take the necessary action.</p>
+                    <p>Thank you!</p>
+                </body>
+            </html>";
+        }
 
     }
 }

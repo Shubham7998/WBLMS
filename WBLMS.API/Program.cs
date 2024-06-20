@@ -8,18 +8,19 @@ using WBLMS.IServices;
 using WBLMS.Repositories;
 using WBLMS.Services;
 using WBLMS.Utilities;
+using WBLMS.Models;
+using Coravel;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var configuration = builder.Configuration;
 
-var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
+//var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
 //var connectionString = configuration.GetConnectionString("connectionstringshubhamhome");
-//var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
+var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
 
 builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+var emailSettings = builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
 builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScheduler();
 
 builder.Services.AddAuthentication(x =>
 {
@@ -68,6 +70,25 @@ builder.Services.AddCors(option =>
     });
 });
 var app = builder.Build();
+
+app.Services.UseScheduler(scheduler =>
+{
+    scheduler.ScheduleAsync(async () =>
+    {
+        using(var serviceScope = app.Services.CreateScope())
+        {
+            var services = serviceScope.ServiceProvider;
+
+            var emailService = services.GetRequiredService<IEmailService>();
+            var emailModel = new EmailModel("hemant.patel@wonderbiz.in", "Reset Password", EmailBody.WelcomeEmail("shubham.patil@wonderbiz.in"));
+
+            emailService.SendEmail(emailModel);
+        //await emailService.SendWelcomeEmailAsync("example@example.com");
+        }
+
+        await Console.Out.WriteLineAsync("Scheduled email sent.");
+    }).EverySeconds(1); // Schedule the task to run daily at 12 PM
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

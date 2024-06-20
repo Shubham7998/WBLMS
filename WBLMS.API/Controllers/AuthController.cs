@@ -40,6 +40,21 @@ namespace WBLMS.API.Controllers
             _emailService = emailService;
         }
 
+        [HttpGet("welcomeEmail")]
+        public async Task<ActionResult> SendWelcomeEmail(string email)
+        {
+            try
+            {
+                var emailModel = new EmailModel(email, "Reset Password", EmailBody.WelcomeEmail(email));
+                _emailService.SendEmail(emailModel);
+                return Ok(new APIResponseDTO<EmptyResult>(200, null, "Email sent"));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new APIResponseDTO<EmptyResult>(500, null, ex.Message));
+            }
+        }
+
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] LoginDTO loginDTO)
         {

@@ -11,12 +11,10 @@ namespace WBLMS.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly JwtSettings _jwtSettings;
         private readonly EmailSettings _emailSettings;
 
-        public EmailService(IOptions<JwtSettings> jwtSettings, IOptions<EmailSettings> emailSettings)
+        public EmailService(IOptions<EmailSettings> emailSettings)
         {
-            _jwtSettings = jwtSettings.Value;
             _emailSettings = emailSettings.Value;
         }
 

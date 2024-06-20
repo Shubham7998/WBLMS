@@ -28,6 +28,7 @@ namespace WBLMS.IServices
         Task<GetEmployeeDTO> UpdateEmployeeAsync(UpdateEmployeeDTO employeeDTO, int id);
 
         Task<bool> DeleteEmployeeAsync(int id);
+         void SendWelcomeEmail(string email);
 
         Task<Employee> GetEmployeeByEmailAsync(string email);
 

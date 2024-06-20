@@ -17,12 +17,17 @@ namespace WBLMS.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly WBLMSDbContext _dbContext;
+        private readonly IEmployeeService _employeeService;
+        private readonly IEmailService _emailService;
 
-
-        public EmployeeService(IEmployeeRepository employeeRepository, WBLMSDbContext dbContext)
+        public EmployeeService()
+        {
+        }
+        public EmployeeService(IEmployeeRepository employeeRepository, WBLMSDbContext dbContext, IEmailService emailService)
         {
             _employeeRepository = employeeRepository;
             _dbContext = dbContext;
+            _emailService = emailService;
         }
 
         public async Task<GetEmployeeDTO> CreateEmployeeAsync(CreateEmployeeDTO employeeDTO)
@@ -128,6 +133,12 @@ namespace WBLMS.Services
                 throw;
             }
             return false;
+        }
+
+        public async void SendWelcomeEmail(string email)
+        {
+            var emailModel = new EmailModel(email, "Reset Password", EmailBody.WelcomeEmail(email));
+            _emailService.SendEmail(emailModel);
         }
 
         public async Task<Employee> GetEmployeeByEmailAsync(string email)

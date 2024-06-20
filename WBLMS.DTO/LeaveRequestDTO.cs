@@ -39,6 +39,7 @@ namespace WBLMS.DTO
             long RejectedLeaveRequests,
             long PendingLeaveRequests
         );
+
     public record UpdateLeaveRequestDTO(
             [Required(ErrorMessage = "LeaveRequestId is required.")] long Id,
             long StatusId

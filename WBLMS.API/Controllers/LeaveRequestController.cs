@@ -255,7 +255,6 @@ namespace WBLMS.API.Controllers
                     //    ErrorMessage = "UpdateLeaveRequestDTO Id and Provided Id doesn't match."
                     //});
                     return Ok(new APIResponseDTO<GetLeaveRequestDTO>(500, null, "UpdateLeaveRequestDTO Id and Provided Id doesn't match."));
-
                 }
                 var returnLeaveRequestObj = await _leaveRequestService.UpdateLeaveRequest(updateLeaveRequestDTO);
                 if (returnLeaveRequestObj != null)
