@@ -22,6 +22,59 @@ namespace WBLMS.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("WBLMS.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("DOB")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReportingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactNumber")
+                        .IsUnique();
+
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("ReportingId");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("WBLMS.Models.Branch", b =>
                 {
                     b.Property<int>("Id")
@@ -34,6 +87,9 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("BranchHeadId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -42,6 +98,8 @@ namespace WBLMS.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchHeadId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -62,7 +120,7 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepartmentHead")
+                    b.Property<int?>("DepartmentHeadId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -73,12 +131,53 @@ namespace WBLMS.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("DepartmentHead");
+                    b.HasIndex("DepartmentHeadId");
 
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("WBLMS.Models.DepartmentHead", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateOnly>("DOB")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReportingId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactNumber")
+                        .IsUnique();
+
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("ReportingId");
+
+                    b.ToTable("DepartmentHeads");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Employee", b =>
@@ -175,6 +274,9 @@ namespace WBLMS.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateOnly>("DOB")
+                        .HasColumnType("date");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -189,7 +291,7 @@ namespace WBLMS.Data.Migrations
                     b.Property<int>("ReportingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeamId")
+                    b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<int>("UpdatedById")
@@ -206,7 +308,7 @@ namespace WBLMS.Data.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Employee2s");
+                    b.ToTable("Employees2");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Gender", b =>
@@ -305,6 +407,9 @@ namespace WBLMS.Data.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("LeaveSubTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
 
@@ -336,6 +441,8 @@ namespace WBLMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("LeaveSubTypeId");
 
                     b.HasIndex("LeaveTypeId");
 
@@ -418,10 +525,15 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("SuperAdminId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("SuperAdminId");
 
                     b.ToTable("Organizations");
                 });
@@ -547,7 +659,7 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("TeamLeader")
+                    b.Property<int?>("TeamLeaderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -557,7 +669,7 @@ namespace WBLMS.Data.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("TeamLeader");
+                    b.HasIndex("TeamLeaderId");
 
                     b.ToTable("Teams");
                 });
@@ -663,13 +775,40 @@ namespace WBLMS.Data.Migrations
                     b.ToTable("WorkingDays");
                 });
 
+            modelBuilder.Entity("WBLMS.Models.Admin", b =>
+                {
+                    b.HasOne("WBLMS.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WBLMS.Models.Reporting", "Reporting")
+                        .WithMany()
+                        .HasForeignKey("ReportingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+
+                    b.Navigation("Reporting");
+                });
+
             modelBuilder.Entity("WBLMS.Models.Branch", b =>
                 {
+                    b.HasOne("WBLMS.Models.Admin", "Admin")
+                        .WithMany()
+                        .HasForeignKey("BranchHeadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WBLMS.Models.Organization", "Organization")
                         .WithMany("Branches")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Admin");
 
                     b.Navigation("Organization");
                 });
@@ -682,13 +821,32 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WBLMS.Models.Employee2", "Employee2")
+                    b.HasOne("WBLMS.Models.DepartmentHead", "DepartmentHead")
                         .WithMany()
-                        .HasForeignKey("DepartmentHead");
+                        .HasForeignKey("DepartmentHeadId");
 
                     b.Navigation("Branch");
 
-                    b.Navigation("Employee2");
+                    b.Navigation("DepartmentHead");
+                });
+
+            modelBuilder.Entity("WBLMS.Models.DepartmentHead", b =>
+                {
+                    b.HasOne("WBLMS.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WBLMS.Models.Reporting", "Reporting")
+                        .WithMany()
+                        .HasForeignKey("ReportingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+
+                    b.Navigation("Reporting");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Employee", b =>
@@ -742,7 +900,9 @@ namespace WBLMS.Data.Migrations
 
                     b.HasOne("WBLMS.Models.Team", "Team")
                         .WithMany("TeamMembers")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Gender");
 
@@ -781,6 +941,12 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("WBLMS.Models.LeaveSubType", "LeaveSubType")
+                        .WithMany()
+                        .HasForeignKey("LeaveSubTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WBLMS.Models.LeaveType", "LeaveType")
                         .WithMany()
                         .HasForeignKey("LeaveTypeId")
@@ -801,6 +967,8 @@ namespace WBLMS.Data.Migrations
 
                     b.Navigation("Employee");
 
+                    b.Navigation("LeaveSubType");
+
                     b.Navigation("LeaveType");
 
                     b.Navigation("Manager");
@@ -813,7 +981,7 @@ namespace WBLMS.Data.Migrations
                     b.HasOne("WBLMS.Models.LeaveType", "LeaveType")
                         .WithMany("LeaveSubTypes")
                         .HasForeignKey("LeaveTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("LeaveType");
@@ -828,6 +996,17 @@ namespace WBLMS.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("WBLMS.Models.Organization", b =>
+                {
+                    b.HasOne("WBLMS.Models.SuperAdmin", "SuperAdmin")
+                        .WithMany()
+                        .HasForeignKey("SuperAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SuperAdmin");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Roles", b =>
@@ -860,13 +1039,13 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WBLMS.Models.Employee2", "Employee2")
+                    b.HasOne("WBLMS.Models.Employee2", "TeamLeader")
                         .WithMany()
-                        .HasForeignKey("TeamLeader");
+                        .HasForeignKey("TeamLeaderId");
 
                     b.Navigation("Department");
 
-                    b.Navigation("Employee2");
+                    b.Navigation("TeamLeader");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Token", b =>

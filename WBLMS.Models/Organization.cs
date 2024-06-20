@@ -23,5 +23,10 @@ namespace WBLMS.Models
         public string HeadQuarter { get; set; }
 
         public ICollection<Branch> Branches { get; set; } = new List<Branch>();
+
+        [Required]
+        [ForeignKey(nameof(SuperAdmin))]
+        public int SuperAdminId { get; set; }
+        public SuperAdmin SuperAdmin { get; set; }
     }
 }

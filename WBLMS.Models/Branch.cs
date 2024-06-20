@@ -30,6 +30,9 @@ namespace WBLMS.Models
         public ICollection<Roles> Roles { get; set; }
         public ICollection<Holiday> Holidays { get; set; }
 
-
+        [Required]
+        [ForeignKey(nameof(Admin))]
+        public int BranchHeadId { get; set; }
+        public Admin Admin{ get; set; }
     }
 }

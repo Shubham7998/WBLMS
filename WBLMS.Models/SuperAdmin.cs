@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace WBLMS.Models
 {
+    [Table("SuperAdmins")]
     public class SuperAdmin : BaseEntity
     {
         [Key]

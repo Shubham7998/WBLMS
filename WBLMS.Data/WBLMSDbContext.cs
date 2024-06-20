@@ -21,7 +21,8 @@ namespace WBLMS.Data
         public DbSet<Reporting> Reportings { get; set; }
         public DbSet<Employee2> Employee2s { get; set; }
         public DbSet<SuperAdmin> SuperAdmins { get; set; }
-
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<DepartmentHead> DepartmentHeads { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Status> Statuses { get; set; }
@@ -36,7 +37,8 @@ namespace WBLMS.Data
             modelBuilder.Entity<Organization>()
                 .HasMany(o => o.Branches)
                 .WithOne(b => b.Organization)
-                .HasForeignKey(b => b.OrganizationId);
+                .HasForeignKey(b => b.OrganizationId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Branch>()
                 .HasMany(b => b.Departments)
@@ -65,11 +67,13 @@ namespace WBLMS.Data
             modelBuilder.Entity<LeaveType>()
                 .HasMany(l => l.LeaveSubTypes)
                 .WithOne(l => l.LeaveType)
-                .HasForeignKey(l => l.LeaveTypeId);
+                .HasForeignKey(l => l.LeaveTypeId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Team>()
                 .HasMany(t => t.TeamMembers)
-                .WithOne(e => e.Team);
+                .WithOne(e => e.Team)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             modelBuilder.Entity<Employee>()

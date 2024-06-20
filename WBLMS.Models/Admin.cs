@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace WBLMS.Models
 {
-    [Table("Employees2")]
-    public class Employee2 : BaseEntity
+    [Table("Admins")]
+    [Index(nameof(ContactNumber), IsUnique = true)]
+    public class Admin : BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,7 +35,8 @@ namespace WBLMS.Models
         public int ReportingId { get; set; }
         public Reporting Reporting { get; set; }
 
-        public int TeamId { get; set; }
-        public Team Team { get; set; }
+       
+
+
     }
 }

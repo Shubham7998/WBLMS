@@ -25,8 +25,8 @@ namespace WBLMS.Models
 
         public ICollection<Team> Teams { get; set; }
 
-        [ForeignKey(nameof(Employee2))]  
-        public int? DepartmentHead { get; set; }
-        public virtual Employee2 Employee2{ get; set; }
+        [ForeignKey(nameof(DepartmentHead))]  
+        public int? DepartmentHeadId { get; set; }
+        public DepartmentHead DepartmentHead { get; set; }
     }
 }
