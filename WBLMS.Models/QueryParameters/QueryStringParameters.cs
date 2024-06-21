@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WBLMS.Models
+namespace WBLMS.Models.QueryParameters
 {
     public abstract class QueryStringParameters
     {
@@ -19,8 +19,10 @@ namespace WBLMS.Models
             }
             set
             {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
+                _pageSize = value > maxPageSize ? maxPageSize : value;
             }
         }
+        public string OrderBy { get; set; }
+
     }
 }

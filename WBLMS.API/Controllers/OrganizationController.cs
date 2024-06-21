@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using WBLMS.DTO;
 using WBLMS.IServices;
 using WBLMS.Models;
+using WBLMS.Models.QueryParameters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,9 +24,9 @@ namespace WBLMS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Paginated<OrganizationReadDto>>> GetOrganizations(int page, int pageSize, string? search)
+        public async Task<ActionResult<Paginated<OrganizationReadDto>>> GetOrganizations(string? search, [FromQuery]OrganizationQueryParameters orgQParam)
         {
-            var orgsWithMetadata = await _organizationService.GetAllOrganizationDto(page, pageSize, search);
+            var orgsWithMetadata = await _organizationService.GetAllOrganizationDto(search,orgQParam);
             var dataObj = new Paginated<OrganizationReadDto>()
             {
                 dataArray = orgsWithMetadata.Item1,

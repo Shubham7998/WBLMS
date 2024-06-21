@@ -8,6 +8,7 @@ using WBLMS.DTO;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
 using WBLMS.Models;
+using WBLMS.Models.QueryParameters;
 
 namespace WBLMS.Services
 {
@@ -49,9 +50,9 @@ namespace WBLMS.Services
             return await _organizationRepository.DeleteAsync(organization);
         }
 
-        public async Task<(IEnumerable<OrganizationReadDto>, PaginationMetadata)> GetAllOrganizationDto(int page, int pageSize, string search)
+        public async Task<(IEnumerable<OrganizationReadDto>, PaginationMetadata)> GetAllOrganizationDto(string? search, OrganizationQueryParameters orgQParam)
         {
-            var orgsWithMetadata = await _organizationRepository.GetAllOrganizations(page, pageSize, search);
+            var orgsWithMetadata = await _organizationRepository.GetAllOrganizations(search , orgQParam);
             var orgsDto = _mapper.Map<IEnumerable<OrganizationReadDto>>(orgsWithMetadata.Item1);
             return (orgsDto, orgsWithMetadata.Item2);
         }
