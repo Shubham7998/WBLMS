@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using WBLMS.DTO;
 using WBLMS.IServices;
 using WBLMS.Models;
@@ -21,10 +23,17 @@ namespace WBLMS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Organization>>> GetOrganizations()
+        public async Task<ActionResult<Paginated<OrganizationReadDto>>> GetOrganizations(int page, int pageSize, string? search)
         {
-            var orgs = await _organizationService.GetAllOrganizationDto();
-            return Ok(orgs);    
+            var orgsWithMetadata = await _organizationService.GetAllOrganizationDto(page, pageSize, search);
+            var dataObj = new Paginated<OrganizationReadDto>()
+            {
+                dataArray = orgsWithMetadata.Item1,
+                totalCount = orgsWithMetadata.Item2.TotalCount
+            };
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(orgsWithMetadata.Item2));
+            
+            return Ok(dataObj);    
         }
 
         [HttpGet("{organizationId}", Name = "GetOrganizationRoute")]

@@ -24,15 +24,23 @@ namespace WBLMS.Services
 
         public async Task<OrganizationReadDto> CreateOrganization(OrganizationCreateDto organizationCreateDto)
         {
-            if(organizationCreateDto == null)
+            try
             {
-                throw new ArgumentNullException(nameof(organizationCreateDto));
-            }
-            var organization = _mapper.Map<Organization>(organizationCreateDto);
-            _organizationRepository.CreateOrganization(organization);
+                if (organizationCreateDto == null)
+                {
+                    throw new ArgumentNullException(nameof(organizationCreateDto));
+                }
+                var organization = _mapper.Map<Organization>(organizationCreateDto);
+                _organizationRepository.CreateOrganization(organization);
 
-            var organizationReadDto = _mapper.Map<OrganizationReadDto>(organization);
-            return organizationReadDto;
+                var organizationReadDto = _mapper.Map<OrganizationReadDto>(organization);
+                return organizationReadDto;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in Creating Organization Service {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<bool> DeleteOrganization(int organizationId)
@@ -41,17 +49,13 @@ namespace WBLMS.Services
             return await _organizationRepository.DeleteAsync(organization);
         }
 
-        public async Task<IEnumerable<OrganizationReadDto>> GetAllOrganizationDto()
+        public async Task<(IEnumerable<OrganizationReadDto>, PaginationMetadata)> GetAllOrganizationDto(int page, int pageSize, string search)
         {
-            var organization = await _organizationRepository.GetAsyncAll();
-            return _mapper.Map<IEnumerable<OrganizationReadDto>>(organization);
+            var orgsWithMetadata = await _organizationRepository.GetAllOrganizations(page, pageSize, search);
+            var orgsDto = _mapper.Map<IEnumerable<OrganizationReadDto>>(orgsWithMetadata.Item1);
+            return (orgsDto, orgsWithMetadata.Item2);
         }
 
-        public async Task<IEnumerable<Organization>> GetAllOrganizationsWithForeignKeysData()
-        {
-            var orgs = await _organizationRepository.GetAllOrganizations();
-            return orgs;
-        }
 
         public async Task<OrganizationReadDto> GetIndividualOrganization(int organizationId)
         {
@@ -67,9 +71,17 @@ namespace WBLMS.Services
 
         public async Task<OrganizationReadDto> UpdateOrganization(OrganizationUpdateDto organizationUpdateDto)
         {
-            var organizationObj = _mapper.Map<Organization>(organizationUpdateDto);
-            var organization = await _organizationRepository.UpdateAsync(organizationObj);
-            return _mapper.Map<OrganizationReadDto>(organization);
+            try
+            {
+                var organizationObj = _mapper.Map<Organization>(organizationUpdateDto);
+                var organization = await _organizationRepository.UpdateAsync(organizationObj);
+                return _mapper.Map<OrganizationReadDto>(organization);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error Updating Organization {ex.Message}");
+                throw;
+            }
         }
     }
 }

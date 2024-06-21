@@ -9,7 +9,7 @@ namespace WBLMS.IRepositories
 {
     public interface IOrganizationRepository : IRepository<Organization>
     {
-        Task<IEnumerable<Organization>> GetAllOrganizations();
+        Task<(PagedList<Organization>, PaginationMetadata)> GetAllOrganizations(int page, int pageSize, string? search);
         Task<bool> OrganizationExists (int  organizationId);
         void CreateOrganization(Organization organization);
         

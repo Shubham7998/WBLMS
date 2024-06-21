@@ -10,9 +10,8 @@ namespace WBLMS.IServices
 {
     public interface IOrganizationService
     {
-        Task<IEnumerable<Organization>> GetAllOrganizationsWithForeignKeysData();
         Task<bool> OrganizationExists(int id);
-        Task<IEnumerable<OrganizationReadDto>> GetAllOrganizationDto();
+        Task<(IEnumerable<OrganizationReadDto>, PaginationMetadata)> GetAllOrganizationDto(int page, int pageSize, string? search);
         Task<OrganizationReadDto> CreateOrganization(OrganizationCreateDto organizationCreateDto);
         Task<OrganizationReadDto> GetIndividualOrganization(int organizationId);
         Task<OrganizationReadDto> UpdateOrganization(OrganizationUpdateDto organizationUpdateDto);
