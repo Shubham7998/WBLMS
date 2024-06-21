@@ -516,7 +516,7 @@ namespace WBLMS.Services
             }
         }
 
-        public async Task<bool> SaveProfileImage(long id, string ImagePath)
+        public async Task<bool> SaveProfileImage(int id, string ImagePath)
         {
            var oldEmployee = await _employeeRepository.GetAsyncById(id);
             if(oldEmployee != null)

@@ -23,6 +23,8 @@ builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"))
 
 builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.

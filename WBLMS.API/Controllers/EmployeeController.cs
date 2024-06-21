@@ -312,7 +312,7 @@ namespace WBLMS.API.Controllers
 
         [Authorize(Roles = "Admin,Team Lead, HR Manager,Developer,HR")]
         [HttpPost("profilePicUpload")]
-        public async Task<ActionResult> UploadImage([FromForm] IFormFile formFile, [FromForm] long employeeId)
+        public async Task<ActionResult> UploadImage([FromForm] IFormFile formFile, [FromForm] int employeeId)
         {
             try
             {
@@ -324,7 +324,7 @@ namespace WBLMS.API.Controllers
                 else
                 {
                     string ImageUrl = string.Empty;
-                    var employee = await _employeeService.GetEmployeeByIdAsync((int)employeeId);
+                    var employee = await _employeeService.GetEmployeeByIdAsync(employeeId);
                     if (employee != null && employee.ProfilePic != null)
                     {
                         string OldImagePath = employee.ProfilePic;

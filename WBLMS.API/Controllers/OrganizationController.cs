@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using WBLMS.DTO;
 using WBLMS.IServices;
 using WBLMS.Models;
 
@@ -21,8 +23,50 @@ namespace WBLMS.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Organization>>> GetOrganizations()
         {
-            var orgs = await _organizationService.GetAllOrganizations();
-            return Ok(orgs);
+            var orgs = await _organizationService.GetAllOrganizationDto();
+            return Ok(orgs);    
+        }
+
+        [HttpGet("{organizationId}", Name = "GetOrganizationRoute")]
+        public async Task<ActionResult<OrganizationReadDto>> GetOrganization(int organizationId)
+        {
+            if(!await _organizationService.OrganizationExists(organizationId))
+            {
+                return NotFound();
+            }
+            return await _organizationService.GetIndividualOrganization(organizationId);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<OrganizationReadDto>> CreateOrganization(OrganizationCreateDto organizationCreateDto)
+        {
+            var org = await _organizationService.CreateOrganization(organizationCreateDto);
+            return Ok(org);
+        }
+
+        [HttpPut("{organizationId}")]
+        public async Task<ActionResult<OrganizationReadDto>> UpdateOrganization(int organizationId, OrganizationUpdateDto organizationUpdateDto)
+        {
+            if(organizationId != organizationUpdateDto.Id)
+            {
+                return BadRequest();
+            }
+            if(! await _organizationService.OrganizationExists(organizationId))
+            {
+                return NotFound();
+            }
+            var result = await _organizationService.UpdateOrganization(organizationUpdateDto);
+            return Ok(result);
+        }
+
+        [HttpDelete("{organizationId}")]
+        public async Task<ActionResult<bool>> DeleteOrganization(int organizationId)
+        {
+            if(! await _organizationService.OrganizationExists(organizationId)) 
+            { 
+                return NotFound();
+            }
+            return await _organizationService.DeleteOrganization(organizationId);
         }
     }
 }

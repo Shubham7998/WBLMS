@@ -10,6 +10,12 @@ namespace WBLMS.IServices
 {
     public interface IOrganizationService
     {
-        Task<IEnumerable<Organization>> GetAllOrganizations();
+        Task<IEnumerable<Organization>> GetAllOrganizationsWithForeignKeysData();
+        Task<bool> OrganizationExists(int id);
+        Task<IEnumerable<OrganizationReadDto>> GetAllOrganizationDto();
+        Task<OrganizationReadDto> CreateOrganization(OrganizationCreateDto organizationCreateDto);
+        Task<OrganizationReadDto> GetIndividualOrganization(int organizationId);
+        Task<OrganizationReadDto> UpdateOrganization(OrganizationUpdateDto organizationUpdateDto);
+        Task<bool> DeleteOrganization(int organizationId);
     }
 }

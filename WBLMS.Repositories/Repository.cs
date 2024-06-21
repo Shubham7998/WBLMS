@@ -27,12 +27,14 @@ namespace WBLMS.Repositories
             return row > 0;
         }
 
+
+
         public async Task<IEnumerable<T>> GetAsyncAll()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetAsyncById(long id)
+        public async Task<T> GetAsyncById(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
