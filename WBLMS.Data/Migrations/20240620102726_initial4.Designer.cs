@@ -12,8 +12,8 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    [Migration("20240620072312_initial")]
-    partial class initial
+    [Migration("20240620102726_initial4")]
+    partial class initial4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,8 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReportingId")
+                    b.Property<int?>("ReportingId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("UpdatedById")
@@ -76,6 +77,22 @@ namespace WBLMS.Data.Migrations
                     b.HasIndex("ReportingId");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ContactNumber = "998889879",
+                            CreatedById = 0,
+                            CreatedDate = new DateTime(2024, 6, 20, 15, 57, 25, 672, DateTimeKind.Local).AddTicks(1802),
+                            DOB = new DateOnly(2024, 1, 1),
+                            FirstName = "Admin",
+                            GenderId = 1,
+                            LastName = "Admin",
+                            ReportingId = 1,
+                            UpdatedById = 0,
+                            UpdatedDate = new DateTime(2024, 6, 20, 15, 57, 25, 672, DateTimeKind.Local).AddTicks(1802)
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Branch", b =>
@@ -110,6 +127,16 @@ namespace WBLMS.Data.Migrations
                     b.HasIndex("OrganizationId");
 
                     b.ToTable("Branches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Address",
+                            BranchHeadId = 1,
+                            Name = "Thane",
+                            OrganizationId = 1
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Department", b =>
@@ -332,6 +359,23 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Genders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GenderName = "Female"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            GenderName = "Male"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            GenderName = "Others"
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Holiday", b =>
@@ -539,6 +583,15 @@ namespace WBLMS.Data.Migrations
                     b.HasIndex("SuperAdminId");
 
                     b.ToTable("Organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HeadQuarter = "Thane",
+                            Name = "WB",
+                            SuperAdminId = 1
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Reporting", b =>
@@ -561,6 +614,14 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Reportings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ReportFrom = 1,
+                            ReportTo = 1
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Roles", b =>
@@ -603,6 +664,23 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            StatusName = "Pending"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            StatusName = "Approved"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            StatusName = "Rejected"
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.SuperAdmin", b =>
@@ -623,6 +701,10 @@ namespace WBLMS.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -634,6 +716,16 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("TokenId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("UpdatedById")
                         .HasColumnType("int");
 
@@ -644,7 +736,25 @@ namespace WBLMS.Data.Migrations
 
                     b.HasIndex("GenderId");
 
+                    b.HasIndex("TokenId");
+
                     b.ToTable("SuperAdmins");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ContactNumber = "9874563210",
+                            CreatedById = 0,
+                            CreatedDate = new DateTime(2024, 6, 20, 15, 57, 25, 672, DateTimeKind.Local).AddTicks(1705),
+                            EmailAddress = "hemant.patel@wonderbiz.in",
+                            FirstName = "Hemant",
+                            GenderId = 2,
+                            LastName = "Patel",
+                            Password = "6D126D2F240A0078942C1C507E0746E7325C2F6942F4666CA3202B6CAFAED324:983161A24A633FA3AFC6B32F09CB6C92:50000:SHA256",
+                            UpdatedById = 0,
+                            UpdatedDate = new DateTime(2024, 6, 20, 15, 57, 25, 672, DateTimeKind.Local).AddTicks(1714)
+                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Team", b =>
@@ -1031,7 +1141,13 @@ namespace WBLMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WBLMS.Models.Token", "Token")
+                        .WithMany()
+                        .HasForeignKey("TokenId");
+
                     b.Navigation("Gender");
+
+                    b.Navigation("Token");
                 });
 
             modelBuilder.Entity("WBLMS.Models.Team", b =>

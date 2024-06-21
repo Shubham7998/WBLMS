@@ -67,32 +67,6 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SuperAdmins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GenderId = table.Column<int>(type: "int", nullable: false),
-                    CreatedById = table.Column<int>(type: "int", nullable: false),
-                    UpdatedById = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SuperAdmins", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SuperAdmins_Genders_GenderId",
-                        column: x => x.GenderId,
-                        principalTable: "Genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Admins",
                 columns: table => new
                 {
@@ -157,27 +131,6 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Organizations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    HeadQuarter = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SuperAdminId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Organizations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Organizations_SuperAdmins_SuperAdminId",
-                        column: x => x.SuperAdminId,
-                        principalTable: "SuperAdmins",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Branches",
                 columns: table => new
                 {
@@ -197,11 +150,6 @@ namespace WBLMS.Data.Migrations
                         principalTable: "Admins",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Branches_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -481,6 +429,62 @@ namespace WBLMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SuperAdmins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GenderId = table.Column<int>(type: "int", nullable: false),
+                    TokenId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    UpdatedById = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SuperAdmins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SuperAdmins_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SuperAdmins_Tokens_TokenId",
+                        column: x => x.TokenId,
+                        principalTable: "Tokens",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Organizations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    HeadQuarter = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SuperAdminId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Organizations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Organizations_SuperAdmins_SuperAdminId",
+                        column: x => x.SuperAdminId,
+                        principalTable: "SuperAdmins",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees2",
                 columns: table => new
                 {
@@ -755,6 +759,11 @@ namespace WBLMS.Data.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SuperAdmins_TokenId",
+                table: "SuperAdmins",
+                column: "TokenId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Teams_DepartmentId",
                 table: "Teams",
                 column: "DepartmentId");
@@ -781,6 +790,13 @@ namespace WBLMS.Data.Migrations
                 table: "WorkingDays",
                 column: "BranchId",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Branches_Organizations_OrganizationId",
+                table: "Branches",
+                column: "OrganizationId",
+                principalTable: "Organizations",
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Employees_LeaveBalances_LeaveBalanceId",

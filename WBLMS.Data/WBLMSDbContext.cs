@@ -24,6 +24,7 @@ namespace WBLMS.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<DepartmentHead> DepartmentHeads { get; set; }
 
+
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Token> Tokens { get; set; }
@@ -101,7 +102,7 @@ namespace WBLMS.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(modelBuilder);
-            //new DbInitializer(modelBuilder).seed();
+            new DbInitializer(modelBuilder).seed();
 
 
         }

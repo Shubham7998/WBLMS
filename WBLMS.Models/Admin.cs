@@ -32,7 +32,7 @@ namespace WBLMS.Models
 
         [Required]
         [ForeignKey(nameof(Reporting))]
-        public int ReportingId { get; set; }
+        public int? ReportingId { get; set; }
         public Reporting Reporting { get; set; }
 
        

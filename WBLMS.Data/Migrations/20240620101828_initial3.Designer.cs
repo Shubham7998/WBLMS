@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WBLMS.Data;
 
@@ -11,9 +12,11 @@ using WBLMS.Data;
 namespace WBLMS.Data.Migrations
 {
     [DbContext(typeof(WBLMSDbContext))]
-    partial class WBLMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240620101828_initial3")]
+    partial class initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,8 +57,7 @@ namespace WBLMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ReportingId")
-                        .IsRequired()
+                    b.Property<int>("ReportingId")
                         .HasColumnType("int");
 
                     b.Property<int>("UpdatedById")
@@ -74,22 +76,6 @@ namespace WBLMS.Data.Migrations
                     b.HasIndex("ReportingId");
 
                     b.ToTable("Admins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ContactNumber = "998889879",
-                            CreatedById = 0,
-                            CreatedDate = new DateTime(2024, 6, 20, 18, 25, 4, 68, DateTimeKind.Local).AddTicks(7410),
-                            DOB = new DateOnly(2024, 1, 1),
-                            FirstName = "Admin",
-                            GenderId = 1,
-                            LastName = "Admin",
-                            ReportingId = 1,
-                            UpdatedById = 0,
-                            UpdatedDate = new DateTime(2024, 6, 20, 18, 25, 4, 68, DateTimeKind.Local).AddTicks(7453)
-                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Branch", b =>
@@ -124,16 +110,6 @@ namespace WBLMS.Data.Migrations
                     b.HasIndex("OrganizationId");
 
                     b.ToTable("Branches");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Address",
-                            BranchHeadId = 1,
-                            Name = "Thane",
-                            OrganizationId = 1
-                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Department", b =>
@@ -164,20 +140,6 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BranchId = 1,
-                            Name = "IT"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BranchId = 1,
-                            Name = "HR"
-                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.DepartmentHead", b =>
@@ -565,29 +527,6 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("LeaveTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BranchId = 1,
-                            LeaveTypeName = "Paid",
-                            MaxDays = 21m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BranchId = 1,
-                            LeaveTypeName = "UnPaid",
-                            MaxDays = 0m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BranchId = 1,
-                            LeaveTypeName = "Other",
-                            MaxDays = 0m
-                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Organization", b =>
@@ -648,14 +587,6 @@ namespace WBLMS.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Reportings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ReportFrom = 1,
-                            ReportTo = 1
-                        });
                 });
 
             modelBuilder.Entity("WBLMS.Models.Roles", b =>
@@ -780,14 +711,14 @@ namespace WBLMS.Data.Migrations
                             Id = 1,
                             ContactNumber = "9874563210",
                             CreatedById = 0,
-                            CreatedDate = new DateTime(2024, 6, 20, 18, 25, 4, 68, DateTimeKind.Local).AddTicks(6876),
+                            CreatedDate = new DateTime(2024, 6, 20, 15, 48, 27, 889, DateTimeKind.Local).AddTicks(1653),
                             EmailAddress = "hemant.patel@wonderbiz.in",
                             FirstName = "Hemant",
                             GenderId = 2,
                             LastName = "Patel",
-                            Password = "380724551D05CF358E82CFC8D17B3188079E09EBC4A7FE3492891290D00CA14E:DD13E8B2A16B30AEB78D86364ADAE14A:50000:SHA256",
+                            Password = "D9A734A67D4E894B9C15F97E450CEE79055E692A7AE7F2CAE81D990171CD1CDF:BF2853E605B3B7EF93B1348B782B1C81:50000:SHA256",
                             UpdatedById = 0,
-                            UpdatedDate = new DateTime(2024, 6, 20, 18, 25, 4, 68, DateTimeKind.Local).AddTicks(6892)
+                            UpdatedDate = new DateTime(2024, 6, 20, 15, 48, 27, 889, DateTimeKind.Local).AddTicks(1664)
                         });
                 });
 
