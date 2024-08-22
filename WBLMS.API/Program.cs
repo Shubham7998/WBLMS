@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WBLMS.API;
 using WBLMS.Data;
 using WBLMS.IRepositories;
 using WBLMS.IServices;
@@ -29,17 +30,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
-builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
+//builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+//builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 
-builder.Services.AddScoped<AuthService>();
+//builder.Services.AddScoped<AuthService>();
 
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+//builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+//builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
-builder.Services.AddScoped<IEmailService, EmailService>();
+//builder.Services.AddScoped<IEmailService, EmailService>();
 
-builder.Services.AddScoped<AuthService>();
+//builder.Services.AddScoped<AuthService>();
+builder.Services.AddMyServicesLeaveRequest();
+builder.Services.AddMyServicesEmployee();
 
 builder.Services.AddAuthentication(x =>
 {
