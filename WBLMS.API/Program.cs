@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WBLMS.API;
@@ -14,15 +15,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
+//var connectionString = configuration.GetConnectionString("connectionStringHemantOffice");
 //var connectionString = configuration.GetConnectionString("connectionstringshubhamhome");
 //var connectionString = configuration.GetConnectionString("connectionStringShubhamOffice");
+var connectionString = configuration.GetConnectionString("postgresqlConnection");
 
 builder.Services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
 builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
-builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<WBLMSDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddEntityFrameworkNpgsql().AddDbContext<WBLMSDbContext>(options => options.UseNpgsql(connectionString));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Add services to the container.
 
